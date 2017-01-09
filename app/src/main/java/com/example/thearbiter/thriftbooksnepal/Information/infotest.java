@@ -11,23 +11,26 @@ public class infotest {
     2. SignUp
     3. Login
     4. MainDrawerHome
-    5. AlevelOptions
+    5. ALevelOptions
     6. PlusTwoOptions
     7. IbOptions
-    8. AlevelAdapterBuy
+    8. ALevelAdapterBuy
     9. IbAdapterBuy
     10.PlusTwoAdapterBuy
     11.ActivitySeller
-    12.FragmentAlevelBuy
+    12.FragmentALevelBuy
     13.FragmentPlusTwoBuy
     14.FragmentIbBuy
     15.InformationMenuItems
-    16.InfromationBuyerRecycler
+    16.InformationBuyerRecycler
     17.FragmentNavMenu
     18.AdapterNavMenu
     19.ActivityFinalBuy
     20.ActivityAccount
     21.ActivityAboutUs
+    22.MainALevelBuyer
+    22.MainPlusTwoBuyer
+    23.MainIbBuyer
     */
 
     /* Layouts for lyf
