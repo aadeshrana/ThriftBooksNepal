@@ -26,7 +26,7 @@ public class FragmentALevelBuy extends Fragment {
     public String price[] = {"3500", "3200", "850", "325", "3350", "1250"};
     public String sellerName[] = {"Gaurav", "Astha", "Bader", "Ramesh Prasad", "Hari Yadav", "Barsha Upadhyay"};
     public int img[] = {R.drawable.chemistrydemopicture, R.drawable.tomduncanphysicsdemopicture, R.drawable.mathsdemopicture, R.drawable.statisticsdemopicture, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture};
-
+    //done?
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
