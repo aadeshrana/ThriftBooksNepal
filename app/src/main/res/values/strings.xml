@@ -3,5 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main_drawer_home">MainDrawerHome</string>
+    <string name="drawerOpen">open</string>
+    <string name="drawerClose">close</string>
 </resources>

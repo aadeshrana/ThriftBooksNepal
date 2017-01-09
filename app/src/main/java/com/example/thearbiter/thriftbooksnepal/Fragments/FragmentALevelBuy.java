@@ -25,7 +25,7 @@ public class FragmentALevelBuy extends Fragment {
     public String title[] = {"Chemistry", "Physics", "Maths", "Statistics", "Economics", "General Paper"};
     public String price[] = {"3500", "3200", "850", "325", "3350", "1250"};
     public String sellerName[] = {"Gaurav", "Astha", "Bader", "Ramesh Prasad", "Hari Yadav", "Barsha Upadhyay"};
-    public int img[] = {R.mipmap.chemistrydemopicture, R.mipmap.tomduncanphysicsdemopicture, R.mipmap.mathsdemopicture, R.mipmap.statisticsdemopicture, R.mipmap.economicsdemopicture, R.mipmap.generalpaperdemopicture};
+    public int img[] = {R.drawable.chemistrydemopicture, R.drawable.tomduncanphysicsdemopicture, R.drawable.mathsdemopicture, R.drawable.statisticsdemopicture, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture};
 
     @Nullable
     @Override
