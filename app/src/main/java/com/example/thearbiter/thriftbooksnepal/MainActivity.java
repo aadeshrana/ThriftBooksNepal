@@ -8,9 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.MainALevelBuyer;
-import com.example.thearbiter.thriftbooksnepal.Activities.MainDrawerHome;
-
-import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity {
 
