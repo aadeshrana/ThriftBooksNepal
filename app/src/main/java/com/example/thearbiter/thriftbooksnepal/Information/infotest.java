@@ -14,7 +14,7 @@ public class infotest {
     5. AlevelOptions
     6. PlusTwoOptions
     7. IbOptions
-    8. AdapterAlevelBuy
+    8. AlevelAdapterBuy
     9. IbAdapterBuy
     10.PlusTwoAdapterBuy
     11.ActivitySeller
@@ -29,6 +29,14 @@ public class infotest {
     20.ActivityAccount
     21.ActivityAboutUs
     */
+
+    /* Layouts for lyf
+
+    1. recycler_layout ----> <RecyclerView tag bhako wala>
+    2. paster_layout_recycle -----> Layout only (jasma recycle paste garne ho)
+    3. custom_item_buyer
+
+     */
 
     //////*****//////
 
