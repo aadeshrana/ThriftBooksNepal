@@ -5,18 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import javax.security.auth.login.LoginException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ///////////////////////////////
-        ////// CAN YOU SEE THIS BOY?
-        //yea bro
 
-        // k bho ra?
-        //adapters and all
     }
 
     @Override
@@ -40,4 +37,33 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /////******//////////////
+
+   /* 1. SplashScreen
+    2. SignUp
+    3. Login
+    4. MainDrawerHome
+    5. AlevelOptions
+    6. PlusTwoOptions
+    7. IbOptions
+    8. AdapterAlevelBuy
+    9. IbAdapterBuy
+    10.PlusTwoAdapterBuy
+    11.ActivitySeller
+    12.FragmentAlevelBuy
+    13.FragmentPlusTwoBuy
+    14.FragmentIbBuy
+    15.InformationMenuItems
+    16.InfromationBuyerRecycler
+    17.FragmentNavMenu
+    18.AdapterNavMenu
+    19.ActivityFinalBuy
+    20.ActivityAccount
+    21.ActivityAboutUs
+    */
+
+    //////*****//////
+
+
 }
