@@ -50,6 +50,7 @@ public class FragmentALevelBuy extends Fragment {
             data.add(current);
         }
         return data;
+        //
     }
 }
 
