@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         //yea bro
 
         // k bho ra?
+        //adapters and all
     }
 
     @Override
