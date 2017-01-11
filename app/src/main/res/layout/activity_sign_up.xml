@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:paddingBottom="10dp"
+
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.SignUp">
 
     <ScrollView
@@ -11,18 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="10dp">
+            android:paddingBottom="5dp"
+
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="30dp">
+                android:paddingBottom="30dp"
+                android:layout_marginBottom="10dp"
+                >
 
                 <TextView
                     android:id="@+id/createNewAccount"
@@ -237,42 +244,68 @@
 
                         />
                 </android.support.v7.widget.CardView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:weightSum="100"
+    android:layout_below="@+id/CVemail"
+    android:id="@+id/linearone"
 
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/CVSchool"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_below="@id/CVemail"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#FFBB88FF"
-                    card_view:cardBackgroundColor="@android:color/transparent">
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="10dp"
 
-                    <EditText
-                        android:id="@+id/signUpSchool"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:gravity="center_vertical"
-                        android:hint="Enter Your School/College Name"
-                        android:padding="8dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="#000000"
-                        android:textColorHint="#7b7b7b"
+    >
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/CVSchool"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFBB88FF"
+        card_view:cardBackgroundColor="@android:color/transparent"
+        android:layout_weight="30"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        >
+
+        <EditText
+            android:id="@+id/signUpSchool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="Enter Your School/College Name"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#000000"
+            android:textColorHint="#7b7b7b"
 
 
-                        />
-                </android.support.v7.widget.CardView>
+            />
+
+    </android.support.v7.widget.CardView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Find"
+        android:id="@+id/button4"
+        android:layout_weight="70"
+        android:onClick="findSchools"
+
+
+        />
+</LinearLayout>
+
 
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/CVSignUpButton"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_below="@id/CVSchool"
+                    android:layout_below="@id/linearone"
                     android:layout_marginTop="10dp"
                     android:background="#FFBB88FF"
                     card_view:cardBackgroundColor="@android:color/transparent"
@@ -289,6 +322,8 @@
 
                         />
                 </android.support.v7.widget.CardView>
+
+
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,14 +1,18 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
@@ -134,5 +138,23 @@ public class SignUp extends AppCompatActivity {
             super.onPostExecute(s);
             pdialog.dismiss();
         }
+    }
+
+    public void findSchools(View view){
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View promptView = layoutInflater.inflate(R.layout.custom_recycler_find_school, null);
+        AlertDialog builder1 = new AlertDialog.Builder(this).create();
+        builder1.setView(promptView);
+        builder1.show();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = builder1.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        window.setAttributes(lp);
+
     }
 }
