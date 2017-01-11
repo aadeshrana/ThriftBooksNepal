@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thearbiter.thriftbooksnepal.Activities.IbOptions">
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_toolbar" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="+2 Options"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/app_bar"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sell Your Books"
+        android:id="@+id/plusTwoSell"
+        android:onClick="plusTwoSellButton"
+        android:layout_above="@+id/plusTwoBuy"
+        android:layout_alignLeft="@+id/plusTwoBuy"
+        android:layout_alignStart="@+id/plusTwoBuy" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buy Your Books"
+        android:id="@+id/plusTwoBuy"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="plusTwoBuyButton"
+        />
+</RelativeLayout>

@@ -8,4 +8,7 @@
     <string name="drawerClose">close</string>
     <string name="title_activity_sign_up">SignUp</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_alevel_options">ALevelOptions</string>
+    <string name="title_activity_plus_two_options">PlusTwoOptions</string>
+    <string name="title_activity_ib_options">IbOptions</string>
 </resources>

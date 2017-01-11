@@ -1,42 +1,30 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
-import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
 
-public class MainDrawerHome extends AppCompatActivity {
+public class PlusTwoOptions extends AppCompatActivity {
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_drawer_home);
-        toolbar = (Toolbar)findViewById(R.id.app_bar);
+        setContentView(R.layout.activity_plus_two_options);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
-        FragmentNavMenu fragmentNavMenu = (FragmentNavMenu)getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);
-        fragmentNavMenu.setUp(R.id.mainfragmentDrawer,(DrawerLayout)findViewById(R.id.mainDrawerLayout),toolbar);
-
-        FragmentNavMenuRecycler fragmentAdpater = new FragmentNavMenuRecycler();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.mainfragmentDrawer,fragmentAdpater,"abc");
-        transaction.commit();
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_drawer_home, menu);
+        getMenuInflater().inflate(R.menu.menu_plus_two_options, menu);
         return true;
     }
 
@@ -51,7 +39,22 @@ public class MainDrawerHome extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
+    ///***/// OnClicks Starts //**////
+    public void plusTwoSellButton(View view){
+
+    }
+    public void plusTwoBuyButton(View view){
+
+    }
+
 }
