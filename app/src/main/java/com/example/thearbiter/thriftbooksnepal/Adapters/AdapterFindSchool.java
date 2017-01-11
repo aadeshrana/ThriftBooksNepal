@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.StaticLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class AdapterFindSchool extends RecyclerView.Adapter<AdapterFindSchool.My
     Context context;
     LayoutInflater inflater;
     List<InformationFindSchool> data = Collections.emptyList();
-    static int selected = 0;
+    static int selected = -1;
 
 
     public AdapterFindSchool(Context context, List<InformationFindSchool> data) {
@@ -47,20 +48,20 @@ public class AdapterFindSchool extends RecyclerView.Adapter<AdapterFindSchool.My
         final InformationFindSchool current = data.get(position);
          final int choice[] = new int[data.size()];
         holder.title.setText(current.collegeName);
+        holder.cardview.setCardBackgroundColor(Color.WHITE);
+
+        if(selected==position){
+
+            holder.cardview.setCardBackgroundColor(Color.GREEN);
+
+        }
+        else
+            holder.cardview.setCardBackgroundColor(Color.WHITE);
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                for(int j=0;j<data.size();j++) {
-                    choice[j] = 0;
-
-
-                    if (choice[j] == 1) {
-                        holder.cardview.setCardBackgroundColor(Color.GREEN);
-                    } else
-                        holder.cardview.setCardBackgroundColor(Color.WHITE);
-
-                }
+                selected = position;
+                notifyDataSetChanged();
 
                 for (int i = 0; i < data.size(); i++) {
                     if (position == i) {
@@ -68,16 +69,17 @@ public class AdapterFindSchool extends RecyclerView.Adapter<AdapterFindSchool.My
                         SignUp obj = new SignUp();
                         obj.getSchool(current.collegeName);
                         CustomDiagFindSchool obj2 = new CustomDiagFindSchool();
-                        for(int j=0;j<data.size();j++){
-                            choice[j]=0;
-                        }
-                        choice[position] =1;
 
-                        if(choice[i]==1){
+
+                        holder.cardview.setCardBackgroundColor(Color.WHITE);
+                        if(selected==position){
+
                             holder.cardview.setCardBackgroundColor(Color.GREEN);
+                            Log.d("what",""+choice[i]);
                         }
                         else
-                            holder.cardview.setCardBackgroundColor(Color.WHITE);
+                            holder.cardview.setCardBackgroundColor(Color.BLACK);
+
                         }
 
 
