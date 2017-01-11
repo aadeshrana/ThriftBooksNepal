@@ -75,13 +75,24 @@
 
 
             />
+
     </android.support.v7.widget.CardView>
+
+        <CheckBox
+            android:layout_below="@+id/CVLoginPassword"
+            android:id="@+id/keepLoggedIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:text="Keep Logged in?" />
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/CVLoginButton"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_below="@+id/CVLoginPassword"
+        android:layout_below="@+id/keepLoggedIn"
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"

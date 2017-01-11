@@ -24,16 +24,16 @@
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="143dp"
-        android:onClick="alevelBuyButton"
+        android:onClick="alevelSellButton"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Buy A-Level Books"
-        android:id="@+id/button3"
+        android:id="@+id/aLevelOptionsBuyButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:onClick="alevelSellButton"
+        android:onClick="alevelBuyButton"
         />
 </RelativeLayout>

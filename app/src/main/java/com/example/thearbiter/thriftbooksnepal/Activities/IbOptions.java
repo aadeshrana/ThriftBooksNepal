@@ -1,5 +1,6 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import com.example.thearbiter.thriftbooksnepal.R;
 
 public class IbOptions extends AppCompatActivity {
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class IbOptions extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -49,11 +51,12 @@ public class IbOptions extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void ibSellButton(View view){
+    public void ibSellButton(View view) {
 
     }
 
-    public void ibBuyButton(View view){
-
+    public void ibBuyButton(View view) {
+        Intent in = new Intent(IbOptions.this, MainALevelBuyer.class);
+        startActivity(in);
     }
 }

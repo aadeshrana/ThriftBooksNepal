@@ -1,7 +1,8 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,7 +11,9 @@ import android.view.View;
 import com.example.thearbiter.thriftbooksnepal.R;
 
 public class ALevelOptions extends AppCompatActivity {
+
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +22,7 @@ public class ALevelOptions extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -50,10 +54,10 @@ public class ALevelOptions extends AppCompatActivity {
 
     ///***/// OnClicks Starts //**////
     public void alevelBuyButton(View view){
-
+        Intent in = new Intent(ALevelOptions.this,MainALevelBuyer.class);
+        startActivity(in);
     }
 
     public void alevelSellButton(View view){
-
     }
 }

@@ -1,5 +1,6 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -54,7 +55,8 @@ public class PlusTwoOptions extends AppCompatActivity {
 
     }
     public void plusTwoBuyButton(View view){
-
+        Intent in = new Intent(PlusTwoOptions.this,MainALevelBuyer.class);
+        startActivity(in);
     }
 
 }
