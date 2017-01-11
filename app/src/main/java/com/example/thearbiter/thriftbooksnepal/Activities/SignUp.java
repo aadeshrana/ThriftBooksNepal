@@ -1,6 +1,8 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -14,8 +16,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
+import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentFindSchool;
 import com.example.thearbiter.thriftbooksnepal.R;
 
 import org.apache.http.NameValuePair;
@@ -142,8 +148,9 @@ public class SignUp extends AppCompatActivity {
 
     public void findSchools(View view){
 
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
+       /* LayoutInflater layoutInflater = LayoutInflater.from(this);
         View promptView = layoutInflater.inflate(R.layout.custom_recycler_find_school, null);
+       final FrameLayout relativeLayout =(FrameLayout)promptView.findViewById(R.id.findSchoolRecyclerlayout);
         AlertDialog builder1 = new AlertDialog.Builder(this).create();
         builder1.setView(promptView);
         builder1.show();
@@ -155,6 +162,17 @@ public class SignUp extends AppCompatActivity {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
         window.setAttributes(lp);
+
+        FragmentFindSchool fragmentFindSchool = new FragmentFindSchool();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
+        fragmentTransaction.add(relativeLayout.getId(),fragmentFindSchool,"abc");
+        fragmentTransaction.commit();*/
+
+        CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
+        customDiagFindSchool.show(getFragmentManager(),"abc");
 
     }
 }
