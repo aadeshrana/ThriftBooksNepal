@@ -14,7 +14,6 @@
         <activity
             android:name=".Activities.MainALevelBuyer"
             android:label="@string/app_name" >
-
         </activity>
         <activity
             android:name=".Activities.MainDrawerHome"
@@ -23,10 +22,17 @@
         <activity
             android:name=".Activities.SignUp"
             android:label="@string/title_activity_sign_up" >
+
+        </activity>
+        <activity
+            android:name=".Activities.Login"
+            android:label="@string/title_activity_login" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
     </application>

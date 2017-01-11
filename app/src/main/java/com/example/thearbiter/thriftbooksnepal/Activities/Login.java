@@ -1,5 +1,6 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,29 +10,24 @@ import android.widget.EditText;
 
 import com.example.thearbiter.thriftbooksnepal.R;
 
-public class SignUp extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
-    EditText firstName,lastName,userName,password,confirmPass,phoneNo,email,school;
+    EditText loginUsername, loginPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-        firstName = (EditText)findViewById(R.id.signUpFirstName);
-        lastName= (EditText)findViewById(R.id.signUpLastName);
-        userName = (EditText)findViewById(R.id.signUpUserName);
-        password =(EditText)findViewById(R.id.signUpPassword);
-        confirmPass=(EditText)findViewById(R.id.signUpConfirmPassword);
-        phoneNo=(EditText)findViewById(R.id.signUpPhoneNumber);
-        email=(EditText)findViewById(R.id.signUpEmail);
-        school = (EditText)findViewById(R.id.signUpSchool);
+        setContentView(R.layout.activity_login);
+        loginUsername = (EditText)findViewById(R.id.loginuUername);
+        loginPassword =(EditText)findViewById(R.id.loginPassword);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sign_up, menu);
+        getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
 
@@ -50,7 +46,19 @@ public class SignUp extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void signUpButton(View view){
+
+    ///******//// OnClick Buttons Are Here //////****///////
+
+
+    ////When you press the button login//////
+    public void loginButton(View view){
 
     }
+
+    //When You press on new account////
+    public void newAccount(View view){
+        Intent intent = new Intent(this,SignUp.class);
+        startActivity(intent);
+    }
+
 }
