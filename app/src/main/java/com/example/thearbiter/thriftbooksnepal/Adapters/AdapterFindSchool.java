@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.thearbiter.thriftbooksnepal.Activities.SignUp;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationFindSchool;
 import com.example.thearbiter.thriftbooksnepal.R;
 
@@ -37,17 +37,18 @@ public class AdapterFindSchool extends RecyclerView.Adapter<AdapterFindSchool.My
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        InformationFindSchool current = data.get(position);
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        final InformationFindSchool current = data.get(position);
         holder.title.setText(current.collegeName);
 
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (position){
-                    case 0:
-                        Toast.makeText(context, "You chose 0", Toast.LENGTH_SHORT).show();
-                        break;
+                for (int i = 0; i < data.size(); i++) {
+                    if (position == i) {
+                        SignUp obj = new SignUp();
+                        obj.getSchool(current.collegeName);
+                    }
                 }
             }
         });

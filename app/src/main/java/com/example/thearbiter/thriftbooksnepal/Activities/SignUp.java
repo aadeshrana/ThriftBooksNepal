@@ -1,27 +1,18 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
-import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
-import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentFindSchool;
 import com.example.thearbiter.thriftbooksnepal.R;
 
 import org.apache.http.NameValuePair;
@@ -33,7 +24,8 @@ import java.util.List;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText firstName, lastName, userName, password, confirmPass, phoneNo, email, school;
+    EditText firstName, lastName, userName, password, confirmPass, phoneNo, email;
+    EditText school;
     String strFirstName, strLastName, strUserName, strPassword, strConfirmPass, strPhoneNo, strEmail, strSchool;
     JSONParser jsonParser = new JSONParser();
     private ProgressDialog pdialog;
@@ -75,6 +67,11 @@ public class SignUp extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getSchool(String schoolName){
+        Log.d("value of school",""+schoolName);
+    school.setText(schoolName);
     }
 
     public void signUpButton(View view) {
