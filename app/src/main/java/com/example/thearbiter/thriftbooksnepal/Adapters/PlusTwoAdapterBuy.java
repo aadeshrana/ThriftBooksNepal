@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +46,9 @@ public class PlusTwoAdapterBuy extends RecyclerView.Adapter<PlusTwoAdapterBuy.My
         holder.title.setText(current.title);
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
-        holder.imgOfBook.setImageResource(current.imageView);
+
+        Picasso.with(context).load(current.imageView).fit().centerCrop().into(holder.imgOfBook);
+
     }
 
     @Override
