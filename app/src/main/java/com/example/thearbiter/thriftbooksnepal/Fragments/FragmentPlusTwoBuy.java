@@ -27,13 +27,16 @@ public class FragmentPlusTwoBuy extends Fragment {
     public int img[] = {R.drawable.chemistrydemopicture, R.drawable.tomduncanphysicsdemopictures, R.drawable.mathsdemopictures, R.drawable.statisticsdemopictures, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture,R.drawable.chemistrydemopicture,R.drawable.economicsdemopicture,R.drawable.generaldaperdemopicture,R.drawable.generaldaperdemopicture,R.drawable.generaldaperdemopicture,R.drawable.mathsdemopictures};
 
     @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recycler_layout, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleviewswipe1);
         PlusTwoAdapterBuy adapter = new PlusTwoAdapterBuy(getActivity(), getdata());
         recyclerView.setAdapter(adapter);
+
         GridLayoutManager man1 = new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
+
         recyclerView.setLayoutManager(man1);
         return view;
     }

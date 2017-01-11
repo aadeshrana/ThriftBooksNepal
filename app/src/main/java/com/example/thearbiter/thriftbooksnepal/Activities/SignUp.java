@@ -1,30 +1,47 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.R;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText firstName,lastName,userName,password,confirmPass,phoneNo,email,school;
+    EditText firstName, lastName, userName, password, confirmPass, phoneNo, email, school;
+    String strFirstName, strLastName, strUserName, strPassword, strConfirmPass, strPhoneNo, strEmail, strSchool;
+    JSONParser jsonParser = new JSONParser();
+    private ProgressDialog pdialog;
+    private static final String REGISTER_URL = "http://frame.ueuo.com/thriftbooks/register.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        firstName = (EditText)findViewById(R.id.signUpFirstName);
-        lastName= (EditText)findViewById(R.id.signUpLastName);
-        userName = (EditText)findViewById(R.id.signUpUserName);
-        password =(EditText)findViewById(R.id.signUpPassword);
-        confirmPass=(EditText)findViewById(R.id.signUpConfirmPassword);
-        phoneNo=(EditText)findViewById(R.id.signUpPhoneNumber);
-        email=(EditText)findViewById(R.id.signUpEmail);
-        school = (EditText)findViewById(R.id.signUpSchool);
+        firstName = (EditText) findViewById(R.id.signUpFirstName);
+        lastName = (EditText) findViewById(R.id.signUpLastName);
+        userName = (EditText) findViewById(R.id.signUpUserName);
+        password = (EditText) findViewById(R.id.signUpPassword);
+        confirmPass = (EditText) findViewById(R.id.signUpConfirmPassword);
+        phoneNo = (EditText) findViewById(R.id.signUpPhoneNumber);
+        email = (EditText) findViewById(R.id.signUpEmail);
+        school = (EditText) findViewById(R.id.signUpSchool);
 
     }
 
@@ -50,7 +67,72 @@ public class SignUp extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void signUpButton(View view){
+    public void signUpButton(View view) {
 
+        strFirstName = firstName.getText().toString();
+        strLastName = lastName.getText().toString();
+        strUserName = userName.getText().toString();
+        strPhoneNo = phoneNo.getText().toString();
+        strEmail = email.getText().toString();
+        strSchool = school.getText().toString();
+
+        strPassword = password.getText().toString();
+        strConfirmPass = confirmPass.getText().toString();
+
+        if(strPassword.equals(strConfirmPass)) {
+            new CreateUser().execute();
+        }
+        else
+        {
+            password.setBackgroundColor(Color.RED);
+            confirmPass.setBackgroundColor(Color.RED);
+        }
+
+    }
+
+    class CreateUser extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog = new ProgressDialog(SignUp.this);
+            pdialog.setMessage("Registering User....");
+            pdialog.setIndeterminate(false);
+            pdialog.setCancelable(true);
+            pdialog.show();
+        }
+
+        protected String doInBackground(String... args) {
+
+            try {
+                List<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("firstname", strFirstName));
+                params.add(new BasicNameValuePair("lastname", strLastName));
+                params.add(new BasicNameValuePair("username", strUserName));
+                params.add(new BasicNameValuePair("password", strPassword));
+                params.add(new BasicNameValuePair("emailaddress", strEmail));
+                params.add(new BasicNameValuePair("schoolname", strSchool));
+                params.add(new BasicNameValuePair("phonenumber", strPhoneNo));
+
+                //posting user data to script
+                JSONObject json = jsonParser.makeHttpRequest(REGISTER_URL, "POST", params);
+                //full json response
+                Log.d("registering attempt", json.toString());
+                //json success element
+                //success = json.getInt(TAG_SUCCESS);
+//                if(success == 1){
+//                    Log.d("User created!",json.toString());
+//                    finish();
+//                    return json.getString(TAG_MESSAGE);
+            } catch (Exception e) {
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            pdialog.dismiss();
+        }
     }
 }
