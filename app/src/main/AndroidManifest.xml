@@ -22,19 +22,27 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
         <activity
             android:name=".Activities.SignUp"
             android:label="@string/title_activity_sign_up" >
-
         </activity>
         <activity
             android:name=".Activities.Login"
             android:label="@string/title_activity_login" >
-
-
+        </activity>
+        <activity
+            android:name=".Activities.ALevelOptions"
+            android:label="@string/title_activity_alevel_options" >
+        </activity>
+        <activity
+            android:name=".Activities.PlusTwoOptions"
+            android:label="@string/title_activity_plus_two_options" >
+        </activity>
+        <activity
+            android:name=".Activities.IbOptions"
+            android:label="@string/title_activity_ib_options" >
         </activity>
     </application>
 

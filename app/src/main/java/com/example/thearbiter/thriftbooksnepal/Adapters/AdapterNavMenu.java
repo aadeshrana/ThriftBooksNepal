@@ -1,15 +1,18 @@
 package com.example.thearbiter.thriftbooksnepal.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thearbiter.thriftbooksnepal.Activities.ALevelOptions;
+import com.example.thearbiter.thriftbooksnepal.Activities.IbOptions;
+import com.example.thearbiter.thriftbooksnepal.Activities.PlusTwoOptions;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationNavMenu;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
@@ -39,10 +42,33 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         final InformationNavMenu current = data.get(position);
        holder.title.setText(current.name);
         Picasso.with(context).load(current.iconId).fit().centerCrop().into(holder.iconId);
+
+        holder.cardview.setOnClickListener(new View.OnClickListener() {
+            Intent intent;
+            @Override
+            public void onClick(View v) {
+                switch (position){
+                    case 0:
+                        intent = new Intent(context, ALevelOptions.class);
+                        context.startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent(context, PlusTwoOptions.class);
+                        context.startActivity(intent);
+                        break;
+                    case 2:
+                        intent = new Intent(context, IbOptions.class);
+                        context.startActivity(intent);
+                        break;
+
+
+                }
+            }
+        });
 
 
     }
