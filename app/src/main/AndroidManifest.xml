@@ -18,6 +18,12 @@
         <activity
             android:name=".Activities.MainDrawerHome"
             android:label="@string/title_activity_main_drawer_home" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.SignUp"
@@ -28,13 +34,22 @@
             android:name=".Activities.Login"
             android:label="@string/title_activity_login" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
-            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Activities.IbOptions"
+            android:label="ib" >
+            </activity>
+        <activity
+            android:name=".Activities.ALevelOptions"
+            android:label="alevel" >
+        </activity>
+
+        <activity
+            android:name=".Activities.PlusTwoOptions"
+            android:label="ib" >
+        </activity>
+
     </application>
 
 </manifest>
