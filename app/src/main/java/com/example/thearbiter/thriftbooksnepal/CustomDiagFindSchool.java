@@ -24,10 +24,12 @@ public class CustomDiagFindSchool extends DialogFragment {
     public RecyclerView recyclerView;
     public AdapterFindSchool adapterFindSchool;
     public Context context;
+
     String schoolNames[] ={"Rato Bangala School","The British School","A very Long Name To see What happens huh?","lyf","asdf","sagash","this","fuck","lyf","gg","how","this","shjas","sagga","Rato Bangala School","The British School","A very Long Name To see What happens huh?","lyf","asdf","sagash","this","fuck","lyf","gg","how","this","shjas","sagga"};
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_find_school_recycler,container,false);
+
         recyclerView = (RecyclerView) layout.findViewById(R.id.findSchoolRecycler);
         adapterFindSchool = new AdapterFindSchool(getActivity(),getData());
         recyclerView.setAdapter(adapterFindSchool);
@@ -45,6 +47,7 @@ public class CustomDiagFindSchool extends DialogFragment {
 
         return layout;
     }
+
     public List<InformationFindSchool> getData() {
         List<InformationFindSchool> data = new ArrayList<>();
 

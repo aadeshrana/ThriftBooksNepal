@@ -25,7 +25,7 @@ import java.util.List;
 public class SignUp extends AppCompatActivity {
 
     EditText firstName, lastName, userName, password, confirmPass, phoneNo, email;
-    EditText school;
+    static EditText school;
     String strFirstName, strLastName, strUserName, strPassword, strConfirmPass, strPhoneNo, strEmail, strSchool;
     JSONParser jsonParser = new JSONParser();
     private ProgressDialog pdialog;
@@ -69,9 +69,9 @@ public class SignUp extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getSchool(String schoolName){
-        Log.d("value of school",""+schoolName);
-    school.setText(schoolName);
+    public void getSchool(String schoolName) {
+        Log.d("value of school", "" + schoolName);
+        SignUp.school.setText(schoolName);
     }
 
     public void signUpButton(View view) {
@@ -86,11 +86,9 @@ public class SignUp extends AppCompatActivity {
         strPassword = password.getText().toString();
         strConfirmPass = confirmPass.getText().toString();
 
-        if(strPassword.equals(strConfirmPass)) {
+        if (strPassword.equals(strConfirmPass)) {
             new CreateUser().execute();
-        }
-        else
-        {
+        } else {
             password.setBackgroundColor(Color.RED);
             confirmPass.setBackgroundColor(Color.RED);
         }
@@ -143,7 +141,7 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
-    public void findSchools(View view){
+    public void findSchools(View view) {
 
        /* LayoutInflater layoutInflater = LayoutInflater.from(this);
         View promptView = layoutInflater.inflate(R.layout.custom_recycler_find_school, null);
@@ -169,7 +167,7 @@ public class SignUp extends AppCompatActivity {
         fragmentTransaction.commit();*/
 
         CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
-        customDiagFindSchool.show(getFragmentManager(),"abc");
+        customDiagFindSchool.show(getFragmentManager(), "abc");
 
     }
 }

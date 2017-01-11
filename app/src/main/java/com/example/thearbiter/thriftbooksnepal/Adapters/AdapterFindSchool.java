@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.SignUp;
+import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationFindSchool;
 import com.example.thearbiter.thriftbooksnepal.R;
 
@@ -48,6 +49,8 @@ public class AdapterFindSchool extends RecyclerView.Adapter<AdapterFindSchool.My
                     if (position == i) {
                         SignUp obj = new SignUp();
                         obj.getSchool(current.collegeName);
+                        CustomDiagFindSchool obj2 = new CustomDiagFindSchool();
+                        obj2.dialogDismisser();
                     }
                 }
             }
