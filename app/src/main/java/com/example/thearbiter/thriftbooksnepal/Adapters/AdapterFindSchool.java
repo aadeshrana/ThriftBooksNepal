@@ -26,7 +26,7 @@ public class AdapterFindSchool extends RecyclerView.Adapter<AdapterFindSchool.My
     LayoutInflater inflater;
     List<InformationFindSchool> data = Collections.emptyList();
     static int selected = -1;
-
+    public static  int count =0;
 
     public AdapterFindSchool(Context context, List<InformationFindSchool> data) {
         this.context = context;

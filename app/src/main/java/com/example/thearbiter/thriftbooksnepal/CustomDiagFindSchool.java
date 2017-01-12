@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +19,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFindSchool;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationFindSchool;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +33,29 @@ import java.util.List;
 /**
  * Created by Aadesh Rana on 12-01-17.
  */
-public class CustomDiagFindSchool extends DialogFragment  {
+public class CustomDiagFindSchool extends DialogFragment {
     public RecyclerView recyclerView;
     public AdapterFindSchool adapterFindSchool;
     public Context context;
 
-    String schoolNames[] ={"Rato Bangala School","The British School","A very Long Name To see What happens huh?","lyf","asdf","sagash","this","fuck","lyf","gg","how","this","shjas","sagga","Rato Bangala School","The British School","A very Long Name To see What happens huh?","lyf","asdf","sagash","this","fuck","lyf","gg","how","this","shjas","sagga"};
+
+
+    public static String collegesName[];
+    public static String collegesViewed[];
+    static final ArrayList<String> tempCollegeName = new ArrayList<>();
+    static final ArrayList<String> tempCollegesViewed = new ArrayList<>();
+
+    JSONParser jsonParser = new JSONParser();
+    private static final String PULLALLORDERS = "http://frame.ueuo.com/thriftbooks/FetchingData.php";
+
+    String schoolNames[] = {"Rato Bangala School", "The British School", "A very Long Name To see What happens huh?", "lyf", "asdf", "sagash", "this", "fuck", "lyf", "gg", "how", "this", "shjas", "sagga", "Rato Bangala School", "The British School", "A very Long Name To see What happens huh?", "lyf", "asdf", "sagash", "this", "fuck", "lyf", "gg", "how", "this", "shjas", "sagga"};
+
     @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_find_school_recycler,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View layout = inflater.inflate(R.layout.fragment_find_school_recycler, container, false);
 
         recyclerView = (RecyclerView) layout.findViewById(R.id.findSchoolRecycler);
-        adapterFindSchool = new AdapterFindSchool(getActivity(),getData());
+        adapterFindSchool = new AdapterFindSchool(getActivity(), getData());
         recyclerView.setAdapter(adapterFindSchool);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         getDialog().setTitle("Choose Your College");
@@ -61,22 +79,68 @@ public class CustomDiagFindSchool extends DialogFragment  {
         });
         return layout;
     }
+    public void findAllSchool(){
+       new findSchool().execute();
+    }
+
+    class findSchool extends AsyncTask<String,String,String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                //Username halera pathauna ko lagi ready parirako ho
+                List<NameValuePair> params1 = new ArrayList<>();
+
+                params1.add(new BasicNameValuePair("food", "jpt"));
+
+                JSONObject json3 = jsonParser.makeHttpRequest(PULLALLORDERS, "POST", params1);
+                AdapterFindSchool.count = json3.length();
+                for (int i = 0; i < json3.length(); i++) {
+                    try {
+                        tempCollegeName.add(json3.getString("a" + i));
+                        tempCollegesViewed.add(json3.getString("b" + i));
+                        CustomDiagFindSchool.collegesName = new String[tempCollegeName.size()];
+                        CustomDiagFindSchool.collegesViewed = new String[tempCollegesViewed.size()];
+
+                        CustomDiagFindSchool.collegesName = tempCollegeName.toArray(new String[tempCollegeName.size()]);
+                        CustomDiagFindSchool.collegesViewed = tempCollegesViewed.toArray(new String[tempCollegeName.size()]);
 
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+
+
+            } catch (Exception e) {
+
+            }
+
+
+            return null;
+
+        }
+
+
+    }
     public List<InformationFindSchool> getData() {
         List<InformationFindSchool> data = new ArrayList<>();
+        try {
+            for (int i = 0; i < CustomDiagFindSchool.tempCollegeName.size() + 1; i++) {
+                InformationFindSchool current = new InformationFindSchool();
 
-        for (int i = 0; i < schoolNames.length; i++) {
-            InformationFindSchool current = new InformationFindSchool();
+                current.collegeName = CustomDiagFindSchool.collegesName[i];
 
-            current.collegeName = schoolNames[i];
-
-            data.add(current);
+                data.add(current);
+            }
+        }
+        catch (Exception e){
+            
         }
         return data;
     }
-
 
 
 }
