@@ -2,9 +2,11 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -21,6 +23,8 @@ import com.example.thearbiter.thriftbooksnepal.R;
 
 import java.io.File;
 
+import it.sauronsoftware.ftp4j.FTPClient;
+
 /**
  * Created by Gaurav Jayasawal on 1/12/2017.
  */
@@ -30,8 +34,12 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     EditText editTitleOfBook, editAuthorOfBook, editPriceOfBook;
     Button sellerSelectImage1, sellerSelectImage2, sellerSelectImage3;
     Button sellerUploadButton;
-    String realPath;
-//    final FTPClient client = new FTPClient();
+    ProgressDialog pdialog;
+    String realPath1, realPath2, realPath3;
+    static final String FTP_HOST = "frame.ueuo.com";
+    static final String FTP_USER = "frame.ueuo.com";
+    static final String FTP_PASS = "gauravgaurav";
+    final FTPClient client = new FTPClient();
     TextView imageFilePath1, imageFilePath2, imageFilePath3;
     static int selectedSelectImageButton;
 
@@ -116,61 +124,185 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         if (v == sellerUploadButton) {
 
             File file1 = new File(filepath1.getLastPathSegment());
-            File file2 = new File(filepath2.getLastPathSegment());
-            File file3 = new File(filepath2.getLastPathSegment());
 
             uploadFile1(file1);
-//            uploadFile2(file);
-//            uploadFile3(file);
         }
     }
 
     public void uploadFile1(final File file1Name) {
 
+        class connecthis extends AsyncTask<String, Void, String> {
 
-//        class connecthis extends AsyncTask<String, Void, String> {
-//
-//            @Override
-//            protected String doInBackground(String... params) {
-//
-//
-//                try {
-//                    client.connect(FTP_HOST, 21);
-//                    client.login(FTP_USER, FTP_PASS);
-//           /* client.enterLocalPassiveMode();*/
-//                    client.setPassive(true);
-//                    Log.d("REAL PATH OF LIFE IS ", "" + realPath);
-//                    client.setType(FTPClient.TYPE_BINARY);
-//                    client.setAutoNoopTimeout(20);
-//                    client.upload(new File(realPath));
-//
-//                    String namegetter[] = realPath.split("/");
-//                    int finalElement = namegetter.length - 1;
-//                    Log.d("try try", "" + namegetter[finalElement]);
-//                    try {
-//                        client.rename(namegetter[finalElement], "gauravfile.jpg");
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    try {
-//                        client.disconnect(true);
-//                    } catch (Exception e2) {
-//                        e2.printStackTrace();
-//                    }
-//                }
-//                return null;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(String s) {
-//                super.onPostExecute(s);
-//
-//
-//            }
-//        }
-//        new connecthis().execute();
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                pdialog = new ProgressDialog(ActivitySeller.this);
+                pdialog.setMessage("Uploading 1 .. Please Wait");
+                pdialog.setIndeterminate(false);
+                pdialog.setCancelable(false);
+                pdialog.show();
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+
+                try {
+                    client.connect(FTP_HOST, 21);
+                    client.login(FTP_USER, FTP_PASS);
+           /* client.enterLocalPassiveMode();*/
+                    client.setPassive(true);
+                    Log.d("REAL PATH OF LIFE IS 1 ", "" + realPath1);
+                    client.setType(FTPClient.TYPE_BINARY);
+                    client.setAutoNoopTimeout(20);
+                    client.upload(new File(realPath1));
+
+                    String namegetter[] = realPath1.split("/");
+                    int finalElement = namegetter.length - 1;
+                    Log.d("try try", "" + namegetter[finalElement]);
+                    try {
+                        client.rename(namegetter[finalElement], Login.username+"file1.jpg");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        client.disconnect(true);
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                pdialog.dismiss();
+                File file2 = new File(filepath2.getLastPathSegment());
+                uploadFile2(file2);
+
+            }
+        }
+        new connecthis().execute();
+    }
+
+    public void uploadFile2(final File file2Name) {
+
+
+        class connecthis extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                pdialog = new ProgressDialog(ActivitySeller.this);
+                pdialog.setMessage("Uploading 2 .. Please Wait");
+                pdialog.setIndeterminate(false);
+                pdialog.setCancelable(false);
+                pdialog.show();
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+
+                try {
+                    client.connect(FTP_HOST, 21);
+                    client.login(FTP_USER, FTP_PASS);
+           /* client.enterLocalPassiveMode();*/
+                    client.setPassive(true);
+                    Log.d("REAL PATH OF LIFE IS 2", "" + realPath2);
+                    client.setType(FTPClient.TYPE_BINARY);
+                    client.setAutoNoopTimeout(20);
+                    client.upload(new File(realPath2));
+
+                    String namegetter[] = realPath2.split("/");
+                    int finalElement = namegetter.length - 1;
+                    Log.d("try try", "" + namegetter[finalElement]);
+                    try {
+                        client.rename(namegetter[finalElement], Login.username+"file2.jpg");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        client.disconnect(true);
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                pdialog.dismiss();
+                File file3 = new File(filepath2.getLastPathSegment());
+                uploadFile3(file3);
+
+            }
+        }
+        new connecthis().execute();
+    }
+
+    public void uploadFile3(final File file3Name) {
+
+
+        class connecthis extends AsyncTask<String, Void, String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                pdialog = new ProgressDialog(ActivitySeller.this);
+                pdialog.setMessage("Uploading 3.. Please Wait");
+                pdialog.setIndeterminate(false);
+                pdialog.setCancelable(false);
+                pdialog.show();
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+
+                try {
+                    client.connect(FTP_HOST, 21);
+                    client.login(FTP_USER, FTP_PASS);
+           /* client.enterLocalPassiveMode();*/
+                    client.setPassive(true);
+                    Log.d("REAL PATH OF LIFE IS 3", "" + realPath3);
+                    client.setType(FTPClient.TYPE_BINARY);
+                    client.setAutoNoopTimeout(20);
+                    client.upload(new File(realPath3));
+
+                    String namegetter[] = realPath3.split("/");
+                    int finalElement = namegetter.length - 1;
+                    Log.d("try try", "" + namegetter[finalElement]);
+                    try {
+                        client.rename(namegetter[finalElement], Login.username+"file3.jpg");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        client.disconnect(true);
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                pdialog.dismiss();
+
+            }
+        }
+        new connecthis().execute();
     }
 
     @Override
@@ -189,10 +321,16 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             Log.d("value of filepath2", "" + filepath2);
             Log.d("value of filepath3", "" + filepath3);
 
-            realPath = ImageFilePath.getPath(ActivitySeller.this, data.getData());
-//                realPath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
+            if (selectedSelectImageButton == 1) {
+                realPath1 = ImageFilePath.getPath(ActivitySeller.this, data.getData());
+//                realPath1 = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
+            } else if (selectedSelectImageButton == 2) {
+                realPath2 = ImageFilePath.getPath(ActivitySeller.this, data.getData());
+            } else {
+                realPath3 = ImageFilePath.getPath(ActivitySeller.this, data.getData());
 
-            Log.i("SEE REAL PATH", "onActivityResult: file path : " + realPath);
+            }
+            Log.i("SEE REAL PATH", "onActivityResult: file path : " + realPath1);
             filePathSetter();
 
         }
@@ -200,11 +338,11 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
     private void filePathSetter() {
         if (selectedSelectImageButton == 1) {
-            imageFilePath1.setText(realPath);
+            imageFilePath1.setText(realPath1);
         } else if (selectedSelectImageButton == 2) {
-            imageFilePath2.setText(realPath);
+            imageFilePath2.setText(realPath2);
         } else {
-            imageFilePath3.setText(realPath);
+            imageFilePath3.setText(realPath3);
         }
     }
 }
