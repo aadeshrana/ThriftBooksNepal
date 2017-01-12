@@ -72,8 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/sellerSelectImageTwoButton"
         android:layout_alignBottom="@+id/sellerSelectImageTwoButton"
-        android:layout_alignLeft="@+id/ooselectPictureTextBox"
-        android:layout_alignStart="@+id/ooselectPictureTextBox"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:text="Select Image 1"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="10dp" />
@@ -84,9 +84,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ooselectPictureTextBox"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/sellerSelectImageOneButton"
         android:text="Select Image 2"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="10dp" />
@@ -96,22 +96,20 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ooselectPictureTextBox"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/sellerSelectImageTwoButton"
         android:text="Select Image 3"
         android:textColor="@android:color/holo_blue_light"
-        android:textSize="10dp" />
-
-
+        android:textSize="10dp"
+        android:layout_above="@+id/sellerImageFileName3"
+        android:layout_alignRight="@+id/sellerUpload3Button"
+        android:layout_alignEnd="@+id/sellerUpload3Button"
+        android:layout_alignTop="@+id/sellerSelectImageTwoButton" />
     <TextView
         android:id="@+id/sellerImageFileName1"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignLeft="@id/sellerSelectImageOneButton"
         android:layout_below="@id/sellerSelectImageOneButton"
-        android:layout_marginLeft="1dp"
+        android:layout_marginLeft="12dp"
         android:hint="fileName1"
         android:textAlignment="center" />
 
@@ -173,4 +171,6 @@
         android:layout_marginRight="10dp"
         android:text="Place Item on Shop"
         android:textSize="11sp" />
+
+
 </RelativeLayout>
