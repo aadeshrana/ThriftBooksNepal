@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_toolbar" />
@@ -11,10 +12,10 @@
         android:id="@+id/headingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SELL YOUR BOOK"
         android:layout_below="@id/app_bar"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true" />
+        android:text="SELL YOUR BOOK" />
 
     <EditText
         android:id="@+id/sellerClassNameOfBook"
@@ -22,7 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/headingText"
         android:layout_centerHorizontal="true"
-        android:hint="Enter Name of Book" />
+        android:layout_marginTop="15dp"
+        android:hint="Enter Name of Book"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/sellerClassAuthorOfBook"
@@ -30,7 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/sellerClassNameOfBook"
         android:layout_centerHorizontal="true"
-        android:hint="Enter the Name of Author" />
+        android:hint="Enter the Name of Author"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/sellerClassPriceOfBook"
@@ -38,16 +42,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/sellerClassAuthorOfBook"
         android:layout_centerHorizontal="true"
-        android:hint="Enter the Price to be Marked" />
+        android:hint="Enter the Price to be Marked"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/sellerClassAddressOfHome"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sellerClassPriceOfBook"
+        android:layout_centerHorizontal="true"
+        android:hint="Enter your Home Address"
+        android:textSize="14sp" />
+
 
     <TextView
         android:id="@+id/ooselectPictureTextBox"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sellerClassPriceOfBook"
+        android:layout_below="@id/sellerClassAddressOfHome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Select Pictures of the book" />
+        android:text="Select Pictures of the book"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/sellerSelectImageOneButton"
@@ -58,7 +74,7 @@
         android:layout_alignBottom="@+id/sellerSelectImageTwoButton"
         android:layout_alignLeft="@+id/ooselectPictureTextBox"
         android:layout_alignStart="@+id/ooselectPictureTextBox"
-        android:text="Select Image1"
+        android:text="Select Image 1"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="10dp" />
 
@@ -66,17 +82,16 @@
         android:id="@+id/sellerSelectImageTwoButton"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
-        android:textColor="@android:color/holo_blue_light"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ooselectPictureTextBox"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/sellerSelectImageOneButton"
-        android:text="Select Image1"
+        android:text="Select Image 2"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="10dp" />
 
     <Button
-        android:textColor="@android:color/holo_blue_light"
         android:id="@+id/sellerSelectImageThreeButton"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
@@ -85,61 +100,77 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/sellerSelectImageTwoButton"
-        android:text="Select Image1"
+        android:text="Select Image 3"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="10dp" />
 
 
     <TextView
         android:id="@+id/sellerImageFileName1"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_alignLeft="@id/sellerSelectImageOneButton"
         android:layout_below="@id/sellerSelectImageOneButton"
-        android:layout_marginLeft="10dp"
-        android:hint="fileName1" />
+        android:layout_marginLeft="1dp"
+        android:hint="fileName1"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/sellerImageFileName2"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_alignLeft="@id/sellerSelectImageTwoButton"
         android:layout_below="@id/sellerSelectImageOneButton"
         android:layout_marginLeft="10dp"
-        android:hint="fileName2" />
+        android:hint="fileName2"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/sellerImageFileName3"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_alignLeft="@id/sellerSelectImageThreeButton"
         android:layout_below="@id/sellerSelectImageOneButton"
         android:layout_marginLeft="10dp"
-        android:hint="fileName3" />
+        android:hint="fileName3"
+        android:textAlignment="center" />
 
     <Button
+        android:id="@+id/sellerUpload1Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/sellerUpload1Button"
-        android:layout_alignParentBottom="true"
-        android:text="Upload Image1" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/sellerUpload2Button"
-        android:layout_alignParentBottom="true"
-        android:textSize="12sp"
-        android:text="Upload Image 2" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_alignParentRight="true"
-        android:id="@+id/sellerUpload3Button"
-        android:layout_alignParentBottom="true"
-        android:text="Upload Image 3" />
+        android:layout_below="@id/sellerImageFileName1"
+        android:layout_marginLeft="10dp"
+        android:text="Upload Image1"
+        android:textSize="11sp" />
 
+    <Button
+        android:id="@+id/sellerUpload2Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sellerImageFileName2"
+        android:layout_centerHorizontal="true"
+        android:text="Upload Image 2"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/sellerUpload3Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/sellerImageFileName3"
+        android:layout_marginRight="10dp"
+        android:text="Upload Image 3"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/sellerUploadAllButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:text="Place Item on Shop"
+        android:textSize="11sp" />
 </RelativeLayout>
