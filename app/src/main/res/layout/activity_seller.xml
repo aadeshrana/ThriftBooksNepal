@@ -3,15 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_toolbar" />
 
     <TextView
         android:id="@+id/headingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:text="SELL YOUR BOOK"
+        android:layout_below="@id/app_bar"
         android:layout_marginTop="10dp"
-        android:text="SELL YOUR BOOK" />
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/sellerClassNameOfBook"
@@ -88,7 +91,7 @@
 
     <TextView
         android:id="@+id/sellerImageFileName1"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/sellerSelectImageOneButton"
         android:layout_below="@id/sellerSelectImageOneButton"
@@ -97,7 +100,7 @@
 
     <TextView
         android:id="@+id/sellerImageFileName2"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/sellerSelectImageTwoButton"
         android:layout_below="@id/sellerSelectImageOneButton"
@@ -106,7 +109,7 @@
 
     <TextView
         android:id="@+id/sellerImageFileName3"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/sellerSelectImageThreeButton"
         android:layout_below="@id/sellerSelectImageOneButton"
@@ -114,10 +117,12 @@
         android:hint="fileName3" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sellerImageFileName1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:id="@+id/sellerUploadButton"
+        android:layout_alignParentBottom="true"
         android:text="Upload Image" />
+
+
 </RelativeLayout>

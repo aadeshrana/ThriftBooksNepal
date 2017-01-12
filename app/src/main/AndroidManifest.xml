@@ -52,6 +52,9 @@
             android:name=".Activities.PlusTwoOptions"
             android:label="ib"></activity>
 
+        <activity
+            android:name=".Activities.ActivitySeller"
+            android:label="ib"></activity>
     </application>
 
 </manifest>
