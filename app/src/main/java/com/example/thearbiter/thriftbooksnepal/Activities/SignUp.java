@@ -24,9 +24,11 @@ import java.util.List;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText firstName, lastName, userName, password, confirmPass, phoneNo, email;
+    static EditText firstName, lastName, userName, password, confirmPass, phoneNo, email;
     static EditText school;
     String strFirstName, strLastName, strUserName, strPassword, strConfirmPass, strPhoneNo, strEmail, strSchool;
+    static String fname, lname, uname, passwd, confirmpwd, phoneNum, emailer;
+    public static String schoolName;
     JSONParser jsonParser = new JSONParser();
     private ProgressDialog pdialog;
     private static final String REGISTER_URL = "http://frame.ueuo.com/thriftbooks/register.php";
@@ -45,6 +47,18 @@ public class SignUp extends AppCompatActivity {
         email = (EditText) findViewById(R.id.signUpEmail);
         school = (EditText) findViewById(R.id.signUpSchool);
 
+        try {
+            firstName.setText(fname);
+            lastName.setText(lname);
+            userName.setText(uname);
+            password.setText(passwd);
+            confirmPass.setText(confirmpwd);
+            phoneNo.setText(phoneNum);
+            email.setText(emailer);
+            school.setText(schoolName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -81,7 +95,15 @@ public class SignUp extends AppCompatActivity {
         strUserName = userName.getText().toString();
         strPhoneNo = phoneNo.getText().toString();
         strEmail = email.getText().toString();
-        strSchool = school.getText().toString();
+        try {
+            strSchool = school.getText().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (strSchool.equals(null)) {
+            strSchool = "na";
+        }
 
         strPassword = password.getText().toString();
         strConfirmPass = confirmPass.getText().toString();
@@ -93,6 +115,14 @@ public class SignUp extends AppCompatActivity {
             confirmPass.setBackgroundColor(Color.RED);
         }
 
+    }
+
+    class CheckSchool extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            return null;
+        }
     }
 
     class CreateUser extends AsyncTask<String, String, String> {
@@ -165,6 +195,14 @@ public class SignUp extends AppCompatActivity {
 
         fragmentTransaction.add(relativeLayout.getId(),fragmentFindSchool,"abc");
         fragmentTransaction.commit();*/
+
+        fname = firstName.getText().toString();
+        lname = lastName.getText().toString();
+        uname = userName.getText().toString();
+        passwd = password.getText().toString();
+        emailer = email.getText().toString();
+        confirmpwd = confirmPass.getText().toString();
+        phoneNum = phoneNo.getText().toString();
 
         CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
         customDiagFindSchool.show(getFragmentManager(), "abc");

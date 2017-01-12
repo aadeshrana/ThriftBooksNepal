@@ -59,5 +59,7 @@ public class ALevelOptions extends AppCompatActivity {
     }
 
     public void alevelSellButton(View view){
+        Intent in = new Intent(ALevelOptions.this,ActivitySeller.class);
+        startActivity(in);
     }
 }

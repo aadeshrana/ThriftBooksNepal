@@ -1,11 +1,9 @@
 package com.example.thearbiter.thriftbooksnepal.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.StaticLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,16 +44,15 @@ public class AdapterFindSchool extends RecyclerView.Adapter<AdapterFindSchool.My
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final InformationFindSchool current = data.get(position);
-         final int choice[] = new int[data.size()];
+        final int choice[] = new int[data.size()];
         holder.title.setText(current.collegeName);
         holder.cardview.setCardBackgroundColor(Color.WHITE);
 
-        if(selected==position){
+        if (selected == position) {
 
             holder.cardview.setCardBackgroundColor(Color.GREEN);
 
-        }
-        else
+        } else
             holder.cardview.setCardBackgroundColor(Color.WHITE);
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,16 +69,14 @@ public class AdapterFindSchool extends RecyclerView.Adapter<AdapterFindSchool.My
 
 
                         holder.cardview.setCardBackgroundColor(Color.WHITE);
-                        if(selected==position){
+                        if (selected == position) {
 
                             holder.cardview.setCardBackgroundColor(Color.GREEN);
-                            Log.d("what",""+choice[i]);
-                        }
-                        else
+                            Log.d("what", "" + choice[i]);
+                        } else
                             holder.cardview.setCardBackgroundColor(Color.BLACK);
 
-                        }
-
+                    }
 
 
                 }

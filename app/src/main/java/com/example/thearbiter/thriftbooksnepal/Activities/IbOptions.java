@@ -52,7 +52,8 @@ public class IbOptions extends AppCompatActivity {
     }
 
     public void ibSellButton(View view) {
-
+        Intent in = new Intent(IbOptions.this,ActivitySeller.class);
+        startActivity(in);
     }
 
     public void ibBuyButton(View view) {

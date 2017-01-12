@@ -52,7 +52,8 @@ public class PlusTwoOptions extends AppCompatActivity {
 
     ///***/// OnClicks Starts //**////
     public void plusTwoSellButton(View view){
-
+        Intent in = new Intent(PlusTwoOptions.this,ActivitySeller.class);
+        startActivity(in);
     }
     public void plusTwoBuyButton(View view){
         Intent in = new Intent(PlusTwoOptions.this,MainALevelBuyer.class);
