@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.ImageFilePath;
 import com.example.thearbiter.thriftbooksnepal.R;
@@ -31,12 +32,16 @@ import it.sauronsoftware.ftp4j.FTPClient;
  */
 
 public class ActivitySeller extends AppCompatActivity implements View.OnClickListener {
+
     Toolbar toolbar;
-    EditText editTitleOfBook, editAuthorOfBook, editPriceOfBook;
+    static Boolean img1 = false, img2 = false, img3 = false;
+    Boolean checkAllBoxes;
+    EditText editTitleOfBook, editAuthorOfBook, editPriceOfBook, editHomeAddress;
     Button sellerSelectImage1, sellerSelectImage2, sellerSelectImage3;
     Button sellerUpload1Button;
     Button sellerUpload2Button;
     Button sellerUpload3Button;
+    Button sellerUploadAllButton;
     static String titleOfBook;
 
     ProgressDialog pdialog;
@@ -67,6 +72,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
         verifyStoragePermissions(this);
 
+        //////////////////////////FIELD INITIALIZERS//////////////////////////////
         imageFilePath1 = (TextView) findViewById(R.id.sellerImageFileName1);
         imageFilePath2 = (TextView) findViewById(R.id.sellerImageFileName2);
         imageFilePath3 = (TextView) findViewById(R.id.sellerImageFileName3);
@@ -74,6 +80,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         editTitleOfBook = (EditText) findViewById(R.id.sellerClassNameOfBook);
         editAuthorOfBook = (EditText) findViewById(R.id.sellerClassAuthorOfBook);
         editPriceOfBook = (EditText) findViewById(R.id.sellerClassPriceOfBook);
+        editHomeAddress = (EditText) findViewById(R.id.sellerClassAddressOfHome);
 
         sellerSelectImage1 = (Button) findViewById(R.id.sellerSelectImageOneButton);
         sellerSelectImage2 = (Button) findViewById(R.id.sellerSelectImageTwoButton);
@@ -82,6 +89,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         sellerUpload1Button = (Button) findViewById(R.id.sellerUpload1Button);
         sellerUpload2Button = (Button) findViewById(R.id.sellerUpload2Button);
         sellerUpload3Button = (Button) findViewById(R.id.sellerUpload3Button);
+        sellerUploadAllButton = (Button) findViewById(R.id.sellerUploadAllButton);
 
         sellerSelectImage1.setOnClickListener(this);
         sellerSelectImage2.setOnClickListener(this);
@@ -90,6 +98,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         sellerUpload1Button.setOnClickListener(this);
         sellerUpload2Button.setOnClickListener(this);
         sellerUpload3Button.setOnClickListener(this);
+        sellerUploadAllButton.setOnClickListener(this);
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -132,23 +141,60 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         }
 
         if (v == sellerUpload1Button) {
-            titleOfBook = editTitleOfBook.getText().toString();
-            File file1 = new File(filepath1.getLastPathSegment());
-            uploadFile1(file1);
+            try {
+                titleOfBook = editTitleOfBook.getText().toString();
+                File file1 = new File(filepath1.getLastPathSegment());
+                uploadFile1(file1);
+            } catch (Exception e) {
+                Toast.makeText(this, "Please select a file first", Toast.LENGTH_SHORT).show();
+            }
         }
 
         if (v == sellerUpload2Button) {
-            titleOfBook = editTitleOfBook.getText().toString();
-            File file2 = new File(filepath2.getLastPathSegment());
-            uploadFile2(file2);
+
+            try {
+                titleOfBook = editTitleOfBook.getText().toString();
+                File file2 = new File(filepath2.getLastPathSegment());
+                uploadFile2(file2);
+            } catch (Exception e) {
+                Toast.makeText(this, "Please select a file first", Toast.LENGTH_SHORT).show();
+            }
         }
 
         if (v == sellerUpload3Button) {
-            titleOfBook = editTitleOfBook.getText().toString();
-            File file3 = new File(filepath3.getLastPathSegment());
-            uploadFile3(file3);
+
+            try {
+                titleOfBook = editTitleOfBook.getText().toString();
+                File file3 = new File(filepath3.getLastPathSegment());
+                uploadFile3(file3);
+            } catch (Exception e) {
+                Toast.makeText(this, "Please select a file first", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (v == sellerUploadAllButton) {
+            checkEmptyBoxes();
+            if(checkAllBoxes){
+                new AddItemToStore().execute();
+            }
+            else
+            {
+                Toast.makeText(this, "Please fill all details with at least 1 image", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
+
+    public class AddItemToStore extends AsyncTask<String,String,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            return null;
+        }
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////BELOW THIS ARE UPLOAD FUNCTIONS FOR 3 IMAGES/////////////////////////////
 
     public void uploadFile1(final File file1Name) {
 
@@ -211,6 +257,9 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 pdialog.dismiss();
+                Toast.makeText(ActivitySeller.this, "Uploaded Image 1", Toast.LENGTH_SHORT).show();
+                img1 = true;
+                value1Poster();
             }
         }
 
@@ -280,17 +329,15 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 pdialog.dismiss();
-
-                sellerUpload2Button.setBackgroundColor(Color.GREEN);
-                sellerUpload2Button.setEnabled(false);
-                sellerUpload2Button.setText("UPLOADED!");
+                img2 = true;
+                Toast.makeText(ActivitySeller.this, "Uploaded Image 2", Toast.LENGTH_SHORT).show();
+                value2Poster();
             }
         }
         new connecthis().execute();
     }
 
     public void uploadFile3(final File file3Name) {
-
 
         class connecthis extends AsyncTask<String, Void, String> {
             @Override
@@ -350,14 +397,41 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 pdialog.dismiss();
-                sellerUpload3Button.setBackgroundColor(Color.GREEN);
-                sellerUpload3Button.setEnabled(false);
-                sellerUpload3Button.setText("UPLOADED!");
+                img3 = true;
+                Toast.makeText(ActivitySeller.this, "Uploaded Image 3", Toast.LENGTH_SHORT).show();
+                value3Poster();
             }
         }
         new connecthis().execute();
     }
 
+    //////////////////////////////// UPLOAD FUNCTIONS END HERE///////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////THESE FUNCTIONS SET COLORS AND VALUES IF IMAGE IS SUCCESSFULLY UPLOADED//////////////////
+
+    void value1Poster() {
+        imageFilePath1.setText("UPLOADED!!!");
+        imageFilePath1.setTextColor(Color.MAGENTA);
+    }
+
+    void value2Poster() {
+        imageFilePath2.setText("UPLOADED!!!");
+        imageFilePath2.setTextColor(Color.MAGENTA);
+    }
+
+    void value3Poster() {
+        imageFilePath3.setText("UPLOADED!!!");
+        imageFilePath3.setTextColor(Color.MAGENTA);
+    }
+
+    //////////////////////////////////////////////POSTER FUNCTIONS END HERE//////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////THIS RUNS AFTER IMAGE IS SELECTED FROM GALLERY///////////////////////////////////////
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -389,6 +463,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+////////////////////EXTRA FUNCTIONS///////////////////////////////////////////////
     private void filePathSetter() {
         if (selectedSelectImageButton == 1) {
             imageFilePath1.setText(realPath1);
@@ -397,6 +472,18 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         } else {
             imageFilePath3.setText(realPath3);
         }
+    }
+    void checkEmptyBoxes() {
+        if (editTitleOfBook.equals("") || editPriceOfBook.equals("") || editAuthorOfBook.equals("") || editHomeAddress.equals("")) {
+            if (img1 || img2 || img3) {
+                checkAllBoxes = true;
+            } else {
+                checkAllBoxes = false;
+            }
+        } else {
+            checkAllBoxes = false;
+        }
+
     }
 }
 
