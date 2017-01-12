@@ -117,12 +117,29 @@
         android:hint="fileName3" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/sellerUpload1Button"
+        android:layout_alignParentBottom="true"
+        android:text="Upload Image1" />
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/sellerUploadButton"
+        android:id="@+id/sellerUpload2Button"
         android:layout_alignParentBottom="true"
-        android:text="Upload Image" />
-
+        android:textSize="12sp"
+        android:text="Upload Image 2" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/sellerUpload3Button"
+        android:layout_alignParentBottom="true"
+        android:text="Upload Image 3" />
 
 </RelativeLayout>

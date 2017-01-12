@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,13 +34,18 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     Toolbar toolbar;
     EditText editTitleOfBook, editAuthorOfBook, editPriceOfBook;
     Button sellerSelectImage1, sellerSelectImage2, sellerSelectImage3;
-    Button sellerUploadButton;
+    Button sellerUpload1Button;
+    Button sellerUpload2Button;
+    Button sellerUpload3Button;
+    static String titleOfBook;
+
     ProgressDialog pdialog;
     String realPath1, realPath2, realPath3;
-    static final String FTP_HOST = "frame.ueuo.com";
-    static final String FTP_USER = "frame.ueuo.com";
-    static final String FTP_PASS = "gauravgaurav";
+    static final String FTP_HOST = "93.188.160.157";
+    static final String FTP_USER = "u856924126";
+    static final String FTP_PASS = "aadesh";
     final FTPClient client = new FTPClient();
+    final FTPClient client2 = new FTPClient();
     TextView imageFilePath1, imageFilePath2, imageFilePath3;
     static int selectedSelectImageButton;
 
@@ -73,13 +79,17 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         sellerSelectImage2 = (Button) findViewById(R.id.sellerSelectImageTwoButton);
         sellerSelectImage3 = (Button) findViewById(R.id.sellerSelectImageThreeButton);
 
-        sellerUploadButton = (Button) findViewById(R.id.sellerUploadButton);
+        sellerUpload1Button = (Button) findViewById(R.id.sellerUpload1Button);
+        sellerUpload2Button = (Button) findViewById(R.id.sellerUpload2Button);
+        sellerUpload3Button = (Button) findViewById(R.id.sellerUpload3Button);
 
         sellerSelectImage1.setOnClickListener(this);
         sellerSelectImage2.setOnClickListener(this);
         sellerSelectImage3.setOnClickListener(this);
-        sellerUploadButton.setOnClickListener(this);
 
+        sellerUpload1Button.setOnClickListener(this);
+        sellerUpload2Button.setOnClickListener(this);
+        sellerUpload3Button.setOnClickListener(this);
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -121,11 +131,22 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         }
 
-        if (v == sellerUploadButton) {
-
+        if (v == sellerUpload1Button) {
+            titleOfBook = editTitleOfBook.getText().toString();
             File file1 = new File(filepath1.getLastPathSegment());
-
             uploadFile1(file1);
+        }
+
+        if (v == sellerUpload2Button) {
+            titleOfBook = editTitleOfBook.getText().toString();
+            File file2 = new File(filepath2.getLastPathSegment());
+            uploadFile2(file2);
+        }
+
+        if (v == sellerUpload3Button) {
+            titleOfBook = editTitleOfBook.getText().toString();
+            File file3 = new File(filepath3.getLastPathSegment());
+            uploadFile3(file3);
         }
     }
 
@@ -154,25 +175,35 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     client.setPassive(true);
                     Log.d("REAL PATH OF LIFE IS 1 ", "" + realPath1);
                     client.setType(FTPClient.TYPE_BINARY);
-                    client.setAutoNoopTimeout(20);
+                    client.setAutoNoopTimeout(10);
                     client.upload(new File(realPath1));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    client.disconnect(true);
 
                     String namegetter[] = realPath1.split("/");
                     int finalElement = namegetter.length - 1;
-                    Log.d("try try", "" + namegetter[finalElement]);
+                    Log.d("kateko name 1", "" + namegetter[finalElement]);
+                    pdialog.show();
                     try {
-                        client.rename(namegetter[finalElement], Login.username+"file1.jpg");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+
+                        client2.connect(FTP_HOST, 21);
+                        client2.login(FTP_USER, FTP_PASS);
+                        client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file1.jpg");
+                    } catch (Exception f) {
+                        f.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    try {
-                        client.disconnect(true);
-                    } catch (Exception e2) {
-                        e2.printStackTrace();
-                    }
+                    client2.disconnect(true);
+                    pdialog.dismiss();
+
+                } catch (Exception e2) {
+                    e2.printStackTrace();
                 }
+
+
                 return null;
             }
 
@@ -180,12 +211,13 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 pdialog.dismiss();
-                File file2 = new File(filepath2.getLastPathSegment());
-                uploadFile2(file2);
-
             }
         }
-        new connecthis().execute();
+
+        new
+
+                connecthis().execute();
+
     }
 
     public void uploadFile2(final File file2Name) {
@@ -206,7 +238,6 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected String doInBackground(String... params) {
 
-
                 try {
                     client.connect(FTP_HOST, 21);
                     client.login(FTP_USER, FTP_PASS);
@@ -214,25 +245,34 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     client.setPassive(true);
                     Log.d("REAL PATH OF LIFE IS 2", "" + realPath2);
                     client.setType(FTPClient.TYPE_BINARY);
-                    client.setAutoNoopTimeout(20);
+                    client.setAutoNoopTimeout(10);
                     client.upload(new File(realPath2));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    client.disconnect(true);
 
                     String namegetter[] = realPath2.split("/");
                     int finalElement = namegetter.length - 1;
-                    Log.d("try try", "" + namegetter[finalElement]);
+                    Log.d("kateko name 1", "" + namegetter[finalElement]);
+                    pdialog.show();
                     try {
-                        client.rename(namegetter[finalElement], Login.username+"file2.jpg");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        client2.connect(FTP_HOST, 21);
+                        client2.login(FTP_USER, FTP_PASS);
+                        client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file2.jpg");
+                    } catch (Exception f) {
+                        f.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    try {
-                        client.disconnect(true);
-                    } catch (Exception e2) {
-                        e2.printStackTrace();
-                    }
+                    client2.disconnect(true);
+                    pdialog.dismiss();
+
+                } catch (Exception e2) {
+                    e2.printStackTrace();
                 }
+
+
                 return null;
             }
 
@@ -240,9 +280,10 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 pdialog.dismiss();
-                File file3 = new File(filepath2.getLastPathSegment());
-                uploadFile3(file3);
 
+                sellerUpload2Button.setBackgroundColor(Color.GREEN);
+                sellerUpload2Button.setEnabled(false);
+                sellerUpload2Button.setText("UPLOADED!");
             }
         }
         new connecthis().execute();
@@ -273,25 +314,35 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     client.setPassive(true);
                     Log.d("REAL PATH OF LIFE IS 3", "" + realPath3);
                     client.setType(FTPClient.TYPE_BINARY);
-                    client.setAutoNoopTimeout(20);
+                    client.setAutoNoopTimeout(10);
                     client.upload(new File(realPath3));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    client.disconnect(true);
 
                     String namegetter[] = realPath3.split("/");
                     int finalElement = namegetter.length - 1;
-                    Log.d("try try", "" + namegetter[finalElement]);
+                    Log.d("kateko name 1", "" + namegetter[finalElement]);
+                    pdialog.show();
                     try {
-                        client.rename(namegetter[finalElement], Login.username+"file3.jpg");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+
+                        client2.connect(FTP_HOST, 21);
+                        client2.login(FTP_USER, FTP_PASS);
+                        client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file3.jpg");
+                    } catch (Exception f) {
+                        f.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    try {
-                        client.disconnect(true);
-                    } catch (Exception e2) {
-                        e2.printStackTrace();
-                    }
+                    client2.disconnect(true);
+                    pdialog.dismiss();
+
+                } catch (Exception e2) {
+                    e2.printStackTrace();
                 }
+
+
                 return null;
             }
 
@@ -299,7 +350,9 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 pdialog.dismiss();
-
+                sellerUpload3Button.setBackgroundColor(Color.GREEN);
+                sellerUpload3Button.setEnabled(false);
+                sellerUpload3Button.setText("UPLOADED!");
             }
         }
         new connecthis().execute();
