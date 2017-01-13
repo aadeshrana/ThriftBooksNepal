@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.SearchView;
 
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
@@ -33,12 +35,12 @@ import java.util.List;
 /**
  * Created by Aadesh Rana on 12-01-17.
  */
-public class CustomDiagFindSchool extends DialogFragment {
+public class CustomDiagFindSchool extends DialogFragment implements SearchView.OnQueryTextListener {
     public RecyclerView recyclerView;
     public AdapterFindSchool adapterFindSchool;
     public Context context;
 
-
+    SearchView searchView;
 
     public static String collegesName[];
     public static String collegesViewed[];
@@ -77,11 +79,17 @@ public class CustomDiagFindSchool extends DialogFragment {
                 dismiss();
             }
         });
+
+        searchView = (SearchView)layout.findViewById(R.id.searchView);
+        setUpSearchView();
+
         return layout;
     }
     public void findAllSchool(){
        new findSchool().execute();
     }
+
+
 
     class findSchool extends AsyncTask<String,String,String> {
 
@@ -141,6 +149,26 @@ public class CustomDiagFindSchool extends DialogFragment {
         }
         return data;
     }
+    public void setUpSearchView(){
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(false);
 
+        searchView.setQueryHint("Search Here");
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+      adapterFindSchool.filter(newText);
+        Log.d("Why emplt", "ss" + newText);
+
+        return  true;
+    }
 
 }
