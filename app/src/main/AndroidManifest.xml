@@ -57,7 +57,9 @@
             android:label="ib" />
         <activity
             android:name=".Activities.Accounts"
-            android:label="@string/title_activity_accounts" >
+            android:label="@string/title_activity_accounts"
+            android:windowSoftInputMode="adjustPan"
+            >
         </activity>
     </application>
 
