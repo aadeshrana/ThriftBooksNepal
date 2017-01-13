@@ -178,7 +178,7 @@ public class FragmentALevelBuy extends Fragment {
                 FragmentALevelBuy.arrayImage3Name = image3name.toArray(new String[firstName.size()]);
                 FragmentALevelBuy.arrayPhoneNumber = phoneNumber.toArray(new String[firstName.size()]);
                 FragmentALevelBuy.arrayEmailAddress = emailAddress.toArray(new String[firstName.size()]);
-
+//
                 FragmentALevelBuy.title = arrayNameOfBook;
                 FragmentALevelBuy.price = arrayPriceOfBook;
                 FragmentALevelBuy.sellerName = arrayFirstName;
