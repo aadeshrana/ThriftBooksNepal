@@ -68,7 +68,7 @@ public class PlusTwoOptions extends AppCompatActivity {
         startActivity(in);
     }
     public void plusTwoBuyButton(View view){
-        Intent in = new Intent(PlusTwoOptions.this,MainALevelBuyer.class);
+        Intent in = new Intent(PlusTwoOptions.this,MainPlusTwoBuyer.class);
         startActivity(in);
     }
 

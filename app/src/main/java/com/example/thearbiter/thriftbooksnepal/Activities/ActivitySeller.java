@@ -53,7 +53,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     Button sellerUpload3Button;
     Button sellerUploadAllButton;
     static String titleOfBook;
-    static String choiseOfBoard;
+    public static String choiseOfBoard;
 
     ProgressDialog pdialog,pdialog1;
     String realPath1, realPath2, realPath3;
@@ -90,6 +90,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
             ActivitySeller.choiseOfBoard = chosenValueBoard.getString("chosenValueBoard");
             Log.d("valuemain",""+ActivitySeller.choiseOfBoard);
+
         }catch (Exception e){
 
         }

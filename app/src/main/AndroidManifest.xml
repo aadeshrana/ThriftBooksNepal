@@ -21,6 +21,12 @@
             android:name=".Activities.MainALevelBuyer"
             android:label="@string/app_name" />
         <activity
+            android:name=".Activities.MainIbBuyer"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".Activities.MainPlusTwoBuyer"
+            android:label="@string/app_name" />
+        <activity
             android:name=".Activities.MainDrawerHome"
             android:label="@string/title_activity_main_drawer_home" >
         </activity>
