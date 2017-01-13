@@ -46,6 +46,9 @@ public class SignUp extends AppCompatActivity {
         phoneNo = (EditText) findViewById(R.id.signUpPhoneNumber);
         email = (EditText) findViewById(R.id.signUpEmail);
         school = (EditText) findViewById(R.id.signUpSchool);
+        CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
+        customDiagFindSchool.findAllSchool();
+
 
         try {
             firstName.setText(fname);
