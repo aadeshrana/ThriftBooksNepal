@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
-    android:paddingBottom="10dp"
+
 
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.SignUp">
 
@@ -301,31 +301,33 @@
 
 
 
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/CVSignUpButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_below="@id/linearone"
-                    android:layout_marginTop="10dp"
-                    android:background="#FFBB88FF"
-                    card_view:cardBackgroundColor="@android:color/transparent"
-                    card_view:paddingEnd="10dp">
 
-                    <Button
-                        android:id="@+id/butoon1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:onClick="signUpButton"
-                        android:paddingBottom="10dp"
-                        android:text="Sign Up"
-
-                        />
-                </android.support.v7.widget.CardView>
 
 
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/CVSignUpButton"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
 
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginTop="10dp"
+        android:background="#FFBB88FF"
+        card_view:cardBackgroundColor="@android:color/transparent"
+       >
+
+        <Button
+            android:id="@+id/butoon1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="signUpButton"
+
+            android:text="Sign Up"
+
+            />
+    </android.support.v7.widget.CardView>
 </RelativeLayout>

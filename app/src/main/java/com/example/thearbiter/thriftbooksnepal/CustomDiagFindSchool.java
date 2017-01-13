@@ -50,7 +50,7 @@ public class CustomDiagFindSchool extends DialogFragment implements SearchView.O
     JSONParser jsonParser = new JSONParser();
     private static final String PULLALLORDERS = "http://frame.ueuo.com/thriftbooks/FetchingData.php";
 
-    String schoolNames[] = {"Rato Bangala School", "The British School", "A very Long Name To see What happens huh?", "lyf", "asdf", "sagash", "this", "fuck", "lyf", "gg", "how", "this", "shjas", "sagga", "Rato Bangala School", "The British School", "A very Long Name To see What happens huh?", "lyf", "asdf", "sagash", "this", "fuck", "lyf", "gg", "how", "this", "shjas", "sagga"};
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +77,7 @@ public class CustomDiagFindSchool extends DialogFragment implements SearchView.O
             @Override
             public void onClick(View v) {
                 dismiss();
+                AdapterFindSchool.selected=-1;
             }
         });
 

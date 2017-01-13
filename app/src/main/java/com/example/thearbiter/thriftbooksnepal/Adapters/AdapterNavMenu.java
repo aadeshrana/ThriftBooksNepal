@@ -54,14 +54,18 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                 switch (position){
                     case 0:
                         intent = new Intent(context, ALevelOptions.class);
+                        intent.putExtra("chosenValueBoard","Alevel");
                         context.startActivity(intent);
+
                         break;
                     case 1:
                         intent = new Intent(context, PlusTwoOptions.class);
+                        intent.putExtra("chosenValueBoard","PlusTwo");
                         context.startActivity(intent);
                         break;
                     case 2:
                         intent = new Intent(context, IbOptions.class);
+                        intent.putExtra("chosenValueBoard","IbOption");
                         context.startActivity(intent);
                         break;
 

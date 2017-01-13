@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +14,7 @@ import com.example.thearbiter.thriftbooksnepal.R;
 public class ALevelOptions extends AppCompatActivity {
 
     Toolbar toolbar;
-
+    String chosenboard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +23,15 @@ public class ALevelOptions extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Log.d("valueis", "here");
+        try{
+            Bundle chosenValueBoard = getIntent().getExtras();
+            Log.d("valueis",""+chosenValueBoard.getString("chosenValueBoard"));
+
+            chosenboard = chosenValueBoard.getString("chosenValueBoard");
+        }catch (Exception e){
+
+        }
 
     }
 
@@ -60,6 +70,7 @@ public class ALevelOptions extends AppCompatActivity {
 
     public void alevelSellButton(View view){
         Intent in = new Intent(ALevelOptions.this,ActivitySeller.class);
+        in.putExtra("chosenValueBoard", chosenboard);
         startActivity(in);
     }
 }

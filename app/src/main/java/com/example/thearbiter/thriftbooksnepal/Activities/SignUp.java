@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFindSchool;
 import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.R;
@@ -36,6 +37,7 @@ public class SignUp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AdapterFindSchool.selected = -1;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         firstName = (EditText) findViewById(R.id.signUpFirstName);
@@ -84,6 +86,20 @@ public class SignUp extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume(){
+        AdapterFindSchool.selected=-1;
+        super.onResume();
+
+
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        AdapterFindSchool.selected=-1;
     }
 
     public void getSchool(String schoolName) {
@@ -211,4 +227,5 @@ public class SignUp extends AppCompatActivity {
         customDiagFindSchool.show(getFragmentManager(), "abc");
 
     }
+
 }

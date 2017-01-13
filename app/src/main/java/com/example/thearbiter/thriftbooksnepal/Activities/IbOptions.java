@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,7 @@ import com.example.thearbiter.thriftbooksnepal.R;
 
 public class IbOptions extends AppCompatActivity {
     Toolbar toolbar;
-
+    String chosenboard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +22,14 @@ public class IbOptions extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        try{
+            Bundle chosenValueBoard = getIntent().getExtras();
+            Log.d("valueis", "" + chosenValueBoard.getString("chosenValueBoard"));
 
+            chosenboard = chosenValueBoard.getString("chosenValueBoard");
+        }catch (Exception e){
+
+        }
     }
 
     @Override
@@ -53,6 +61,7 @@ public class IbOptions extends AppCompatActivity {
 
     public void ibSellButton(View view) {
         Intent in = new Intent(IbOptions.this,ActivitySeller.class);
+        in.putExtra("chosenValueBoard", chosenboard);
         startActivity(in);
     }
 
