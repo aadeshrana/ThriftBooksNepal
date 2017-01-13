@@ -164,7 +164,7 @@ public class FragmentIbBuy extends Fragment {
                 FragmentIbBuy.arrayImage3Name = new String[firstName.size()];
                 FragmentIbBuy.arrayPhoneNumber = new String[firstName.size()];
                 FragmentIbBuy.arrayEmailAddress = new String[firstName.size()];
-
+//
                 FragmentIbBuy.arrayUserName = userName.toArray(new String[userName.size()]);
                 FragmentIbBuy.arrayFirstName = firstName.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayLastName = lastName.toArray(new String[firstName.size()]);
