@@ -21,9 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.ImageFilePath;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.R;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 
@@ -33,10 +40,13 @@ import it.sauronsoftware.ftp4j.FTPClient;
 
 public class ActivitySeller extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String ADD_ITEM_URL = "http://frame.ueuo.com/thriftbooks/additemtostore.php";
+    JSONParser jsonParser = new JSONParser();
     Toolbar toolbar;
     static Boolean img1 = false, img2 = false, img3 = false;
     Boolean checkAllBoxes;
     EditText editTitleOfBook, editAuthorOfBook, editPriceOfBook, editHomeAddress;
+    static String title, author, price, homeaddress;
     Button sellerSelectImage1, sellerSelectImage2, sellerSelectImage3;
     Button sellerUpload1Button;
     Button sellerUpload2Button;
@@ -44,7 +54,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     Button sellerUploadAllButton;
     static String titleOfBook;
 
-    ProgressDialog pdialog;
+    ProgressDialog pdialog,pdialog1;
     String realPath1, realPath2, realPath3;
     static final String FTP_HOST = "93.188.160.157";
     static final String FTP_USER = "u856924126";
@@ -174,22 +184,88 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
         if (v == sellerUploadAllButton) {
             checkEmptyBoxes();
-            if(checkAllBoxes){
+            try {
+                title = editTitleOfBook.getText().toString();
+                author = editAuthorOfBook.getText().toString();
+                price = editPriceOfBook.getText().toString();
+                homeaddress = editHomeAddress.getText().toString();
+
                 new AddItemToStore().execute();
             }
-            else
-            {
+            catch (Exception e){
                 Toast.makeText(this, "Please fill all details with at least 1 image", Toast.LENGTH_SHORT).show();
             }
+
 
         }
     }
 
-    public class AddItemToStore extends AsyncTask<String,String,String>{
+    public class AddItemToStore extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog1 = new ProgressDialog(ActivitySeller.this);
+            pdialog1.setMessage("Posting your Ad..");
+            pdialog1.setIndeterminate(false);
+            pdialog1.setCancelable(false);
+            pdialog1.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
+            try {
+                List<NameValuePair> param1 = new ArrayList<>();
+                param1.add(new BasicNameValuePair("username", Login.username));
+                param1.add(new BasicNameValuePair("firstname", Login.firstName));
+                param1.add(new BasicNameValuePair("lastname", Login.lastName));
+                param1.add(new BasicNameValuePair("nameofbook", ActivitySeller.title));
+                param1.add(new BasicNameValuePair("nameofauthor", ActivitySeller.author));
+                param1.add(new BasicNameValuePair("price", ActivitySeller.price));
+                param1.add(new BasicNameValuePair("homeaddress", ActivitySeller.homeaddress));
+                param1.add(new BasicNameValuePair("school", Login.school));
+                param1.add(new BasicNameValuePair("image1name", Login.username + titleOfBook + "file1.jpg"));
+                param1.add(new BasicNameValuePair("image2name", Login.username + titleOfBook + "file2.jpg"));
+                param1.add(new BasicNameValuePair("image3name", Login.username + titleOfBook + "file3.jpg"));
+                param1.add(new BasicNameValuePair("phonenumber", Login.phoneNumber));
+                param1.add(new BasicNameValuePair("emailaddress", Login.emailAddress));
+
+                Log.d("username",""+Login.username);
+                Log.d("",""+Login.firstName);
+                Log.d("",""+Login.lastName);
+                Log.d("",""+title);
+                Log.d("",""+author);
+                Log.d("",""+price);
+                Log.d("",""+homeaddress);
+                Log.d("",""+Login.school);
+                Log.d("",""+Login.username+titleOfBook+"file1.jpg");
+                Log.d("",""+Login.username+titleOfBook+"file2.jpg");
+                Log.d("",""+Login.username+titleOfBook+"file3.jpg");
+                Log.d("",""+Login.phoneNumber);
+                Log.d("",""+Login.emailAddress);
+
+                //posting user data to script
+                JSONObject json = jsonParser.makeHttpRequest(ADD_ITEM_URL, "POST", param1);
+                //full json response
+                Log.d("registering attempt", json.toString());
+                //json success element
+                //success = json.getInt(TAG_SUCCESS);
+//                if(success == 1){
+//                    Log.d("User created!",json.toString());
+//                    finish();
+//                    return json.getString(TAG_MESSAGE);
+            } catch (Exception e) {
+
+            }
+
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            pdialog1.dismiss();
+            Toast.makeText(ActivitySeller.this, "Successfully added your item to our shop", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -463,7 +539,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-////////////////////EXTRA FUNCTIONS///////////////////////////////////////////////
+    ////////////////////EXTRA FUNCTIONS///////////////////////////////////////////////
     private void filePathSetter() {
         if (selectedSelectImageButton == 1) {
             imageFilePath1.setText(realPath1);
@@ -473,6 +549,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             imageFilePath3.setText(realPath3);
         }
     }
+
     void checkEmptyBoxes() {
         if (editTitleOfBook.equals("") || editPriceOfBook.equals("") || editAuthorOfBook.equals("") || editHomeAddress.equals("")) {
             if (img1 || img2 || img3) {
