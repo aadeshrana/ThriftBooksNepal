@@ -2,6 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.Accounts">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
@@ -208,7 +219,7 @@
         android:layout_alignStart="@+id/accountPhoneEdit" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Not Set"
@@ -216,32 +227,35 @@
 
         android:id="@+id/accountCollegeEdit"
         android:layout_below="@+id/accountCollegeText"
-        android:layout_alignLeft="@+id/accountCollegeText"
-        android:layout_alignStart="@+id/accountCollegeText" />
+        android:layout_toLeftOf="@+id/button5"
+        android:layout_toStartOf="@+id/button5" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="Find"
         android:id="@+id/button5"
-        android:layout_toRightOf="@+id/accountCollegeEdit"
-        android:layout_toEndOf="@+id/accountCollegeEdit"
-        android:layout_alignBottom="@+id/accountCollegeEdit"
-        android:layout_alignTop="@+id/accountCollegeText"
         android:onClick="findnewSchool"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
+
+
+
+    </RelativeLayout>
+
+    </LinearLayout>
+    </ScrollView>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
         android:id="@+id/button6"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/accountCollegeEdit"
-        android:layout_alignStart="@+id/accountCollegeEdit"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:onClick="updateaccount"
-        />
-
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

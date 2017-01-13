@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.SearchView;
 
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFindSchool;
+import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFindSchoolAcc;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationFindSchool;
 
@@ -35,9 +36,9 @@ import java.util.List;
 /**
  * Created by Aadesh Rana on 12-01-17.
  */
-public class CustomDiagFindSchool extends DialogFragment implements SearchView.OnQueryTextListener {
+public class CustomDiagFindSchoolAcc extends DialogFragment implements SearchView.OnQueryTextListener {
     public RecyclerView recyclerView;
-    public AdapterFindSchool adapterFindSchool;
+    public AdapterFindSchoolAcc adapterFindSchool;
     public Context context;
 
     SearchView searchView;
@@ -57,7 +58,7 @@ public class CustomDiagFindSchool extends DialogFragment implements SearchView.O
         View layout = inflater.inflate(R.layout.fragment_find_school_recycler, container, false);
 
         recyclerView = (RecyclerView) layout.findViewById(R.id.findSchoolRecycler);
-        adapterFindSchool = new AdapterFindSchool(getActivity(), getData());
+        adapterFindSchool = new AdapterFindSchoolAcc(getActivity(), getData());
         recyclerView.setAdapter(adapterFindSchool);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         getDialog().setTitle("Choose Your College");
@@ -87,7 +88,7 @@ public class CustomDiagFindSchool extends DialogFragment implements SearchView.O
         return layout;
     }
     public void findAllSchool(){
-       new findSchool().execute();
+        new findSchool().execute();
     }
 
 
@@ -105,7 +106,7 @@ public class CustomDiagFindSchool extends DialogFragment implements SearchView.O
 
                 JSONObject json3 = jsonParser.makeHttpRequest(PULLALLORDERS, "POST", params1);
                 AdapterFindSchool.count = json3.length();
-                for (int i = 0; i < json3.length()/2; i++) {
+                for (int i = 0; i < json3.length(); i++) {
                     try {
                         tempCollegeName.add(json3.getString("a" + i));
                         tempCollegesViewed.add(json3.getString("b" + i));
@@ -146,7 +147,7 @@ public class CustomDiagFindSchool extends DialogFragment implements SearchView.O
             }
         }
         catch (Exception e){
-            
+
         }
         return data;
     }
@@ -166,7 +167,7 @@ public class CustomDiagFindSchool extends DialogFragment implements SearchView.O
 
     @Override
     public boolean onQueryTextChange(String newText) {
-      adapterFindSchool.filter(newText);
+        adapterFindSchool.filter(newText);
         Log.d("Why emplt", "ss" + newText);
 
         return  true;
