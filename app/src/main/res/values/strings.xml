@@ -11,4 +11,5 @@
     <string name="title_activity_alevel_options">ALevelOptions</string>
     <string name="title_activity_plus_two_options">PlusTwoOptions</string>
     <string name="title_activity_ib_options">IbOptions</string>
+    <string name="title_activity_accounts">Accounts</string>
 </resources>

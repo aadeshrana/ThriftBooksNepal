@@ -242,6 +242,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 param1.add(new BasicNameValuePair("image3name", Login.username + titleOfBook + "file3.jpg"));
                 param1.add(new BasicNameValuePair("phonenumber", Login.phoneNumber));
                 param1.add(new BasicNameValuePair("emailaddress", Login.emailAddress));
+               //maile change gary hai
+               param1.add(new BasicNameValuePair("course",ActivitySeller.choiseOfBoard));
 
                 Log.d("username",""+Login.username);
                 Log.d("",""+Login.firstName);

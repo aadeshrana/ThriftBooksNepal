@@ -65,7 +65,7 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                         break;
                     case 2:
                         intent = new Intent(context, IbOptions.class);
-                        intent.putExtra("chosenValueBoard","IbOption");
+                        intent.putExtra("chosenValueBoard","Ib");
                         context.startActivity(intent);
                         break;
 
