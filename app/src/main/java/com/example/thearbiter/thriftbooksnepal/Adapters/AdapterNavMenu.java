@@ -11,12 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.ALevelOptions;
-import com.example.thearbiter.thriftbooksnepal.Activities.ActivitySeller;
+import com.example.thearbiter.thriftbooksnepal.Activities.Accounts;
 import com.example.thearbiter.thriftbooksnepal.Activities.IbOptions;
 import com.example.thearbiter.thriftbooksnepal.Activities.PlusTwoOptions;
-import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentALevelBuy;
-import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentIbBuy;
-import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentPlusTwoBuy;
+import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationNavMenu;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
@@ -27,7 +25,6 @@ import java.util.List;
 /**
  * Created by Aadesh Rana on 11-01-17.
  */
-
 public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHolder> {
     Context context;
     LayoutInflater inflater;
@@ -49,41 +46,37 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final InformationNavMenu current = data.get(position);
-        holder.title.setText(current.name);
+       holder.title.setText(current.name);
         Picasso.with(context).load(current.iconId).fit().centerCrop().into(holder.iconId);
 
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             Intent intent;
-
             @Override
             public void onClick(View v) {
-                switch (position) {
+                switch (position){
                     case 0:
                         intent = new Intent(context, ALevelOptions.class);
-                        intent.putExtra("chosenValueBoard", "alevel");
+                        intent.putExtra("chosenValueBoard","Alevel");
                         context.startActivity(intent);
-                        ActivitySeller.choiseOfBoard = "alevel";
-                        FragmentALevelBuy buy = new FragmentALevelBuy();
-                        buy.pullItemsFunction();
-                        break;
 
+                        break;
                     case 1:
-                        ActivitySeller.choiseOfBoard = "plustwo";
                         intent = new Intent(context, PlusTwoOptions.class);
-                        intent.putExtra("chosenValueBoard", "plustwo");
+                        intent.putExtra("chosenValueBoard","PlusTwo");
                         context.startActivity(intent);
-                        FragmentPlusTwoBuy obj3 = new FragmentPlusTwoBuy();
-                        obj3.pullItemsFunction();
+                        break;
+                    case 2:
+                        intent = new Intent(context, IbOptions.class);
+                        intent.putExtra("chosenValueBoard","Ib");
+                        context.startActivity(intent);
+                        break;
+                    case 3:
+                        intent = new Intent(context, Accounts.class);
+                        context.startActivity(intent);
+
                         break;
 
-                    case 2:
-                        ActivitySeller.choiseOfBoard = "ib";
-                        intent = new Intent(context, IbOptions.class);
-                        intent.putExtra("chosenValueBoard", "ib");
-                        context.startActivity(intent);
-                        FragmentIbBuy obj = new FragmentIbBuy();
-                        obj.pullItemsFunction();
-                        break;
+
                 }
             }
         });

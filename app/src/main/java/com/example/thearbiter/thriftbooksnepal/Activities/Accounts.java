@@ -4,15 +4,37 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
+import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.R;
 
 public class Accounts extends AppCompatActivity {
-
+    EditText firstName, lastName, email,phoneNo,college,passwordOld,passwordNew,passwordConfirm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
+
+        firstName = (EditText)findViewById(R.id.accountFirstNameEdit);
+        lastName = (EditText)findViewById(R.id.accountLastNameEdit);
+        email = (EditText)findViewById(R.id.accountsEmailEdit);
+        phoneNo = (EditText)findViewById(R.id.accountPhoneEdit);
+        college =(EditText)findViewById(R.id.accountCollegeEdit);
+        passwordOld =(EditText)findViewById(R.id.accountsCurrentPassEdit);
+        passwordNew = (EditText)findViewById(R.id.accountsNewPassEdit);
+        passwordConfirm =(EditText)findViewById(R.id.accountConfirmPassEdit);
+
+
+        firstName.setText(Login.firstName);
+        lastName.setText(Login.lastName);
+        email.setText(Login.emailAddress);
+        phoneNo.setText(Login.phoneNumber);
+        college.setText(Login.school);
+
+
+
     }
 
     @Override
@@ -35,5 +57,10 @@ public class Accounts extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void findnewSchool(View view){
+        CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
+        customDiagFindSchool.show(getFragmentManager(), "abc");
     }
 }

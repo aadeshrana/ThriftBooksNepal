@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
@@ -21,7 +22,8 @@ public class MainDrawerHome extends AppCompatActivity {
         setContentView(R.layout.activity_main_drawer_home);
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
+        CustomDiagFindSchool obj = new CustomDiagFindSchool();
+        obj.findAllSchool();
         FragmentNavMenu fragmentNavMenu = (FragmentNavMenu)getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);
         fragmentNavMenu.setUp(R.id.mainfragmentDrawer,(DrawerLayout)findViewById(R.id.mainDrawerLayout),toolbar);
 
