@@ -47,6 +47,7 @@ public class Login extends AppCompatActivity {
     public static String school;
     public static String emailAddress;
     public static String username;
+    public static String password;
     CheckBox keepLoggedIn;
 
     static String checkBoxChecked = "notchecked";
@@ -91,6 +92,7 @@ public class Login extends AppCompatActivity {
                     SharedPreferences.Editor edit = sharedpref.edit();
                     edit.putString("a", loginUsername.getText().toString());
                     edit.putString("c", checkBoxChecked);
+
                     edit.apply();
                 } else {
                     checkBoxChecked = "notchecked";
@@ -168,6 +170,14 @@ public class Login extends AppCompatActivity {
 
         strLoginUsername = loginUsername.getText().toString();
         strLoginPassword = loginPassword.getText().toString();
+        //For keeping logged in
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        SharedPreferences.Editor edit = sharedpref.edit();
+        edit.putString("passwordShared", loginPassword.getText().toString());
+            edit.commit();
+        password = strLoginPassword;
 
         try {
             new LoginUser().execute();
