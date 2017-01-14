@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +30,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,9 +58,14 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     Button sellerUpload3Button;
     Button sellerUploadAllButton;
     static String titleOfBook;
+    Bitmap bitmap;
+    Bitmap bitmap2;
+    Bitmap bitmap3;
     public static String choiseOfBoard;
-
-    ProgressDialog pdialog,pdialog1;
+    File f;
+    File f2;
+    File f3;
+    ProgressDialog pdialog, pdialog1;
     String realPath1, realPath2, realPath3;
     static final String FTP_HOST = "93.188.160.157";
     static final String FTP_USER = "u856924126";
@@ -84,14 +94,14 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         verifyStoragePermissions(this);
 
 
-        try{
+        try {
             Bundle chosenValueBoard = getIntent().getExtras();
 
 
             ActivitySeller.choiseOfBoard = chosenValueBoard.getString("chosenValueBoard");
-            Log.d("valuemain",""+ActivitySeller.choiseOfBoard);
+            Log.d("valuemain", "" + ActivitySeller.choiseOfBoard);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -205,8 +215,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 homeaddress = editHomeAddress.getText().toString();
 
                 new AddItemToStore().execute();
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 Toast.makeText(this, "Please fill all details with at least 1 image", Toast.LENGTH_SHORT).show();
             }
 
@@ -243,22 +252,22 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 param1.add(new BasicNameValuePair("image3name", Login.username + titleOfBook + "file3.jpg"));
                 param1.add(new BasicNameValuePair("phonenumber", Login.phoneNumber));
                 param1.add(new BasicNameValuePair("emailaddress", Login.emailAddress));
-               //maile change gary hai
-               param1.add(new BasicNameValuePair("course",ActivitySeller.choiseOfBoard));
+                //maile change gary hai
+                param1.add(new BasicNameValuePair("course", ActivitySeller.choiseOfBoard));
 
-                Log.d("username",""+Login.username);
-                Log.d("",""+Login.firstName);
-                Log.d("",""+Login.lastName);
-                Log.d("",""+title);
-                Log.d("",""+author);
-                Log.d("",""+price);
-                Log.d("",""+homeaddress);
-                Log.d("",""+Login.school);
-                Log.d("",""+Login.username+titleOfBook+"file1.jpg");
-                Log.d("",""+Login.username+titleOfBook+"file2.jpg");
-                Log.d("",""+Login.username+titleOfBook+"file3.jpg");
-                Log.d("",""+Login.phoneNumber);
-                Log.d("",""+Login.emailAddress);
+                Log.d("username", "" + Login.username);
+                Log.d("", "" + Login.firstName);
+                Log.d("", "" + Login.lastName);
+                Log.d("", "" + title);
+                Log.d("", "" + author);
+                Log.d("", "" + price);
+                Log.d("", "" + homeaddress);
+                Log.d("", "" + Login.school);
+                Log.d("", "" + Login.username + titleOfBook + "file1.jpg");
+                Log.d("", "" + Login.username + titleOfBook + "file2.jpg");
+                Log.d("", "" + Login.username + titleOfBook + "file3.jpg");
+                Log.d("", "" + Login.phoneNumber);
+                Log.d("", "" + Login.emailAddress);
 
                 //posting user data to script
                 JSONObject json = jsonParser.makeHttpRequest(ADD_ITEM_URL, "POST", param1);
@@ -295,11 +304,11 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                pdialog = new ProgressDialog(ActivitySeller.this);
-                pdialog.setMessage("Uploading 1 .. Please Wait");
-                pdialog.setIndeterminate(false);
-                pdialog.setCancelable(false);
-                pdialog.show();
+//                pdialog = new ProgressDialog(ActivitySeller.this);
+//                pdialog.setMessage("Uploading 1 .. Please Wait");
+//                pdialog.setIndeterminate(false);
+//                pdialog.setCancelable(false);
+//                pdialog.show();
             }
 
             @Override
@@ -313,10 +322,11 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     client.setPassive(true);
                     Log.d("REAL PATH OF LIFE IS 1 ", "" + realPath1);
                     client.setType(FTPClient.TYPE_BINARY);
-                    client.setAutoNoopTimeout(10);
-                    client.upload(new File(realPath1));
+                    client.setAutoNoopTimeout(20);
+                    client.upload(f);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Toast.makeText(ActivitySeller.this, "Unsuccessful. Try Again", Toast.LENGTH_SHORT).show();
                 }
 
                 try {
@@ -325,7 +335,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     String namegetter[] = realPath1.split("/");
                     int finalElement = namegetter.length - 1;
                     Log.d("kateko name 1", "" + namegetter[finalElement]);
-                    pdialog.show();
+//                    pdialog.show();
                     try {
 
                         client2.connect(FTP_HOST, 21);
@@ -335,7 +345,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                         f.printStackTrace();
                     }
                     client2.disconnect(true);
-                    pdialog.dismiss();
+//                    pdialog.dismiss();
 
                 } catch (Exception e2) {
                     e2.printStackTrace();
@@ -348,7 +358,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                pdialog.dismiss();
+//                pdialog.dismiss();
                 Toast.makeText(ActivitySeller.this, "Uploaded Image 1", Toast.LENGTH_SHORT).show();
                 img1 = true;
                 value1Poster();
@@ -369,11 +379,11 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                pdialog = new ProgressDialog(ActivitySeller.this);
-                pdialog.setMessage("Uploading 2 .. Please Wait");
-                pdialog.setIndeterminate(false);
-                pdialog.setCancelable(false);
-                pdialog.show();
+//                pdialog = new ProgressDialog(ActivitySeller.this);
+//                pdialog.setMessage("Uploading 2 .. Please Wait");
+//                pdialog.setIndeterminate(false);
+//                pdialog.setCancelable(false);
+//                pdialog.show();
             }
 
             @Override
@@ -387,7 +397,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     Log.d("REAL PATH OF LIFE IS 2", "" + realPath2);
                     client.setType(FTPClient.TYPE_BINARY);
                     client.setAutoNoopTimeout(10);
-                    client.upload(new File(realPath2));
+                    client.upload(f2);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -398,7 +408,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     String namegetter[] = realPath2.split("/");
                     int finalElement = namegetter.length - 1;
                     Log.d("kateko name 1", "" + namegetter[finalElement]);
-                    pdialog.show();
+//                    pdialog.show();
                     try {
                         client2.connect(FTP_HOST, 21);
                         client2.login(FTP_USER, FTP_PASS);
@@ -407,7 +417,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                         f.printStackTrace();
                     }
                     client2.disconnect(true);
-                    pdialog.dismiss();
+//                    pdialog.dismiss();
 
                 } catch (Exception e2) {
                     e2.printStackTrace();
@@ -420,7 +430,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                pdialog.dismiss();
+//                pdialog.dismiss();
                 img2 = true;
                 Toast.makeText(ActivitySeller.this, "Uploaded Image 2", Toast.LENGTH_SHORT).show();
                 value2Poster();
@@ -435,11 +445,11 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                pdialog = new ProgressDialog(ActivitySeller.this);
-                pdialog.setMessage("Uploading 3.. Please Wait");
-                pdialog.setIndeterminate(false);
-                pdialog.setCancelable(false);
-                pdialog.show();
+//                pdialog = new ProgressDialog(ActivitySeller.this);
+//                pdialog.setMessage("Uploading 3.. Please Wait");
+//                pdialog.setIndeterminate(false);
+//                pdialog.setCancelable(false);
+//                pdialog.show();
             }
 
             @Override
@@ -454,7 +464,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     Log.d("REAL PATH OF LIFE IS 3", "" + realPath3);
                     client.setType(FTPClient.TYPE_BINARY);
                     client.setAutoNoopTimeout(10);
-                    client.upload(new File(realPath3));
+                    client.upload(f3);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -465,7 +475,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     String namegetter[] = realPath3.split("/");
                     int finalElement = namegetter.length - 1;
                     Log.d("kateko name 1", "" + namegetter[finalElement]);
-                    pdialog.show();
+//                    pdialog.show();
                     try {
 
                         client2.connect(FTP_HOST, 21);
@@ -475,7 +485,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                         f.printStackTrace();
                     }
                     client2.disconnect(true);
-                    pdialog.dismiss();
+//                    pdialog.dismiss();
 
                 } catch (Exception e2) {
                     e2.printStackTrace();
@@ -488,7 +498,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                pdialog.dismiss();
+//                pdialog.dismiss();
                 img3 = true;
                 Toast.makeText(ActivitySeller.this, "Uploaded Image 3", Toast.LENGTH_SHORT).show();
                 value3Poster();
@@ -529,26 +539,93 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             if (selectedSelectImageButton == 1) {
-                filepath1 = data.getData();
-            } else if (selectedSelectImageButton == 2) {
-                filepath2 = data.getData();
-            } else {
-                filepath3 = data.getData();
-            }
-
-            Log.d("value of filepath1", "" + filepath1);
-            Log.d("value of filepath2", "" + filepath2);
-            Log.d("value of filepath3", "" + filepath3);
-
-            if (selectedSelectImageButton == 1) {
                 realPath1 = ImageFilePath.getPath(ActivitySeller.this, data.getData());
-//                realPath1 = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
             } else if (selectedSelectImageButton == 2) {
                 realPath2 = ImageFilePath.getPath(ActivitySeller.this, data.getData());
             } else {
                 realPath3 = ImageFilePath.getPath(ActivitySeller.this, data.getData());
 
             }
+            if (selectedSelectImageButton == 1) {
+                filepath1 = data.getData();
+                try {
+                    String namegetter[] = realPath1.split("/");
+                    int finalElement = namegetter.length - 1;
+
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filepath1);
+
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                    byte[] bitMapData = out.toByteArray();
+
+                    f = new File(this.getCacheDir(), namegetter[finalElement]);
+                    f.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(f);
+                    fos.write(bitMapData);
+                    fos.flush();
+                    fos.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else if (selectedSelectImageButton == 2) {
+                filepath2 = data.getData();
+                try {
+                    String namegetter2[] = realPath2.split("/");
+                    int finalElement2 = namegetter2.length - 1;
+
+                    bitmap2 = MediaStore.Images.Media.getBitmap(getContentResolver(), filepath2);
+
+                    ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+                    bitmap2 = Bitmap.createScaledBitmap(bitmap2, 400, 400, true);
+                    bitmap2.compress(Bitmap.CompressFormat.JPEG, 80, out2);
+                    byte[] bitMapData2 = out2.toByteArray();
+
+                    f2 = new File(this.getCacheDir(), namegetter2[finalElement2]);
+                    f2.createNewFile();
+                    FileOutputStream fos2 = new FileOutputStream(f2);
+                    fos2.write(bitMapData2);
+                    fos2.flush();
+                    fos2.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else {
+                filepath3 = data.getData();
+                try {
+                    String namegetter3[] = realPath3.split("/");
+                    int finalElement3 = namegetter3.length - 1;
+
+                    bitmap3 = MediaStore.Images.Media.getBitmap(getContentResolver(), filepath3);
+
+                    ByteArrayOutputStream out3 = new ByteArrayOutputStream();
+                    bitmap3 = Bitmap.createScaledBitmap(bitmap3, 400, 400, true);
+                    bitmap3.compress(Bitmap.CompressFormat.JPEG, 80, out3);
+                    byte[] bitMapData3 = out3.toByteArray();
+
+                    f3 = new File(this.getCacheDir(), namegetter3[finalElement3]);
+                    f3.createNewFile();
+                    FileOutputStream fos2 = new FileOutputStream(f3);
+                    fos2.write(bitMapData3);
+                    fos2.flush();
+                    fos2.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Log.d("value of filepath1", "" + filepath1);
+            Log.d("value of filepath2", "" + filepath2);
+            Log.d("value of filepath3", "" + filepath3);
+
+
             Log.i("SEE REAL PATH", "onActivityResult: file path : " + realPath1);
             filePathSetter();
 

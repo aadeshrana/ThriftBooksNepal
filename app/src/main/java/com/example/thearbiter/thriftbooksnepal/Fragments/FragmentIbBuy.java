@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,7 +79,8 @@ public class FragmentIbBuy extends Fragment {
         IbAdapterBuy adapter = new IbAdapterBuy(getActivity(), getdata());
         recyclerView.setAdapter(adapter);
         GridLayoutManager man1 = new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(man1);
+        LinearLayoutManager lin = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(lin);
         return view;
     }
 

@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.IbOptions">
 
@@ -8,32 +9,31 @@
         layout="@layout/app_toolbar" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="A-Level Options"
-        android:id="@+id/textView2"
         android:layout_below="@+id/app_bar"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="A-Level Options"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
+        android:id="@+id/aLevelOptionSellButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sell Your Books"
-        android:id="@+id/aLevelOptionSellButton"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="143dp"
         android:onClick="alevelSellButton"
-        />
+        android:text="Sell Your Books" />
 
     <Button
+        android:id="@+id/aLevelOptionsBuyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Buy A-Level Books"
-        android:id="@+id/aLevelOptionsBuyButton"
-        android:layout_centerVertical="true"
+        android:layout_below="@id/aLevelOptionSellButton"
         android:layout_centerHorizontal="true"
         android:onClick="alevelBuyButton"
-        />
+        android:text="Buy A-Level Books" />
+
 </RelativeLayout>

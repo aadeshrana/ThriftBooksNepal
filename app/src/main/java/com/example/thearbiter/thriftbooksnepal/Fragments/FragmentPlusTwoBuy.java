@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,8 +66,6 @@ public class FragmentPlusTwoBuy extends Fragment {
     static public String arrayEmailAddress[];
 
 
-
-
     JSONParser jsonParser = new JSONParser();
 
     @Nullable
@@ -78,9 +77,10 @@ public class FragmentPlusTwoBuy extends Fragment {
         PlusTwoAdapterBuy adapter = new PlusTwoAdapterBuy(getActivity(), getdata());
         recyclerView.setAdapter(adapter);
 
-        GridLayoutManager man1 = new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager man1 = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
 
-        recyclerView.setLayoutManager(man1);
+        LinearLayoutManager lin = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(lin);
         return view;
     }
 
@@ -97,7 +97,8 @@ public class FragmentPlusTwoBuy extends Fragment {
         return data;
         //
     }
-    public void pullItemsFunction(){
+
+    public void pullItemsFunction() {
         new PullAllAlevelItems().execute();
     }
 
@@ -113,7 +114,7 @@ public class FragmentPlusTwoBuy extends Fragment {
 
                 params1.add(new BasicNameValuePair("course", ActivitySeller.choiseOfBoard));
 
-                Log.d("CHOICE CHOICE",""+ActivitySeller.choiseOfBoard);
+                Log.d("CHOICE CHOICE", "" + ActivitySeller.choiseOfBoard);
 
                 JSONObject json = jsonParser.makeHttpRequest(PULL_ITEMS_URL, "POST", params1);
 
@@ -191,5 +192,6 @@ public class FragmentPlusTwoBuy extends Fragment {
         }
 
     }
+
 }
 
