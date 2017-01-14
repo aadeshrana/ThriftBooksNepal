@@ -9,4 +9,5 @@ public class InformationBuyerRecycler {
     public String priceOfBook;
     public String sellerName;
     public int imageView;
+    public String firstBookList;
 }

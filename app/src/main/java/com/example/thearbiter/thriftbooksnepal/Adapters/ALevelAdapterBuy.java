@@ -47,7 +47,8 @@ public class ALevelAdapterBuy extends RecyclerView.Adapter<ALevelAdapterBuy.MyVi
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
 
-        Picasso.with(context).load(current.imageView).fit().into(holder.imgOfBook);
+        Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().into(holder.imgOfBook);
+        Log.d("what is     ","http://aadeshrana.esy.es/" + current.firstBookList);
     }
 
     @Override

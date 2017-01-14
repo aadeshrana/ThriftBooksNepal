@@ -90,6 +90,7 @@ public class FragmentALevelBuy extends Fragment {
             current.priceOfBook = price[j];
             current.sellerName = sellerName[j];
             current.imageView = img[j];
+            current.firstBookList =arrayImage1Name[j];
             data.add(current);
         }
         return data;
