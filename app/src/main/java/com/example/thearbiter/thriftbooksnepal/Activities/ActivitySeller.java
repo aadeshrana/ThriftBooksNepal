@@ -340,7 +340,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
                         client2.connect(FTP_HOST, 21);
                         client2.login(FTP_USER, FTP_PASS);
-                        Login.username = Login.username.replaceAll("\\s+","");
+
+                        titleOfBook = titleOfBook.replaceAll("\\s+", "");
                         client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file1.jpg");
                     } catch (Exception f) {
                         f.printStackTrace();
@@ -413,7 +414,10 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     try {
                         client2.connect(FTP_HOST, 21);
                         client2.login(FTP_USER, FTP_PASS);
-                        Login.username = Login.username.replaceAll("\\s+","");
+
+                        titleOfBook = titleOfBook.replaceAll("\\s+", "");
+
+
                         client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file2.jpg");
                     } catch (Exception f) {
                         f.printStackTrace();
@@ -482,7 +486,9 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
                         client2.connect(FTP_HOST, 21);
                         client2.login(FTP_USER, FTP_PASS);
-                        Login.username = Login.username.replaceAll("\\s+","");
+
+                        titleOfBook = titleOfBook.replaceAll("\\s+", "");
+
                         client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file3.jpg");
                     } catch (Exception f) {
                         f.printStackTrace();
