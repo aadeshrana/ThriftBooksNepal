@@ -1,17 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.Accounts"
-    android:windowSoftInputMode="adjustPan"
-    >
+    android:windowSoftInputMode="adjustPan">
 
     <include
         android:layout_width="match_parent"
         android:id="@+id/app_bar"
         layout="@layout/app_toolbar"
         android:layout_alignParentTop="true"
-        android:layout_height="60dp" />
+        android:layout_height="60dp"
+        android:theme="@style/ToolBarStyle"
+        />
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -44,19 +46,19 @@
         android:id="@+id/kk"
         android:layout_above="@id/cvbuttonacc"
         android:layout_below="@+id/app_bar"
-        android:background="#ffffff"
+        android:background="#EEE"
 
         >
     <ScrollView
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp">
+       >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="#EEE"
 
             >
 
@@ -65,30 +67,87 @@
                 android:layout_height="match_parent"
 
                 >
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/CVLayoutPersonalgg"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+
+                    card_view:cardBackgroundColor="#ffffff"
+                    card_view:cardElevation="1dp"
+                    card_view:contentPadding="5dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="4dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:padding="2dp"
+
+                    android:layout_marginLeft="4dp"
+                    android:layout_alignBottom="@+id/CVLayoutPersonal2">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        >
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile_image"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:src="@drawable/default_user"
                     app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_width="2dp"
+                    android:layout_centerHorizontal="true"
+                    />
+                        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            card_view:cardBackgroundColor="#ffffff"
+                            card_view:cardElevation="1dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_below="@id/profile_image"
+                            android:layout_centerHorizontal="true"
+                            >
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="Upload"
+                        android:background="@android:color/transparent"
+                        android:textColor="#FF6BCAFF"
+                        android:onClick="uploadImage"
 
+
+/></android.support.v7.widget.CardView>
+
+                    </RelativeLayout>
+</android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/CVLayoutPersonal2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    card_view:cardBackgroundColor="#ffffff"
+                    card_view:cardElevation="1dp"
+                    android:layout_margin="4dp"
+                    card_view:contentPadding="5dp"
+                    android:layout_toEndOf="@+id/CVLayoutPersonalgg"
+                    android:layout_toRightOf="@+id/CVLayoutPersonalgg"
+                    android:padding="2dp"
+                    android:layout_alignParentTop="true"
+                    >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        >
                 <TextView
                     android:id="@+id/accountFirstNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginStart="13dp"
+
                     android:layout_marginTop="5dp"
-                    android:layout_toEndOf="@+id/profile_image"
-                    android:layout_toRightOf="@+id/profile_image"
+
                     android:text="First Name" />
 
                 <EditText
@@ -96,10 +155,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/accountFirstNameText"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_toEndOf="@+id/profile_image"
-                    android:layout_toRightOf="@+id/profile_image"
+
+
                     android:ems="10"
                     android:hint="Name"
                     android:inputType="textPersonName"
@@ -111,10 +168,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/accountFirstNameEdit"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_toEndOf="@+id/profile_image"
-                    android:layout_toRightOf="@+id/profile_image"
+
+
                     android:text="Last Name" />
 
                 <EditText
@@ -122,21 +177,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/accountLastNameText"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_toEndOf="@+id/profile_image"
-                    android:layout_toRightOf="@+id/profile_image"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text="Name"
                      />
+</RelativeLayout>
+</android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/CVLayoutPersonal"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_below="@id/accountLastNameEdit"
-                    card_view:cardBackgroundColor="#f9f9f9"
+                    android:layout_below="@id/CVLayoutPersonal2"
+                    card_view:cardBackgroundColor="#ffffff"
                     card_view:cardElevation="1dp"
 
                     >
@@ -148,17 +201,37 @@
                         android:gravity="center_vertical"
                         android:text="PERSONAL INFORMATION"
                         android:layout_marginLeft="10dp"
+                        android:textColor="#000000"
                         />
                 </android.support.v7.widget.CardView>
 
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/CVLayoutPersonal1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/CVLayoutPersonal"
+                    card_view:cardBackgroundColor="#ffffff"
+                    card_view:cardElevation="1dp"
+                    android:layout_margin="4dp"
+                    card_view:contentPadding="5dp"
+
+                    android:padding="2dp"
+
+                    >
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        >
                 <TextView
                     android:id="@+id/accountsEmailText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/CVLayoutPersonal"
-                    android:layout_alignStart="@+id/CVLayoutPersonal"
-                    android:layout_below="@+id/CVLayoutPersonal"
-                    android:layout_marginLeft="10dp"
+
+
                     android:text="Email" />
 
                 <EditText
@@ -232,7 +305,7 @@
                     android:layout_alignRight="@+id/accountsNewPassEdit"
                     android:layout_below="@+id/accountsNewPassEdit"
                     android:text="Confirm Password"
-                    android:layout_marginLeft="10dp"
+
                     />
 
                 <EditText
@@ -267,7 +340,7 @@
                     android:layout_below="@+id/accountPhoneText"
                     android:hint="Not set"
                     android:inputType="phone"
-                    android:layout_marginLeft="10dp"
+
                     />
 
                 <TextView
@@ -286,13 +359,14 @@
                     card_view:cardElevation="2dp"
                     android:id="@+id/CVUsername"
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    card_view:contentPadding="5dp"
+                    card_view:contentPadding="3dp"
+                    card_view:cardUseCompatPadding="true"
                     >
                     <Button
                         android:id="@+id/button5"
@@ -300,7 +374,7 @@
                         android:layout_height="match_parent"
 
                         android:onClick="findnewSchool"
-                        android:background="@drawable/findbutton"
+                        android:background="@drawable/newfindbutton"
                         android:text="" />
                 </android.support.v7.widget.CardView>
                 <EditText
@@ -366,7 +440,8 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginStart="3dp"
                     />
-
+                    </RelativeLayout>
+</android.support.v7.widget.CardView>
             </RelativeLayout>
 
         </LinearLayout>
