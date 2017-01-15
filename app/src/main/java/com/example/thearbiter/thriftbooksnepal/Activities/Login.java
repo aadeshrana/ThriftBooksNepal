@@ -263,8 +263,7 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
                 FragmentNavDraerMain frag = new FragmentNavDraerMain();
                 frag.pullAllMainItems(context);
-//                Intent in = new Intent(getBaseContext(), MainDrawerHome.class);
-//                startActivity(in);
+//
             } else {
                 Toast.makeText(Login.this, "Cannot find account. Please sign up", Toast.LENGTH_SHORT).show();
             }
@@ -275,4 +274,5 @@ public class Login extends AppCompatActivity {
             }
         }
     }
+
 }

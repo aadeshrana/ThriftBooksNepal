@@ -41,10 +41,12 @@ public class Splash extends AppCompatActivity {
                 /////FETCHING DETAILS OF SAVED USER FROM THE SERVER
                 Login login = new Login();
                 login.sharedInfoPuller(this);
+                finish();
             }
             else {
                 Intent in = new Intent(this, Login.class);
                 startActivity(in);
+                finish();
             }
         } catch (Exception e) {
             e.printStackTrace();

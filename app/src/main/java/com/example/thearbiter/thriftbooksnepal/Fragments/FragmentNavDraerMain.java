@@ -1,5 +1,6 @@
 package com.example.thearbiter.thriftbooksnepal.Fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -212,7 +213,7 @@ public class FragmentNavDraerMain extends Fragment {
             super.onPostExecute(s);
             Intent in = new Intent(context, MainDrawerHome.class);
             context.startActivity(in);
-//            ((Activity)context).finish();
+
         }
     }
 

@@ -55,9 +55,7 @@ public class MainDrawerHome extends AppCompatActivity {
     }
 
 
-    public void onBackPressed() {
 
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
