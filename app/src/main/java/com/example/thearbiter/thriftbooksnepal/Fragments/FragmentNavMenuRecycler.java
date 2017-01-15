@@ -1,9 +1,12 @@
 package com.example.thearbiter.thriftbooksnepal.Fragments;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +17,12 @@ import com.example.thearbiter.thriftbooksnepal.Activities.Login;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationNavMenu;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Aadesh Rana on 11-01-17.
@@ -31,11 +37,17 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
     int[] icons = {R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.chemistrydemopicture,R.drawable.chemistrydemopicture};
     String title[] = {"A-Level", "+2", "IB", "Account"};
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View layout = inflater.inflate(R.layout.fragment_nav_menu_drawer, container, false);
+
+        CircleImageView circleImageView = (CircleImageView)layout.findViewById(R.id.profile_image);
+        String kk= "http://aadeshrana.esy.es/"+Login.username+"ProfilePic";
+        Log.d("k ho path?","hm"+kk);
+        Picasso.with(getActivity()).load("http://aadeshrana.esy.es/"+Login.username+"ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         navMenuUsername = (TextView) layout.findViewById(R.id.navDrawerUserName);
         navMenuEmailAddress = (TextView) layout.findViewById(R.id.navDrawerEmailAddress);
         navMenuUsername.setText(WELCOME_TEXT + Login.firstName);
