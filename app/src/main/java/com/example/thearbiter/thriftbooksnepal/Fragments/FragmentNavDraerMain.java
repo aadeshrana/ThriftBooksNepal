@@ -89,14 +89,18 @@ public class FragmentNavDraerMain extends Fragment {
 
     private List<InformationBuyerRecycler> getData() {
         List<InformationBuyerRecycler> data = new ArrayList<>();
-        for (int j = 0; j < title.length; j++) {
-            InformationBuyerRecycler current = new InformationBuyerRecycler();
-            current.title = title[j];
-            current.priceOfBook = price[j];
-            current.sellerName = sellerName[j];
-            current.imageView = img[j];
-            current.firstBookList = arrayImage1Name[j];
-            data.add(current);
+        try {
+            for (int j = 0; j < title.length; j++) {
+                InformationBuyerRecycler current = new InformationBuyerRecycler();
+                current.title = title[j];
+                current.priceOfBook = price[j];
+                current.sellerName = sellerName[j];
+                current.imageView = img[j];
+                current.firstBookList = arrayImage1Name[j];
+                data.add(current);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return data;
     }

@@ -317,6 +317,7 @@ public class SignUp extends AppCompatActivity {
                 client.setAutoNoopTimeout(20);
 
                 client.upload(f);
+
                 Log.d("send bho",""+f);
                 client.disconnect(true);
             }catch(Exception e){

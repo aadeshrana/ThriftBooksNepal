@@ -32,9 +32,9 @@ import java.util.List;
 public class FragmentALevelBuy extends Fragment {
 
     private static final String PULL_ITEMS_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
-        static public String title[];
-        static public String price[];
-        static public String sellerName[];
+    static public String title[];
+    static public String price[];
+    static public String sellerName[];
 
     public int img[] = {R.drawable.chemistrydemopicture, R.drawable.tomduncanphysicsdemopictures, R.drawable.mathsdemopictures, R.drawable.statisticsdemopictures, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture, R.drawable.chemistrydemopicture, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.mathsdemopictures};
 
@@ -84,20 +84,24 @@ public class FragmentALevelBuy extends Fragment {
 
     public List<InformationBuyerRecycler> getdata() {
         List<InformationBuyerRecycler> data = new ArrayList<>();
-        for (int j = 0; j < title.length; j++) {
-            InformationBuyerRecycler current = new InformationBuyerRecycler();
-            current.title = title[j];
-            current.priceOfBook = price[j];
-            current.sellerName = sellerName[j];
-            current.imageView = img[j];
-            current.firstBookList =arrayImage1Name[j];
-            data.add(current);
+        try {
+            for (int j = 0; j < title.length; j++) {
+                InformationBuyerRecycler current = new InformationBuyerRecycler();
+                current.title = title[j];
+                current.priceOfBook = price[j];
+                current.sellerName = sellerName[j];
+                current.imageView = img[j];
+                current.firstBookList = arrayImage1Name[j];
+                data.add(current);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return data;
         //
     }
 
-    public void pullItemsFunction(){
+    public void pullItemsFunction() {
         new PullAllAlevelItems().execute();
     }
 
@@ -113,7 +117,7 @@ public class FragmentALevelBuy extends Fragment {
 
                 params1.add(new BasicNameValuePair("course", ActivitySeller.choiseOfBoard));
 
-                Log.d("CHOICE CHOICE",""+ActivitySeller.choiseOfBoard);
+                Log.d("CHOICE CHOICE", "" + ActivitySeller.choiseOfBoard);
 
                 JSONObject json = jsonParser.makeHttpRequest(PULL_ITEMS_URL, "POST", params1);
 

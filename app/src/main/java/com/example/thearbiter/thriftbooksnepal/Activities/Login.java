@@ -71,13 +71,7 @@ public class Login extends AppCompatActivity {
 
                 if (isChecked) {
                     checkBoxChecked = "checked";
-                    SharedPreferences sharedpref;
-                    sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    SharedPreferences.Editor edit = sharedpref.edit();
-                    edit.putString("a", loginUsername.getText().toString());
-                    edit.putString("c", checkBoxChecked);
 
-                    edit.apply();
                 } else {
                     checkBoxChecked = "notchecked";
                     SharedPreferences sharedpref;
@@ -107,6 +101,7 @@ public class Login extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             params1.add(new BasicNameValuePair("username", strLoginUsername));
+            Log.d("Username is", "");
             JSONObject json1 = jsonParser.makeHttpRequest(FETCH_NUMBER_URL, "POST", params1);
             try {
                 firstName = json1.getString("firstname");
@@ -259,6 +254,12 @@ public class Login extends AppCompatActivity {
         protected void onPostExecute(String file_url) {
             // TODO Auto-generated method stub
             if (success == 1) {
+                SharedPreferences sharedpref;
+                sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor edit = sharedpref.edit();
+                edit.putString("a", loginUsername.getText().toString());
+                edit.putString("c", checkBoxChecked);
+                edit.apply();
                 Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
                 FragmentNavDraerMain frag = new FragmentNavDraerMain();
                 frag.pullAllMainItems(context);

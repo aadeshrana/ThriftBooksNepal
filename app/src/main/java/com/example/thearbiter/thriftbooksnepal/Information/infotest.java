@@ -7,25 +7,25 @@ public class infotest {
 
     /////******//////////////
 
-   /* 1. SplashScreen
-    2. SignUp
-    3. Login
-    4. MainDrawerHome
-    5. ALevelOptions
-    6. PlusTwoOptions
-    7. IbOptions
-    8. ALevelAdapterBuy
-    9. IbAdapterBuy
-    10.PlusTwoAdapterBuy
-    11.ActivitySeller
-    12.FragmentALevelBuy
-    13.FragmentPlusTwoBuy
-    14.FragmentIbBuy
-    15.InformationMenuItems
-    16.InformationBuyerRecycler
-    17.FragmentNavMenu
-    18.AdapterNavMenu
-    19.ActivityFinalBuy
+   /* 1. SplashScreen - done
+    2. SignUp - done
+    3. Login - done
+    4. MainDrawerHome - done
+    5. ALevelOptions - done
+    6. PlusTwoOptions - done
+    7. IbOptions - done
+    8. ALevelAdapterBuy - done
+    9. IbAdapterBuy - done
+    10.PlusTwoAdapterBuy - done
+    11.ActivitySeller - done
+    12.FragmentALevelBuy - done
+    13.FragmentPlusTwoBuy - done
+    14.FragmentIbBuy - done
+    15.InformationMenuItems - done
+    16.InformationBuyerRecycler - done
+    17.FragmentNavMenu -done
+    18.AdapterNavMenu - done
+    19.ActivityFinalBuy - BAKIIIIIIIII CHA HAIIII
     20.ActivityAccount
     21.ActivityAboutUs
     22.MainALevelBuyer
