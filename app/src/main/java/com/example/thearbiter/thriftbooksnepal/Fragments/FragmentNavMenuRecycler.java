@@ -40,6 +40,7 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         navMenuEmailAddress = (TextView) layout.findViewById(R.id.navDrawerEmailAddress);
         navMenuUsername.setText(WELCOME_TEXT + Login.firstName);
         navMenuEmailAddress.setText(Login.emailAddress);
+
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerLayoutNavMenu);
         adapter = new AdapterNavMenu(getActivity(), getData());
         recyclerView.setAdapter(adapter);

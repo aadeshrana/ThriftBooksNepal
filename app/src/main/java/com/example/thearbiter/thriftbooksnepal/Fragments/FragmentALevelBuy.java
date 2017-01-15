@@ -32,9 +32,9 @@ import java.util.List;
 public class FragmentALevelBuy extends Fragment {
 
     private static final String PULL_ITEMS_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
-    static public String title[];
-    static public String price[];
-    static public String sellerName[];
+        static public String title[];
+        static public String price[];
+        static public String sellerName[];
 
     public int img[] = {R.drawable.chemistrydemopicture, R.drawable.tomduncanphysicsdemopictures, R.drawable.mathsdemopictures, R.drawable.statisticsdemopictures, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture, R.drawable.chemistrydemopicture, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.mathsdemopictures};
 

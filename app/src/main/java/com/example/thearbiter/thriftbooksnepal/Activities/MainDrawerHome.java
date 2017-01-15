@@ -2,14 +2,15 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
@@ -31,6 +32,13 @@ public class MainDrawerHome extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.mainfragmentDrawer,fragmentAdpater,"abc");
+
+
+        FragmentNavDraerMain fragmentNavDraerMain = new FragmentNavDraerMain();
+        FragmentManager manager3 = getFragmentManager();
+        FragmentTransaction transaction1 = manager3.beginTransaction();
+        transaction1.add(R.id.mainFragmentNavHome, fragmentNavDraerMain, "asdf");
+        transaction1.commit();
         transaction.commit();
 
     }
