@@ -82,13 +82,10 @@ public class SignUp extends AppCompatActivity {
         phoneNo = (EditText) findViewById(R.id.signUpPhoneNumber);
         email = (EditText) findViewById(R.id.signUpEmail);
         school = (EditText) findViewById(R.id.signUpSchool);
-        filePath =(TextView)findViewById(R.id.imagePathProfile);
-        profileImg =(ImageView)findViewById(R.id.profileImage);
+        filePath = (TextView) findViewById(R.id.imagePathProfile);
+        profileImg = (ImageView) findViewById(R.id.profileImage);
         CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
         customDiagFindSchool.findAllSchool();
-
-
-
 
 
         verifyStoragePermissions(this);
@@ -143,8 +140,8 @@ public class SignUp extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
-        AdapterFindSchool.selected=-1;
+    public void onResume() {
+        AdapterFindSchool.selected = -1;
         super.onResume();
 
 
@@ -153,7 +150,7 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        AdapterFindSchool.selected=-1;
+        AdapterFindSchool.selected = -1;
     }
 
     public void getSchool(String schoolName) {
@@ -168,7 +165,7 @@ public class SignUp extends AppCompatActivity {
         strUserName = userName.getText().toString();
         strPhoneNo = phoneNo.getText().toString();
         strEmail = email.getText().toString();
-        strImage =userName.getText()+"ProfilePic";
+        strImage = userName.getText() + "ProfilePic";
         try {
             strSchool = school.getText().toString();
         } catch (Exception e) {
@@ -223,7 +220,7 @@ public class SignUp extends AppCompatActivity {
                 params.add(new BasicNameValuePair("emailaddress", strEmail));
                 params.add(new BasicNameValuePair("schoolname", strSchool));
                 params.add(new BasicNameValuePair("phonenumber", strPhoneNo));
-                params.add(new BasicNameValuePair("profilepic",strImage));
+                params.add(new BasicNameValuePair("profilepic", strImage));
                 //posting user data to script
                 JSONObject json = jsonParser.makeHttpRequest(REGISTER_URL, "POST", params);
                 //full json response
@@ -262,7 +259,7 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-    public void uploadProfileSignUp(View view){
+    public void uploadProfileSignUp(View view) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -298,14 +295,14 @@ public class SignUp extends AppCompatActivity {
                 fos.flush();
                 fos.close();
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
     }
 
 
-    public class uploadImage extends AsyncTask<String,String,String>{
+    public class uploadImage extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -318,20 +315,20 @@ public class SignUp extends AppCompatActivity {
 
                 client.upload(f);
 
-                Log.d("send bho",""+f);
+                Log.d("send bho", "" + f);
                 client.disconnect(true);
-            }catch(Exception e){
-            Log.d("any error?",""+e);
+            } catch (Exception e) {
+                Log.d("any error?", "" + e);
             }
-            try{
+            try {
                 String namegetter[] = realPath1.split("/");
                 int finalElement = namegetter.length - 1;
                 client2.connect(FTP_HOST, 21);
                 client2.login(FTP_USER, FTP_PASS);
 
 
-                client2.rename(namegetter[finalElement], strUserName +"ProfilePic.jpg" );
-            }catch (Exception e){
+                client2.rename(namegetter[finalElement], strUserName + "ProfilePic.jpg");
+            } catch (Exception e) {
 
             }
 
