@@ -29,7 +29,7 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
     TextView navMenuEmailAddress;
     final String WELCOME_TEXT = "Welcome ";
     int[] icons = {R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.chemistrydemopicture,R.drawable.chemistrydemopicture};
-    String title[] = {"A-Level", "+2", "IB", "Account",};
+    String title[] = {"A-Level", "+2", "IB", "Account"};
 
     @Nullable
     @Override

@@ -17,21 +17,22 @@ import com.example.thearbiter.thriftbooksnepal.R;
 
 public class MainDrawerHome extends AppCompatActivity {
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer_home);
-        toolbar = (Toolbar)findViewById(R.id.app_bar);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         CustomDiagFindSchool obj = new CustomDiagFindSchool();
         obj.findAllSchool();
-        FragmentNavMenu fragmentNavMenu = (FragmentNavMenu)getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);
-        fragmentNavMenu.setUp(R.id.mainfragmentDrawer,(DrawerLayout)findViewById(R.id.mainDrawerLayout),toolbar);
+        FragmentNavMenu fragmentNavMenu = (FragmentNavMenu) getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);
+        fragmentNavMenu.setUp(R.id.mainfragmentDrawer, (DrawerLayout) findViewById(R.id.mainDrawerLayout), toolbar);
 
         FragmentNavMenuRecycler fragmentAdpater = new FragmentNavMenuRecycler();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.mainfragmentDrawer,fragmentAdpater,"abc");
+        transaction.add(R.id.mainfragmentDrawer, fragmentAdpater, "abc");
 
 
         FragmentNavDraerMain fragmentNavDraerMain = new FragmentNavDraerMain();

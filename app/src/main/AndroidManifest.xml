@@ -36,13 +36,18 @@
             android:label="@string/title_activity_sign_up"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
-            android:name=".Activities.Login"
-            android:label="@string/title_activity_login">
+            android:name=".Activities.Splash"
+            android:label="ib">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.Login"
+            android:label="@string/title_activity_login">
+
         </activity>
         <activity
             android:name=".Activities.IbOptions"
