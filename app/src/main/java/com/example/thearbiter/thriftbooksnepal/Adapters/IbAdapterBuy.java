@@ -48,7 +48,7 @@ public class IbAdapterBuy extends RecyclerView.Adapter<IbAdapterBuy.MyViewHolder
         holder.sellerName.setText(current.sellerName);
 
 
-        Picasso.with(context).load("http://aadeshrana.esy.es/"+current.firstBookList).fit().centerCrop().into(holder.imgOfBook);
+        Picasso.with(context).load("http://aadeshrana.esy.es/"+current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
     }
 
     @Override
