@@ -2,26 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.example.thearbiter.thriftbooksnepal.Activities.Accounts"
-    android:windowSoftInputMode="adjustPan"
     android:background="#ffffff"
-    >
+    android:windowSoftInputMode="adjustPan"
+    tools:context="com.example.thearbiter.thriftbooksnepal.Activities.Accounts">
 
     <include
-        android:layout_width="match_parent"
         android:id="@+id/app_bar"
         layout="@layout/app_toolbar"
-        android:layout_alignParentTop="true"
-        android:layout_height="60dp" />
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true" />
+
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cvbuttonacc"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        card_view:cardBackgroundColor="@android:color/transparent"
-        android:id="@+id/cvbuttonacc"
-        >
+        card_view:cardBackgroundColor="@android:color/transparent">
 
         <Button
 
@@ -39,312 +38,314 @@
 
         </Button>
     </android.support.v7.widget.CardView>
+
     <RelativeLayout
+        android:id="@+id/kk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/kk"
         android:layout_above="@id/cvbuttonacc"
         android:layout_below="@+id/app_bar"
 
         >
-    <ScrollView
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="20dp">
+        <ScrollView
 
-        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
 
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
                 >
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-
-                    android:src="@drawable/default_user"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp" />
-
-                <TextView
-                    android:id="@+id/accountFirstNameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toEndOf="@+id/profile_image"
-                    android:layout_toRightOf="@+id/profile_image"
-                    android:text="First Name" />
-
-                <EditText
-                    android:id="@+id/accountFirstNameEdit"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/accountFirstNameText"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_toEndOf="@+id/profile_image"
-                    android:layout_toRightOf="@+id/profile_image"
-                    android:ems="10"
-                    android:hint="Name"
-                    android:inputType="textPersonName"
-
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/accountLastNameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/accountFirstNameEdit"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_toEndOf="@+id/profile_image"
-                    android:layout_toRightOf="@+id/profile_image"
-                    android:text="Last Name" />
-
-                <EditText
-                    android:id="@+id/accountLastNameEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/accountLastNameText"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_toEndOf="@+id/profile_image"
-                    android:layout_toRightOf="@+id/profile_image"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name"
-                    android:textStyle="bold" />
-
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/CVLayoutPersonal"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_below="@id/accountLastNameEdit"
-                    card_view:cardBackgroundColor="#f9f9f9"
-                    card_view:cardElevation="1dp"
+                    android:layout_height="match_parent"
 
                     >
 
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_image"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+
+                        android:src="@drawable/default_user"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="2dp" />
+
                     <TextView
+                        android:id="@+id/accountFirstNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toEndOf="@+id/profile_image"
+                        android:layout_toRightOf="@+id/profile_image"
+                        android:text="First Name" />
+
+                    <EditText
+                        android:id="@+id/accountFirstNameEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:text="PERSONAL INFORMATION" />
-                </android.support.v7.widget.CardView>
+                        android:layout_below="@+id/accountFirstNameText"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="13dp"
+                        android:layout_toEndOf="@+id/profile_image"
+                        android:layout_toRightOf="@+id/profile_image"
+                        android:ems="10"
+                        android:hint="Name"
+                        android:inputType="textPersonName"
 
-                <TextView
-                    android:id="@+id/accountsEmailText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/CVLayoutPersonal"
-                    android:layout_alignStart="@+id/CVLayoutPersonal"
-                    android:layout_below="@+id/CVLayoutPersonal"
-                    android:text="Email" />
+                        android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/accountsEmailEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_alignLeft="@+id/accountsEmailText"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignStart="@+id/accountsEmailText"
-                    android:layout_below="@+id/accountsEmailText"
-                    android:ems="10"
-                    android:inputType="textEmailAddress"
-                    android:text="Not set" />
+                    <TextView
+                        android:id="@+id/accountLastNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/accountFirstNameEdit"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginStart="13dp"
+                        android:layout_toEndOf="@+id/profile_image"
+                        android:layout_toRightOf="@+id/profile_image"
+                        android:text="Last Name" />
 
-                <TextView
-                    android:id="@+id/accountsCurrentPassText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/accountsEmailEdit"
-                    android:layout_alignStart="@+id/accountsEmailEdit"
-                    android:layout_below="@+id/accountsEmailEdit"
-                    android:text="Current Password" />
+                    <EditText
+                        android:id="@+id/accountLastNameEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/accountLastNameText"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="13dp"
+                        android:layout_toEndOf="@+id/profile_image"
+                        android:layout_toRightOf="@+id/profile_image"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="Name"
+                        android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/accountsCurrentPassEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_alignLeft="@+id/accountsCurrentPassText"
+                    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/CVLayoutPersonal"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_below="@id/accountLastNameEdit"
+                        card_view:cardBackgroundColor="#f9f9f9"
+                        card_view:cardElevation="1dp"
 
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignStart="@+id/accountsCurrentPassText"
-                    android:layout_below="@+id/accountsCurrentPassText"
-                    android:ems="10"
-                    android:inputType="textPassword" />
+                        >
 
-                <TextView
-                    android:id="@+id/accountsnewPassEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/accountsCurrentPassEdit"
-                    android:layout_alignStart="@+id/accountsCurrentPassEdit"
-                    android:layout_below="@+id/accountsCurrentPassEdit"
-                    android:text="New Password" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:text="PERSONAL INFORMATION" />
+                    </android.support.v7.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/accountsEmailText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/CVLayoutPersonal"
+                        android:layout_alignStart="@+id/CVLayoutPersonal"
+                        android:layout_below="@+id/CVLayoutPersonal"
+                        android:text="Email" />
+
+                    <EditText
+                        android:id="@+id/accountsEmailEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignLeft="@+id/accountsEmailText"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/accountsEmailText"
+                        android:layout_below="@+id/accountsEmailText"
+                        android:ems="10"
+                        android:inputType="textEmailAddress"
+                        android:text="Not set" />
+
+                    <TextView
+                        android:id="@+id/accountsCurrentPassText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/accountsEmailEdit"
+                        android:layout_alignStart="@+id/accountsEmailEdit"
+                        android:layout_below="@+id/accountsEmailEdit"
+                        android:text="Current Password" />
+
+                    <EditText
+                        android:id="@+id/accountsCurrentPassEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignLeft="@+id/accountsCurrentPassText"
+
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/accountsCurrentPassText"
+                        android:layout_below="@+id/accountsCurrentPassText"
+                        android:ems="10"
+                        android:inputType="textPassword" />
+
+                    <TextView
+                        android:id="@+id/accountsnewPassEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/accountsCurrentPassEdit"
+                        android:layout_alignStart="@+id/accountsCurrentPassEdit"
+                        android:layout_below="@+id/accountsCurrentPassEdit"
+                        android:text="New Password" />
 
 
-                //eta//
+                    //eta//
 
 
-                <EditText
-                    android:id="@+id/accountsNewPassEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/accountsnewPassEdit"
+                    <EditText
+                        android:id="@+id/accountsNewPassEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/accountsnewPassEdit"
 
 
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignStart="@+id/accountsnewPassEdit"
-                    android:layout_below="@+id/accountsnewPassEdit"
-                    android:ems="10"
-                    android:inputType="textPassword" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/accountsnewPassEdit"
+                        android:layout_below="@+id/accountsnewPassEdit"
+                        android:ems="10"
+                        android:inputType="textPassword" />
 
 
-                <TextView
-                    android:id="@+id/accountsConfirmPassText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/accountsNewPassEdit"
-                    android:layout_alignRight="@+id/accountsNewPassEdit"
-                    android:layout_below="@+id/accountsNewPassEdit"
-                    android:text="Confirm Password" />
+                    <TextView
+                        android:id="@+id/accountsConfirmPassText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/accountsNewPassEdit"
+                        android:layout_alignRight="@+id/accountsNewPassEdit"
+                        android:layout_below="@+id/accountsNewPassEdit"
+                        android:text="Confirm Password" />
 
-                <EditText
-                    android:id="@+id/accountConfirmPassEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/accountsConfirmPassText"
+                    <EditText
+                        android:id="@+id/accountConfirmPassEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/accountsConfirmPassText"
 
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignStart="@+id/accountsConfirmPassText"
-                    android:layout_below="@+id/accountsConfirmPassText"
-                    android:ems="10"
-                    android:inputType="textPassword" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/accountsConfirmPassText"
+                        android:layout_below="@+id/accountsConfirmPassText"
+                        android:ems="10"
+                        android:inputType="textPassword" />
 
-                <TextView
-                    android:id="@+id/accountPhoneText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/accountConfirmPassEdit"
-                    android:layout_alignStart="@+id/accountConfirmPassEdit"
-                    android:layout_below="@+id/accountConfirmPassEdit"
-                    android:text="Phone Number" />
+                    <TextView
+                        android:id="@+id/accountPhoneText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/accountConfirmPassEdit"
+                        android:layout_alignStart="@+id/accountConfirmPassEdit"
+                        android:layout_below="@+id/accountConfirmPassEdit"
+                        android:text="Phone Number" />
 
-                <EditText
-                    android:id="@+id/accountPhoneEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    <EditText
+                        android:id="@+id/accountPhoneEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/accountPhoneText"
-                    android:hint="Not set"
-                    android:inputType="phone" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/accountPhoneText"
+                        android:hint="Not set"
+                        android:inputType="phone" />
 
-                <TextView
-                    android:id="@+id/accountCollegeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/accountPhoneEdit"
-                    android:layout_alignStart="@+id/accountPhoneEdit"
-                    android:layout_below="@+id/accountPhoneEdit"
-                    android:text="College Name" />
+                    <TextView
+                        android:id="@+id/accountCollegeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/accountPhoneEdit"
+                        android:layout_alignStart="@+id/accountPhoneEdit"
+                        android:layout_below="@+id/accountPhoneEdit"
+                        android:text="College Name" />
 
-                <EditText
-                    android:id="@+id/accountCollegeEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/accountCollegeText"
-                    android:layout_toLeftOf="@+id/button5"
+                    <EditText
+                        android:id="@+id/accountCollegeEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/accountCollegeText"
+                        android:layout_toLeftOf="@+id/button5"
 
-                    android:layout_toStartOf="@+id/button5"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Not Set" />
+                        android:layout_toStartOf="@+id/button5"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="Not Set" />
 
-                <Button
-                    android:id="@+id/button5"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:onClick="findnewSchool"
-                    android:text="Find" />
+                    <Button
+                        android:id="@+id/button5"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:onClick="findnewSchool"
+                        android:text="Find" />
 
-                <ImageView
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:id="@+id/errorConfirmPass"
-                    android:layout_below="@+id/accountsNewPassEdit"
-                    android:layout_toRightOf="@+id/accountsCurrentPassText"
-                    android:layout_toEndOf="@+id/accountsCurrentPassText"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="3dp"
+                    <ImageView
+                        android:id="@+id/errorConfirmPass"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_below="@+id/accountsNewPassEdit"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toEndOf="@+id/accountsCurrentPassText"
+                        android:layout_toRightOf="@+id/accountsCurrentPassText"
 
-                    />
-                <ImageView
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:id="@+id/errorNewPass"
-                    android:layout_below="@+id/accountsCurrentPassEdit"
-                    android:layout_toRightOf="@+id/accountsnewPassEdit"
-                    android:layout_toEndOf="@+id/accountsnewPassEdit"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="3dp"
+                        />
 
-                    />
+                    <ImageView
+                        android:id="@+id/errorNewPass"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_below="@+id/accountsCurrentPassEdit"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toEndOf="@+id/accountsnewPassEdit"
+                        android:layout_toRightOf="@+id/accountsnewPassEdit"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:text="Small Tex"
-                    android:id="@+id/errorTextNewPass"
-                    android:layout_alignBottom="@+id/errorNewPass"
-                    android:layout_alignLeft="@+id/errorConfirmPass"
-                    android:layout_alignStart="@+id/errorConfirmPass" />
+                        />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:text="Small Text"
-                    android:id="@+id/errorTextConfirmPass"
-                    android:layout_alignBottom="@+id/errorConfirmPass"
-                    android:layout_toRightOf="@+id/errorConfirmPass"
-                    android:layout_toEndOf="@+id/errorConfirmPass"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginStart="3dp"
-                    />
+                    <TextView
+                        android:id="@+id/errorTextNewPass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/errorNewPass"
+                        android:layout_alignLeft="@+id/errorConfirmPass"
+                        android:layout_alignStart="@+id/errorConfirmPass"
+                        android:text="Small Tex"
+                        android:textSize="10sp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/errorTextConfirmPass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/errorConfirmPass"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_toEndOf="@+id/errorConfirmPass"
+                        android:layout_toRightOf="@+id/errorConfirmPass"
+                        android:text="Small Text"
+                        android:textSize="10sp" />
 
-        </LinearLayout>
-    </ScrollView>
+                </RelativeLayout>
+
+            </LinearLayout>
+        </ScrollView>
 
     </RelativeLayout>
 </RelativeLayout>
