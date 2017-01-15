@@ -1,38 +1,67 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.IbOptions">
+
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_toolbar" />
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="+2 Options"
         android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sell Your Books"
-        android:id="@+id/plusTwoSell"
-        android:onClick="plusTwoSellButton"
-        android:layout_above="@+id/plusTwoBuy"
-        android:layout_alignLeft="@+id/plusTwoBuy"
-        android:layout_alignStart="@+id/plusTwoBuy" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Buy Your Books"
-        android:id="@+id/plusTwoBuy"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:text="+2 Options"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/plusTwoOptionButton1Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView2"
+        android:layout_marginTop="100dp"
+        android:onClick="plusTwoSellButton"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:contentPadding="30dp">
+
+        <Button
+            android:id="@+id/plusTwoSell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/plusTwoBuy"
+            android:layout_alignLeft="@+id/plusTwoBuy"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_alignStart="@+id/plusTwoBuy"
+            android:text="Sell Your Books" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/plusTwoOptionButton2Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/plusTwoOptionButton1Card"
         android:onClick="plusTwoBuyButton"
-        />
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:contentPadding="30dp">
+
+        <Button
+            android:id="@+id/plusTwoBuy"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Buy Your Books" />
+    </android.support.v7.widget.CardView>
 </RelativeLayout>
