@@ -87,10 +87,10 @@ public class SignUp extends AppCompatActivity {
         CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
         customDiagFindSchool.findAllSchool();
 
-        sendButton = (Button)findViewById(R.id.butonUpload);
-        choseButton =(Button)findViewById(R.id.choseUpload);
 
-        sendButton.setVisibility(View.GONE);
+
+
+
         verifyStoragePermissions(this);
         try {
             firstName.setText(fname);
@@ -188,6 +188,8 @@ public class SignUp extends AppCompatActivity {
             password.setBackgroundColor(Color.RED);
             confirmPass.setBackgroundColor(Color.RED);
         }
+        new uploadImage().execute();
+
 
     }
 
@@ -265,8 +267,7 @@ public class SignUp extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-//        File file1 = new File(filepath.getLastPathSegment());
-        //uploadFile1(file1);
+//
         Toast.makeText(SignUp.this, "done", Toast.LENGTH_SHORT).show();
 
     }
@@ -296,19 +297,13 @@ public class SignUp extends AppCompatActivity {
                 fos.write(bitMapData);
                 fos.flush();
                 fos.close();
-                choseButton.setVisibility(View.GONE);
-                sendButton.setVisibility(View.VISIBLE);
-                sendButton.setBackgroundColor(Color.MAGENTA);
+
             }catch (Exception e){
 
             }
         }
     }
-    public void sendProfileSignUp(View view){
-        Toast.makeText(SignUp.this, "upload here", Toast.LENGTH_SHORT).show();
-        new uploadImage().execute();
 
-    }
 
     public class uploadImage extends AsyncTask<String,String,String>{
 
@@ -323,10 +318,21 @@ public class SignUp extends AppCompatActivity {
 
                 client.upload(f);
                 Log.d("send bho",""+f);
+                client.disconnect(true);
             }catch(Exception e){
+            Log.d("any error?",""+e);
+            }
+            try{
+                String namegetter[] = realPath1.split("/");
+                int finalElement = namegetter.length - 1;
+                client2.connect(FTP_HOST, 21);
+                client2.login(FTP_USER, FTP_PASS);
+
+
+                client2.rename(namegetter[finalElement], strUserName +"ProfilePic.jpg" );
+            }catch (Exception e){
 
             }
-
 
             return null;
         }
@@ -337,14 +343,4 @@ public class SignUp extends AppCompatActivity {
 
 /*
 //////
-try{
-        String namegetter[] = realPath1.split("/");
-        int finalElement = namegetter.length - 1;
-        client2.connect(FTP_HOST, 21);
-        client2.login(FTP_USER, FTP_PASS);
-
-
-        client2.rename(namegetter[finalElement], Login.username +"ProfilePic");
-        }catch (Exception e){
-
-        }*/
+*/
