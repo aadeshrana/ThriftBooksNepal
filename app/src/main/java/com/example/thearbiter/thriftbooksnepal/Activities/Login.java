@@ -1,14 +1,16 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.R;
 
 import org.apache.http.NameValuePair;
@@ -28,7 +30,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Login extends AppCompatActivity {
 
@@ -62,23 +63,6 @@ public class Login extends AppCompatActivity {
         keepLoggedIn = (CheckBox) findViewById(R.id.keepLoggedIn);
 
         //For keeping logged in
-        SharedPreferences sharedpref;
-        sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        sharedpref.edit();
-        try {
-
-            Login.strLoginUsername = sharedpref.getString("a", "noValue");
-
-            String checked = sharedpref.getString("c", "notchecked");
-
-            if (checked.equals("checked") && !Objects.equals(Login.strLoginUsername, "aa") && !Objects.equals(Login.username, "")) {
-
-                /////FETCHING DETAILS OF SAVED USER FROM THE SERVER
-                new LoggedInUserInfoPuller().execute();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         keepLoggedIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -107,9 +91,18 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    public void sharedInfoPuller(Context context) {
+        new LoggedInUserInfoPuller(context).execute();
+    }
+
     class LoggedInUserInfoPuller extends AsyncTask<String, String, String> {
         List<NameValuePair> params1 = new ArrayList<>();
+        Context context;
 
+        public LoggedInUserInfoPuller(Context context) {
+            this.context = context;
+
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -131,9 +124,13 @@ public class Login extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent in = new Intent(Login.this, MainDrawerHome.class);
-            startActivity(in);
+//            Intent in = new Intent(context, Login.class);
+//            context.startActivity(in);
+//            ((Activity) context).finish();
 
+            FragmentNavDraerMain nav = new FragmentNavDraerMain();
+            nav.pullAllMainItems(context);
+            ((Activity) context).finish();
         }
 
 
@@ -176,7 +173,7 @@ public class Login extends AppCompatActivity {
 
         SharedPreferences.Editor edit = sharedpref.edit();
         edit.putString("passwordShared", loginPassword.getText().toString());
-            edit.commit();
+        edit.commit();
         password = strLoginPassword;
 
         try {

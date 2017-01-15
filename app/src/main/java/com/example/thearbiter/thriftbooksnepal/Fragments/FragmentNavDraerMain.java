@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.thearbiter.thriftbooksnepal.Activities.Login;
+import com.example.thearbiter.thriftbooksnepal.Activities.MainDrawerHome;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFirstPage;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
@@ -207,7 +207,7 @@ public class FragmentNavDraerMain extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent in = new Intent(context, Login.class);
+            Intent in = new Intent(context, MainDrawerHome.class);
             context.startActivity(in);
             ((Activity)context).finish();
         }
