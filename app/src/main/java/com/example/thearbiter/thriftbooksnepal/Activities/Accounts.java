@@ -35,6 +35,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
     EditText firstName, lastName, email,phoneNo,college,passwordOld,passwordNew,passwordConfirm;
     ImageView errorImagePass, erroImageConfirm;
     TextView errorTextPass, errorTextConfirm;
+    String dispFirst, dispSecond;
     static EditText newschoolname;
     JSONParser jsonParser = new JSONParser();
     static String sendFirstName, sendLastName, sendEmail, sendPhoneNo, sendCollege, sendPassword,senduser;
@@ -70,8 +71,11 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         errorTextConfirm.setVisibility(View.GONE);
         errorTextPass.setVisibility(View.GONE);
 
-        firstName.setText(Login.firstName);
-        lastName.setText(Login.lastName);
+
+        dispFirst = Login.firstName.substring(0, 1).toUpperCase() + Login.firstName.substring(1);
+        dispSecond = Login.lastName.substring(0, 1).toUpperCase() + Login.lastName.substring(1);
+        firstName.setText(dispFirst);
+        lastName.setText(dispSecond);
         email.setText(Login.emailAddress);
         phoneNo.setText(Login.phoneNumber);
         college.setText(Login.school);
@@ -137,7 +141,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         }else {
             Toast.makeText(Accounts.this, "Old password cannt be blank", Toast.LENGTH_SHORT).show();
             sendPassword = Login.password;
-            okayTosend =0;
+           // okayTosend =0;
         }
 
 
