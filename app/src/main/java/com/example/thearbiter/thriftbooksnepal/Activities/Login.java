@@ -177,7 +177,7 @@ public class Login extends AppCompatActivity {
         password = strLoginPassword;
 
         try {
-            new LoginUser().execute();
+            new LoginUser(view.getContext()).execute();
 
         } catch (Exception e) {
 
@@ -193,6 +193,11 @@ public class Login extends AppCompatActivity {
     //Asyntask Classes below this line  /// // // / / //
 
     class LoginUser extends AsyncTask<String, String, String> {
+        Context context;
+
+        public LoginUser(Context context) {
+            this.context = context;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -255,8 +260,10 @@ public class Login extends AppCompatActivity {
             // TODO Auto-generated method stub
             if (success == 1) {
                 Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
-                Intent in = new Intent(getBaseContext(), MainDrawerHome.class);
-                startActivity(in);
+                FragmentNavDraerMain frag = new FragmentNavDraerMain();
+                frag.pullAllMainItems(context);
+//                Intent in = new Intent(getBaseContext(), MainDrawerHome.class);
+//                startActivity(in);
             } else {
                 Toast.makeText(Login.this, "Cannot find account. Please sign up", Toast.LENGTH_SHORT).show();
             }

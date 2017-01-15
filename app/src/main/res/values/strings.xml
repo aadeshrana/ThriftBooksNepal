@@ -12,4 +12,5 @@
     <string name="title_activity_plus_two_options">PlusTwoOptions</string>
     <string name="title_activity_ib_options">IbOptions</string>
     <string name="title_activity_accounts">Accounts</string>
+    <string name="log_out">LOG OUT</string>
 </resources>

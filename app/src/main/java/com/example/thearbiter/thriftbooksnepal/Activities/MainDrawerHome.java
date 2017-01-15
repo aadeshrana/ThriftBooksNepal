@@ -2,7 +2,10 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +54,10 @@ public class MainDrawerHome extends AppCompatActivity {
         return true;
     }
 
+    public void onBackPressed() {
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -61,6 +68,15 @@ public class MainDrawerHome extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.log_out) {
+            Intent in = new Intent(MainDrawerHome.this, Login.class);
+            startActivity(in);
+            SharedPreferences sharedpref;
+            sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor edit = sharedpref.edit();
+            edit.putString("c", "notchecked");
+            edit.apply();
         }
 
         return super.onOptionsItemSelected(item);
