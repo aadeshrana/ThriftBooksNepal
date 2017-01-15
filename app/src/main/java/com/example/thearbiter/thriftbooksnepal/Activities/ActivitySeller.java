@@ -326,6 +326,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     client.setType(FTPClient.TYPE_BINARY);
                     client.setAutoNoopTimeout(20);
                     client.upload(f);
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(ActivitySeller.this, "Unsuccessful. Try Again", Toast.LENGTH_SHORT).show();

@@ -282,8 +282,5 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         Accounts.newschoolname.setText(schoolName);
     }
 
-    public void uploadImage(View view){
 
-
-    }
 }
