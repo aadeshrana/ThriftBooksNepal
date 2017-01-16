@@ -117,7 +117,7 @@ public class MainDrawerHome extends AppCompatActivity {
             SharedPreferences sharedpref;
             sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor edit = sharedpref.edit();
-
+//kk
             edit.clear();
             edit.putString("c", "notchecked");
             edit.apply();
