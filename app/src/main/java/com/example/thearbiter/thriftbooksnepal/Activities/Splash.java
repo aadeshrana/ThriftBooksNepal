@@ -30,6 +30,8 @@ public class Splash extends AppCompatActivity {
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         sharedpref.edit();
+        ImageView imageView = (ImageView) findViewById(R.id.splashScreenImageVie);
+        imageView.setImageResource(R.drawable.splash);
         try {
 
             Login.strLoginUsername = sharedpref.getString("a", "noValue");
@@ -40,21 +42,50 @@ public class Splash extends AppCompatActivity {
 
                 /////FETCHING DETAILS OF SAVED USER FROM THE SERVER
                 Login login = new Login();
-                login.sharedInfoPuller(this);
-                finish();
-            }
-            else {
-                Intent in = new Intent(this, Login.class);
-                startActivity(in);
-                finish();
+          //    login.sharedInfoPuller(this);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Intent in = new Intent(getApplication(), MainDrawerHome.class);
+                        startActivity(in);
+                        finish();
+
+                    }
+                });
+                thread.start();
+
+
+            } else {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                            Intent in = new Intent(getApplication(), Login.class);
+                            startActivity(in);
+                            finish();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+                thread.start();
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         context = getApplicationContext();
-        ImageView imageView = (ImageView) findViewById(R.id.splashScreenImageVie);
-        imageView.setImageResource(R.drawable.splash);
+
 
     }
 }

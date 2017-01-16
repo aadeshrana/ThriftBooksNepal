@@ -107,7 +107,7 @@ public class FragmentNavDraerMain extends Fragment {
     }
 
     public void pullAllMainItems(Context context) {
-        new PullAllAlevelItems(context).execute();
+       // new PullAllAlevelItems(context).execute();
     }
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {
@@ -211,8 +211,8 @@ public class FragmentNavDraerMain extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent in = new Intent(context, MainDrawerHome.class);
-            context.startActivity(in);
+           /* Intent in = new Intent(context, MainDrawerHome.class);
+            context.startActivity(in);*/
 
         }
     }

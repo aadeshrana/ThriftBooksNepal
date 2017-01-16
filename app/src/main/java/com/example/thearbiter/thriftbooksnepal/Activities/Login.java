@@ -239,6 +239,8 @@ public class Login extends AppCompatActivity {
                 emailAddress = json1.getString("emailaddress");
                 username = strLoginUsername;
 
+
+
                 Log.d("The", "number is" + phoneNumber);
 
 
@@ -259,6 +261,13 @@ public class Login extends AppCompatActivity {
                 SharedPreferences.Editor edit = sharedpref.edit();
                 edit.putString("a", loginUsername.getText().toString());
                 edit.putString("c", checkBoxChecked);
+
+                edit.putString("firstNameSharePref", firstName);
+                edit.putString("lastNameSharePref",lastName);
+                edit.putString("emailSharePref",emailAddress);
+                edit.putString("phoneSharePref",phoneNumber);
+                edit.putString("schoolSharePref",school);
+
                 edit.apply();
                 Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
                 FragmentNavDraerMain frag = new FragmentNavDraerMain();
@@ -268,6 +277,8 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(Login.this, "Cannot find account. Please sign up", Toast.LENGTH_SHORT).show();
             }
             pdialog.dismiss();
+            Intent intent = new Intent(getApplication(),MainDrawerHome.class);
+            startActivity(intent);
             if (file_url != null) {
                 Toast.makeText(Login.this, file_url, Toast.LENGTH_LONG).show();
                 finish();

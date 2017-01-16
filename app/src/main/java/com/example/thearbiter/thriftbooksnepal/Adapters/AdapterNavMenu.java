@@ -49,7 +49,7 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final InformationNavMenu current = data.get(position);
+            final InformationNavMenu current = data.get(position);
         holder.title.setText(current.name);
         Picasso.with(context).load(current.iconId).fit().centerCrop().into(holder.iconId);
 

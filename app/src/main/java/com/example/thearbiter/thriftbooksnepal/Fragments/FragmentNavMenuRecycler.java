@@ -1,8 +1,10 @@
 package com.example.thearbiter.thriftbooksnepal.Fragments;
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,20 +40,37 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
     String title[] = {"A-Level", "+2", "IB", "Account"};
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View layout = inflater.inflate(R.layout.fragment_nav_menu_drawer, container, false);
+        SharedPreferences sharedpref1;
+        sharedpref1 = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedpref1.edit();
 
+        String userProfilePic = sharedpref1.getString("a", "noValue");
         CircleImageView circleImageView = (CircleImageView)layout.findViewById(R.id.profile_image);
         String kk= "http://aadeshrana.esy.es/"+Login.username+"ProfilePic";
-        Log.d("k ho path?","hm"+kk);
-        Picasso.with(getActivity()).load("http://aadeshrana.esy.es/"+Login.username+"ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
+        Log.d("k ho path?", "hm" + kk);
+        Picasso.with(getActivity()).load("http://aadeshrana.esy.es/"+userProfilePic+"ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         navMenuUsername = (TextView) layout.findViewById(R.id.navDrawerUserName);
         navMenuEmailAddress = (TextView) layout.findViewById(R.id.navDrawerEmailAddress);
-        navMenuUsername.setText(WELCOME_TEXT + Login.firstName);
-        navMenuEmailAddress.setText(Login.emailAddress);
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedpref.edit();
+        if(Login.firstName!=null) {
+            navMenuUsername.setText(WELCOME_TEXT + Login.firstName);
+            navMenuEmailAddress.setText(Login.emailAddress);
+        }
+        else{
+            String sharedFirstName = sharedpref.getString("firstNameSharePref", "User");
+            String sharedEmail = sharedpref.getString("emailSharePref", "email");
+            navMenuUsername.setText(WELCOME_TEXT + sharedFirstName);
+            navMenuEmailAddress.setText(sharedEmail);
+        }
+
 
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerLayoutNavMenu);
         adapter = new AdapterNavMenu(getActivity(), getData());
@@ -72,4 +91,6 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         }
         return data;
     }
+
+
 }
