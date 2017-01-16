@@ -71,14 +71,22 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         errorTextConfirm.setVisibility(View.GONE);
         errorTextPass.setVisibility(View.GONE);
 
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedpref.edit();
+        String sharedFirstName = sharedpref.getString("firstNameSharePref", "User");
+        String sharedEmail = sharedpref.getString("emailSharePref", "email");
+        String sharedLastName = sharedpref.getString("lastNameSharePref","last");
+        String sharedPhoneNo = sharedpref.getString("phoneSharePref","last");
+        String sharedSchool = sharedpref.getString("schoolSharePref","last");
 
-        dispFirst = Login.firstName.substring(0, 1).toUpperCase() + Login.firstName.substring(1);
-        dispSecond = Login.lastName.substring(0, 1).toUpperCase() + Login.lastName.substring(1);
+        dispFirst = sharedFirstName.substring(0, 1).toUpperCase() + sharedFirstName.substring(1);
+        dispSecond = sharedLastName.substring(0, 1).toUpperCase() + sharedLastName.substring(1);
         firstName.setText(dispFirst);
         lastName.setText(dispSecond);
-        email.setText(Login.emailAddress);
-        phoneNo.setText(Login.phoneNumber);
-        college.setText(Login.school);
+        email.setText(sharedEmail);
+        phoneNo.setText(sharedPhoneNo);
+        college.setText(sharedSchool);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -282,5 +290,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         Accounts.newschoolname.setText(schoolName);
     }
 
+public void uploadImage(View view){
 
+}
 }

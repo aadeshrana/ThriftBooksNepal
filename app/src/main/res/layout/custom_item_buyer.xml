@@ -10,11 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardBackgroundColor="#FFFFFF"
-        card_view:cardCornerRadius="0dp"
+        card_view:cardCornerRadius="2dp"
         app:cardUseCompatPadding="true"
         card_view:cardElevation="2dp"
         card_view:contentPadding="30dp"
         card_view:cardUseCompatPadding="true"
+
         >
 
         <RelativeLayout
