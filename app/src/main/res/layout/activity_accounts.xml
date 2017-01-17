@@ -91,7 +91,7 @@
                         >
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
+                    android:id="@+id/profile_image_accounts"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/default_user"
@@ -105,7 +105,7 @@
                             card_view:cardBackgroundColor="#ffffff"
                             card_view:cardElevation="1dp"
                             android:layout_marginTop="4dp"
-                            android:layout_below="@id/profile_image"
+                            android:layout_below="@id/profile_image_accounts"
                             android:layout_centerHorizontal="true"
                             >
                     <Button

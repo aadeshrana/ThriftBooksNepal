@@ -234,7 +234,7 @@ public class MainDrawerHome extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-progressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             FragmentNavDraerMain fragmentNavDraerMain = new FragmentNavDraerMain();
             FragmentManager manager3 = getFragmentManager();
             FragmentTransaction transaction1 = manager3.beginTransaction();

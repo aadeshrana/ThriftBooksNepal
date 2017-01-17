@@ -1,12 +1,17 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -21,32 +26,61 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchoolAcc;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.ImageFilePath;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import it.sauronsoftware.ftp4j.FTPClient;
 
 public class Accounts extends AppCompatActivity implements TextWatcher{
     EditText firstName, lastName, email,phoneNo,college,passwordOld,passwordNew,passwordConfirm;
     ImageView errorImagePass, erroImageConfirm;
     TextView errorTextPass, errorTextConfirm;
     String dispFirst, dispSecond;
+
     static EditText newschoolname;
     JSONParser jsonParser = new JSONParser();
     static String sendFirstName, sendLastName, sendEmail, sendPhoneNo, sendCollege, sendPassword,senduser;
+    static final String FTP_HOST = "93.188.160.157";
+    static final String FTP_USER = "u856924126";
+    static final String FTP_PASS = "aadesh";
+    static String shareUserName;
+    final FTPClient client2 = new FTPClient();
     private static final String UPDATE_URL = "http://frame.ueuo.com/thriftbooks/updateacc.php";
+    private static final String REGISTER_URL = "http://frame.ueuo.com/thriftbooks/register.php";
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
     int okayTosend =1;
     Toolbar toolbar;
+    private int PICK_IMAGE_REQUEST = 1;
+    final FTPClient client = new FTPClient();
+    Uri filePath;
+    String realPath;
+    Bitmap bitmap;
+    File f;
+    CircleImageView profilePic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
 
+
+        profilePic = (CircleImageView)findViewById(R.id.profile_image_accounts);
         firstName = (EditText)findViewById(R.id.accountFirstNameEdit);
         lastName = (EditText)findViewById(R.id.accountLastNameEdit);
         email = (EditText)findViewById(R.id.accountsEmailEdit);
@@ -79,7 +113,9 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         String sharedLastName = sharedpref.getString("lastNameSharePref","last");
         String sharedPhoneNo = sharedpref.getString("phoneSharePref","last");
         String sharedSchool = sharedpref.getString("schoolSharePref","last");
-
+        shareUserName = sharedpref.getString("a","username");
+        CircleImageView circleImageView = (CircleImageView)findViewById(R.id.profile_image_accounts);
+        Picasso.with(this).load("http://aadeshrana.esy.es/"+shareUserName+"ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         dispFirst = sharedFirstName.substring(0, 1).toUpperCase() + sharedFirstName.substring(1);
         dispSecond = sharedLastName.substring(0, 1).toUpperCase() + sharedLastName.substring(1);
         firstName.setText(dispFirst);
@@ -162,6 +198,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
                             Toast.makeText(Accounts.this, "changed" + sendPassword, Toast.LENGTH_SHORT).show();
 
                             new updateAccount().execute();
+                            new uploadImage().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -292,5 +329,77 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
 
 public void uploadImage(View view){
 
+    Intent intent = new Intent();
+    intent.setType("image/*");
+    intent.setAction(Intent.ACTION_GET_CONTENT);
+    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
 }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            try {
+                realPath = ImageFilePath.getPath(Accounts.this, data.getData());
+
+                filePath = data.getData();
+                String namegetter[] = realPath.split("/");
+                int finalElement = namegetter.length - 1;
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                profilePic.setImageBitmap(bitmap);
+                Log.d("k ho ta path", "" + namegetter[finalElement]);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                byte[] bitMapData = out.toByteArray();
+
+                f = new File(this.getCacheDir(), namegetter[finalElement]);
+                f.createNewFile();
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(bitMapData);
+                fos.flush();
+                fos.close();
+
+            } catch (Exception e) {
+
+            }
+        }
+    }
+    public class uploadImage extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                client.connect(FTP_HOST, 21);
+                client.login(FTP_USER, FTP_PASS);
+                client.setPassive(true);
+                client.setType(FTPClient.TYPE_BINARY);
+                client.setAutoNoopTimeout(20);
+
+                client.upload(f);
+
+                Log.d("send bho", "" + f);
+                client.disconnect(true);
+            } catch (Exception e) {
+                Log.d("any error?", "" + e);
+            }
+            try {
+                String namegetter[] = realPath.split("/");
+                int finalElement = namegetter.length - 1;
+                client2.connect(FTP_HOST, 21);
+                client2.login(FTP_USER, FTP_PASS);
+
+
+                client2.rename(namegetter[finalElement], shareUserName + "ProfilePic.jpg");
+            } catch (Exception e) {
+
+            }
+
+            return null;
+        }
+
+    }
+
+
 }
