@@ -15,6 +15,8 @@ import com.example.thearbiter.thriftbooksnepal.Activities.Accounts;
 import com.example.thearbiter.thriftbooksnepal.Activities.ActivitySeller;
 import com.example.thearbiter.thriftbooksnepal.Activities.IbOptions;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainALevelBuyer;
+import com.example.thearbiter.thriftbooksnepal.Activities.MainIbBuyer;
+import com.example.thearbiter.thriftbooksnepal.Activities.MainPlusTwoBuyer;
 import com.example.thearbiter.thriftbooksnepal.Activities.PlusTwoOptions;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentALevelBuy;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentIbBuy;
@@ -65,7 +67,6 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                         intent.putExtra("chosenValueBoard", "alevel");
                         context.startActivity(intent);
                         ActivitySeller.choiseOfBoard = "alevel";
-
                         break;
 
                     case 1:
@@ -73,20 +74,32 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                         intent = new Intent(context, ActivitySeller.class);
                         intent.putExtra("chosenValueBoard", "alevel");
                         context.startActivity(intent);
-                       // FragmentPlusTwoBuy obj3 = new FragmentPlusTwoBuy();
-                       // obj3.pullItemsFunction();
                         break;
 
                     case 2:
-                        ActivitySeller.choiseOfBoard = "ib";
-                        intent = new Intent(context, IbOptions.class);
+                        intent = new Intent(context, MainIbBuyer.class);
+                        ActivitySeller.choiseOfBoard ="ib";
                         intent.putExtra("chosenValueBoard", "ib");
                         context.startActivity(intent);
-                        FragmentIbBuy obj = new FragmentIbBuy();
-                        obj.pullItemsFunction();
+                        break;
+                    case 3:
+                        ActivitySeller.choiseOfBoard = "ib";
+                        intent = new Intent(context, ActivitySeller.class);
+                        intent.putExtra("chosenValueBoard", "ib");
+                        context.startActivity(intent);
+                        break;
+                    case 4:
+                        ActivitySeller.choiseOfBoard="plustwo";
+                        intent = new Intent(context, MainPlusTwoBuyer.class);
+                        context.startActivity(intent);
+                        break;
+                    case 5:
+                        ActivitySeller.choiseOfBoard="plustwo";
+                        intent = new Intent(context,ActivitySeller.class);
+                        context.startActivity(intent);
                         break;
 
-                    case 3:
+                    case 6:
                         intent = new Intent(context, Accounts.class);
                         context.startActivity(intent);
                         break;

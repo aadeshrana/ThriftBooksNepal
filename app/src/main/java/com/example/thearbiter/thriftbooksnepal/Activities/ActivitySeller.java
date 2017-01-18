@@ -4,12 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -84,11 +86,24 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
+    String spUsername,spfirstName,splastName,spEmail,spSchool,spPhoneNo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        sharedpref.edit();
+        spUsername = sharedpref.getString("a", "nullSeller");
+        spfirstName = sharedpref.getString("firstNameSharePref", "nullSeller");
+        splastName = sharedpref.getString("lastNameSharePref", "nullSeller");
+        spEmail = sharedpref.getString("emailSharePref", "nullSeller");
+        spSchool = sharedpref.getString("schoolSharePref", "nullSeller");
+        spPhoneNo = sharedpref.getString("phoneSharePref", "nullSeller");
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -243,24 +258,25 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
 
 
+
                 List<NameValuePair> param1 = new ArrayList<>();
-                param1.add(new BasicNameValuePair("username", Login.username));
-                param1.add(new BasicNameValuePair("firstname", Login.firstName));
-                param1.add(new BasicNameValuePair("lastname", Login.lastName));
+                param1.add(new BasicNameValuePair("username", spUsername));
+                param1.add(new BasicNameValuePair("firstname", spfirstName));
+                param1.add(new BasicNameValuePair("lastname", splastName));
                 param1.add(new BasicNameValuePair("nameofbook", ActivitySeller.title));
                 param1.add(new BasicNameValuePair("nameofauthor", ActivitySeller.author));
                 param1.add(new BasicNameValuePair("price", ActivitySeller.price));
                 param1.add(new BasicNameValuePair("homeaddress", ActivitySeller.homeaddress));
-                param1.add(new BasicNameValuePair("school", Login.school));
-                param1.add(new BasicNameValuePair("image1name", Login.username + titleOfBook + "file1.jpg"));
-                param1.add(new BasicNameValuePair("image2name", Login.username + titleOfBook + "file2.jpg"));
-                param1.add(new BasicNameValuePair("image3name", Login.username + titleOfBook + "file3.jpg"));
-                param1.add(new BasicNameValuePair("phonenumber", Login.phoneNumber));
-                param1.add(new BasicNameValuePair("emailaddress", Login.emailAddress));
+                param1.add(new BasicNameValuePair("school", spSchool));
+                param1.add(new BasicNameValuePair("image1name", spUsername + titleOfBook + "file1.jpg"));
+                param1.add(new BasicNameValuePair("image2name", spUsername + titleOfBook + "file2.jpg"));
+                param1.add(new BasicNameValuePair("image3name", spUsername + titleOfBook + "file3.jpg"));
+                param1.add(new BasicNameValuePair("phonenumber", spPhoneNo));
+                param1.add(new BasicNameValuePair("emailaddress", spEmail));
                 //maile change gary hai
                 param1.add(new BasicNameValuePair("course", ActivitySeller.choiseOfBoard));
 
-                Log.d("username", "" + Login.username);
+               /* Log.d("username", "" + Login.username);
                 Log.d("", "" + Login.firstName);
                 Log.d("", "" + Login.lastName);
                 Log.d("", "" + title);
@@ -272,7 +288,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 Log.d("", "" + Login.username + titleOfBook + "file2.jpg");
                 Log.d("", "" + Login.username + titleOfBook + "file3.jpg");
                 Log.d("", "" + Login.phoneNumber);
-                Log.d("", "" + Login.emailAddress);
+                Log.d("", "" + Login.emailAddress);*/
 
                 //posting user data to script
                 JSONObject json = jsonParser.makeHttpRequest(ADD_ITEM_URL, "POST", param1);
@@ -349,7 +365,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                         client2.login(FTP_USER, FTP_PASS);
 
                         titleOfBook = titleOfBook.replaceAll("\\s+", "");
-                        client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file1.jpg");
+                        client2.rename(namegetter[finalElement], spUsername + titleOfBook + "file1.jpg");
                     } catch (Exception f) {
                         f.printStackTrace();
                     }
@@ -425,7 +441,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                         titleOfBook = titleOfBook.replaceAll("\\s+", "");
 
 
-                        client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file2.jpg");
+                        client2.rename(namegetter[finalElement], spUsername + titleOfBook + "file2.jpg");
                     } catch (Exception f) {
                         f.printStackTrace();
                     }
@@ -496,7 +512,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
                         titleOfBook = titleOfBook.replaceAll("\\s+", "");
 
-                        client2.rename(namegetter[finalElement], Login.username + titleOfBook + "file3.jpg");
+                        client2.rename(namegetter[finalElement], spUsername + titleOfBook + "file3.jpg");
                     } catch (Exception f) {
                         f.printStackTrace();
                     }
