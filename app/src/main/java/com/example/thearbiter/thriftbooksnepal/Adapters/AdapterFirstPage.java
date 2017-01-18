@@ -1,6 +1,8 @@
 package com.example.thearbiter.thriftbooksnepal.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thearbiter.thriftbooksnepal.Activities.FinalBuyersActivity;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
@@ -43,14 +47,29 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         final InformationBuyerRecycler current = data.get(position);
         holder.title.setText(current.title);
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
         holder.imgOfBook.setImageResource(R.drawable.noimageplaceholder);
         Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
-
+        holder.cardMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FinalBuyersActivity.finalBuyersActivityNameOfBook = current.title;
+                FinalBuyersActivity.finalBuyersActivityPriceOfBook = current.priceOfBook;
+                FinalBuyersActivity.finalBuyersActivityNameOfSeller = current.sellerName;
+                FinalBuyersActivity.finalBuyersActivityNameOfAuthor = FragmentNavDraerMain.arrayNameOfAuthor[position];
+                Log.d("THIS SHIT SHOULD ORK", "" + FragmentNavDraerMain.arrayUserName[position]);
+                FinalBuyersActivity.finalBuyersActivityImage1 = FragmentNavDraerMain.arrayImage1Name[position];
+                FinalBuyersActivity.finalBuyersActivityImage2 = FragmentNavDraerMain.arrayImage2Name[position];
+                FinalBuyersActivity.finalBuyersActivityImage3 = FragmentNavDraerMain.arrayImage3Name[position];
+                FinalBuyersActivity.finalBuyersActivityUsernameOfSeller = FragmentNavDraerMain.arrayUserName[position];
+                Intent in = new Intent(context, FinalBuyersActivity.class);
+                context.startActivity(in);
+            }
+        });
     }
 
     @Override
@@ -63,11 +82,13 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
 
         ImageView imgOfBook;
         TextView title;
+        CardView cardMain;
         TextView priceOfBook;
         TextView sellerName;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            cardMain = (CardView) itemView.findViewById(R.id.adapterFirstPageCardViewMain);
             imgOfBook = (ImageView) itemView.findViewById(R.id.imageOfBookForALevelBuyer);
             title = (TextView) itemView.findViewById(R.id.titleOfBookForALevelBuyer);
             priceOfBook = (TextView) itemView.findViewById(R.id.priceOfBookForALevelBuyer);

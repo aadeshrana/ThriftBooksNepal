@@ -224,6 +224,7 @@ public class MainDrawerHome extends AppCompatActivity {
                         phoneNumber.add(json.getString("l" + i));
                         emailAddress.add(json.getString("m" + i));
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

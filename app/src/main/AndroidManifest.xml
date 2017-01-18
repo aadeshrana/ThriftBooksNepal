@@ -59,6 +59,9 @@
             android:name=".Activities.PlusTwoOptions"
             android:label="ib" />
         <activity
+            android:name=".Activities.FinalBuyersActivity"
+            android:label="ib" />
+        <activity
             android:name=".ExtraClasses.MessagingTryActivity"
             android:label="ib" />
         <activity
