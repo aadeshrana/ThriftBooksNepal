@@ -120,7 +120,7 @@ public class MainDrawerHome extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("fcm_token", token);
                 params.put("user", Login.strLoginUsername);
-
+//
 
                 return params;
             }
