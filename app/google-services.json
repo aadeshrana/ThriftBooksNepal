@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "976423600150",
+    "firebase_url": "https://thriftbooksnepal.firebaseio.com",
+    "project_id": "thriftbooksnepal",
+    "storage_bucket": "thriftbooksnepal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976423600150:android:6d1f332c87935c47",
+        "android_client_info": {
+          "package_name": "com.example.thearbiter.thriftbooksnepal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976423600150-hje07dd0fvvr4tmelt09rv1bp37fmd7k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thearbiter.thriftbooksnepal",
+            "certificate_hash": "0D7B7349E62E2D16064B52528B693A68AD52A553"
+          }
+        },
+        {
+          "client_id": "976423600150-u9ucnqoqgbk9cc34s42krcgae7nqm2u8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAam7Q2dOSbWtaEukw3mE9j-eKl2rWUl48"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976423600150-u9ucnqoqgbk9cc34s42krcgae7nqm2u8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
