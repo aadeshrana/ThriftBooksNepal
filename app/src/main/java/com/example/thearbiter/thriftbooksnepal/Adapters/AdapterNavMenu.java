@@ -14,6 +14,7 @@ import com.example.thearbiter.thriftbooksnepal.Activities.ALevelOptions;
 import com.example.thearbiter.thriftbooksnepal.Activities.Accounts;
 import com.example.thearbiter.thriftbooksnepal.Activities.ActivitySeller;
 import com.example.thearbiter.thriftbooksnepal.Activities.IbOptions;
+import com.example.thearbiter.thriftbooksnepal.Activities.MainALevelBuyer;
 import com.example.thearbiter.thriftbooksnepal.Activities.PlusTwoOptions;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentALevelBuy;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentIbBuy;
@@ -60,21 +61,20 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
             public void onClick(View v) {
                 switch (position) {
                     case 0:
-                        intent = new Intent(context, ALevelOptions.class);
+                        intent = new Intent(context, MainALevelBuyer.class);
                         intent.putExtra("chosenValueBoard", "alevel");
                         context.startActivity(intent);
                         ActivitySeller.choiseOfBoard = "alevel";
-                        FragmentALevelBuy buy = new FragmentALevelBuy();
-                        buy.pullItemsFunction();
+
                         break;
 
                     case 1:
-                        ActivitySeller.choiseOfBoard = "plustwo";
-                        intent = new Intent(context, PlusTwoOptions.class);
-                        intent.putExtra("chosenValueBoard", "plustwo");
+                        ActivitySeller.choiseOfBoard = "alevel";
+                        intent = new Intent(context, ActivitySeller.class);
+                        intent.putExtra("chosenValueBoard", "alevel");
                         context.startActivity(intent);
-                        FragmentPlusTwoBuy obj3 = new FragmentPlusTwoBuy();
-                        obj3.pullItemsFunction();
+                       // FragmentPlusTwoBuy obj3 = new FragmentPlusTwoBuy();
+                       // obj3.pullItemsFunction();
                         break;
 
                     case 2:

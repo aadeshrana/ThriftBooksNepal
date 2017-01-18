@@ -240,6 +240,9 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         @Override
         protected String doInBackground(String... params) {
             try {
+
+
+
                 List<NameValuePair> param1 = new ArrayList<>();
                 param1.add(new BasicNameValuePair("username", Login.username));
                 param1.add(new BasicNameValuePair("firstname", Login.firstName));

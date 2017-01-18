@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.Login;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterNavMenu;
+import com.example.thearbiter.thriftbooksnepal.Adapters.SectionedGridRecyclerViewAdapter;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationNavMenu;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
@@ -36,8 +37,8 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
     TextView navMenuUsername;
     TextView navMenuEmailAddress;
     final String WELCOME_TEXT = "Welcome ";
-    int[] icons = {R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.chemistrydemopicture,R.drawable.chemistrydemopicture};
-    String title[] = {"A-Level", "+2", "IB", "Account"};
+    int[] icons = {R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp};
+    String title[] = {"Buy", "Sell", "Buy", "Sell", "Buy", "Sell","Accounts","About Us"};
 
 
 
@@ -72,11 +73,24 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         }
 
 
+
+
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerLayoutNavMenu);
         adapter = new AdapterNavMenu(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        List<SectionedGridRecyclerViewAdapter.Section> sections =
+                new ArrayList<SectionedGridRecyclerViewAdapter.Section>();
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(0,"Alevel"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(2,"IB"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(4,"+2"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(6,"Settings"));
 
+        SectionedGridRecyclerViewAdapter.Section[] dummy = new SectionedGridRecyclerViewAdapter.Section[sections.size()];
+        SectionedGridRecyclerViewAdapter mSectionedAdapter = new
+                SectionedGridRecyclerViewAdapter(getActivity(),R.layout.section,R.id.section_text,recyclerView,adapter);
+        mSectionedAdapter.setSections(sections.toArray(dummy));
+        recyclerView.setAdapter(mSectionedAdapter);
 
         return layout;
     }
