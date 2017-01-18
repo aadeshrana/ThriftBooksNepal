@@ -2,8 +2,6 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -18,19 +16,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.MessagingTryActivity;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.MySingleton;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainDrawerHome extends AppCompatActivity {
     Toolbar toolbar;
@@ -58,16 +66,17 @@ public class MainDrawerHome extends AppCompatActivity {
     public static String username1;
     public static String password1;
 
-
+    String app_server_url = "http://frame.ueuo.com/images/fcm_insert.php";
     private static final String LOGIN_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
     private static final String FETCH_NUMBER_URL = "http://frame.ueuo.com/thriftbooks/fetchalldetails.php";
     JSONParser jsonParser = new JSONParser();
-    ProgressBar  progressBar;
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer_home);
-        progressBar = (ProgressBar)findViewById(R.id.drawerProgress);
+        progressBar = (ProgressBar) findViewById(R.id.drawerProgress);
         progressBar.setVisibility(View.VISIBLE);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -82,13 +91,42 @@ public class MainDrawerHome extends AppCompatActivity {
         transaction.add(R.id.mainfragmentDrawer, fragmentAdpater, "abc");
 
         transaction.commit();
-       new PullAllAlevelItems().execute();
-
+        new PullAllAlevelItems().execute();
+        getToken();
 
     }
-    /////
 
-    ///}
+    private void getToken() {
+        final String recent_token = FirebaseInstanceId.getInstance().getToken();
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String token = sharedpref.getString("token", "");
+        Log.d("TOKEN LOG", "" + token);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, app_server_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("fcm_token", token);
+                params.put("user", Login.strLoginUsername);
+
+
+                return params;
+            }
+        };
+        MySingleton.getmInstance(MainDrawerHome.this).addToRequestque(stringRequest);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,8 +134,6 @@ public class MainDrawerHome extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main_drawer_home, menu);
         return true;
     }
-
-
 
 
     @Override
@@ -110,6 +146,10 @@ public class MainDrawerHome extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.messager) {
+            Intent in = new Intent(getBaseContext(), MessagingTryActivity.class);
+            startActivity(in);
         }
         if (id == R.id.log_out) {
             Intent in = new Intent(MainDrawerHome.this, Login.class);
@@ -126,7 +166,6 @@ public class MainDrawerHome extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {

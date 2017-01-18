@@ -13,4 +13,7 @@
     <string name="title_activity_ib_options">IbOptions</string>
     <string name="title_activity_accounts">Accounts</string>
     <string name="log_out">LOG OUT</string>
+    <string name="FCM_PREF">com.example.thearbiter.thriftbooksnepal.fcm_pref</string>
+    <string name="FCM_TOKEN">com.example.thearbiter.thriftbooksnepal.fcm_token</string>
+
 </resources>

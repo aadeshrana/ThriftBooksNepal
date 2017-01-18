@@ -44,15 +44,15 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sauronsoftware.ftp4j.FTPClient;
 
-public class Accounts extends AppCompatActivity implements TextWatcher{
-    EditText firstName, lastName, email,phoneNo,college,passwordOld,passwordNew,passwordConfirm;
+public class Accounts extends AppCompatActivity implements TextWatcher {
+    EditText firstName, lastName, email, phoneNo, college, passwordOld, passwordNew, passwordConfirm;
     ImageView errorImagePass, erroImageConfirm;
     TextView errorTextPass, errorTextConfirm;
     String dispFirst, dispSecond;
 
     static EditText newschoolname;
     JSONParser jsonParser = new JSONParser();
-    static String sendFirstName, sendLastName, sendEmail, sendPhoneNo, sendCollege, sendPassword,senduser;
+    static String sendFirstName, sendLastName, sendEmail, sendPhoneNo, sendCollege, sendPassword, senduser;
     static final String FTP_HOST = "93.188.160.157";
     static final String FTP_USER = "u856924126";
     static final String FTP_PASS = "aadesh";
@@ -65,7 +65,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
-    int okayTosend =1;
+    int okayTosend = 1;
     Toolbar toolbar;
     private int PICK_IMAGE_REQUEST = 1;
     final FTPClient client = new FTPClient();
@@ -74,30 +74,31 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
     Bitmap bitmap;
     File f;
     CircleImageView profilePic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
 
 
-        profilePic = (CircleImageView)findViewById(R.id.profile_image_accounts);
-        firstName = (EditText)findViewById(R.id.accountFirstNameEdit);
-        lastName = (EditText)findViewById(R.id.accountLastNameEdit);
-        email = (EditText)findViewById(R.id.accountsEmailEdit);
-        phoneNo = (EditText)findViewById(R.id.accountPhoneEdit);
-        college =(EditText)findViewById(R.id.accountCollegeEdit);
-        passwordOld =(EditText)findViewById(R.id.accountsCurrentPassEdit);
-        passwordNew = (EditText)findViewById(R.id.accountsNewPassEdit);
-        passwordConfirm =(EditText)findViewById(R.id.accountConfirmPassEdit);
-        newschoolname = (EditText)findViewById(R.id.accountCollegeEdit);
+        profilePic = (CircleImageView) findViewById(R.id.profile_image_accounts);
+        firstName = (EditText) findViewById(R.id.accountFirstNameEdit);
+        lastName = (EditText) findViewById(R.id.accountLastNameEdit);
+        email = (EditText) findViewById(R.id.accountsEmailEdit);
+        phoneNo = (EditText) findViewById(R.id.accountPhoneEdit);
+        college = (EditText) findViewById(R.id.accountCollegeEdit);
+        passwordOld = (EditText) findViewById(R.id.accountsCurrentPassEdit);
+        passwordNew = (EditText) findViewById(R.id.accountsNewPassEdit);
+        passwordConfirm = (EditText) findViewById(R.id.accountConfirmPassEdit);
+        newschoolname = (EditText) findViewById(R.id.accountCollegeEdit);
 
         passwordConfirm.addTextChangedListener(this);
 
-        erroImageConfirm = (ImageView)findViewById(R.id.errorConfirmPass);
-        errorImagePass =(ImageView)findViewById(R.id.errorNewPass);
+        erroImageConfirm = (ImageView) findViewById(R.id.errorConfirmPass);
+        errorImagePass = (ImageView) findViewById(R.id.errorNewPass);
 
-        errorTextPass =(TextView)findViewById(R.id.errorTextNewPass);
-        errorTextConfirm =(TextView)findViewById(R.id.errorTextConfirmPass);
+        errorTextPass = (TextView) findViewById(R.id.errorTextNewPass);
+        errorTextConfirm = (TextView) findViewById(R.id.errorTextConfirmPass);
 
 
         erroImageConfirm.setVisibility(View.GONE);
@@ -110,12 +111,12 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         sharedpref.edit();
         String sharedFirstName = sharedpref.getString("firstNameSharePref", "User");
         String sharedEmail = sharedpref.getString("emailSharePref", "email");
-        String sharedLastName = sharedpref.getString("lastNameSharePref","last");
-        String sharedPhoneNo = sharedpref.getString("phoneSharePref","last");
-        String sharedSchool = sharedpref.getString("schoolSharePref","last");
-        shareUserName = sharedpref.getString("a","username");
-        CircleImageView circleImageView = (CircleImageView)findViewById(R.id.profile_image_accounts);
-        Picasso.with(this).load("http://aadeshrana.esy.es/"+shareUserName+"ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
+        String sharedLastName = sharedpref.getString("lastNameSharePref", "last");
+        String sharedPhoneNo = sharedpref.getString("phoneSharePref", "last");
+        String sharedSchool = sharedpref.getString("schoolSharePref", "last");
+        shareUserName = sharedpref.getString("a", "username");
+        CircleImageView circleImageView = (CircleImageView) findViewById(R.id.profile_image_accounts);
+        Picasso.with(this).load("http://aadeshrana.esy.es/" + shareUserName + "ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         dispFirst = sharedFirstName.substring(0, 1).toUpperCase() + sharedFirstName.substring(1);
         dispSecond = sharedLastName.substring(0, 1).toUpperCase() + sharedLastName.substring(1);
         firstName.setText(dispFirst);
@@ -131,7 +132,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
 
     }
 
-    public void checkPassword(){
+    public void checkPassword() {
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         sharedpref.edit();
@@ -141,12 +142,13 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         sendCollege = college.getText().toString();
         sendPhoneNo = phoneNo.getText().toString();
         sendEmail = email.getText().toString();
-        senduser =Login.username;
-        if(passwordOld.getText().toString().length()>0) {
+        senduser = Login.username;
+        okayTosend = 1;
+
+        if (passwordOld.getText().toString().length() > 0) {
             if (passwordOld.getText().toString().equals(Login.password)) {
                 Log.d("password", "" + Login.password);
-
-                if(!passwordNew.getText().toString().equals("") || !passwordConfirm.getText().toString().equals("")) {
+                if (!passwordNew.getText().toString().equals("") || !passwordConfirm.getText().toString().equals("")) {
 
 
                     if (passwordNew.getText().toString().equals(passwordConfirm.getText().toString())) {
@@ -171,25 +173,24 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                     }
-                }
-                else{
+                } else {
                     Toast.makeText(Accounts.this, "Password field cant be blank", Toast.LENGTH_SHORT).show();
-                    okayTosend =0;
+                    okayTosend = 0;
                 }
 
 
             } else {
                 Toast.makeText(Accounts.this, "Invalid Old Password", Toast.LENGTH_SHORT).show();
-                okayTosend=0;
+                okayTosend = 0;
             }
-        }else {
+        } else {
             Toast.makeText(Accounts.this, "Old password cannt be blank", Toast.LENGTH_SHORT).show();
             sendPassword = Login.password;
-           // okayTosend =0;
+            // okayTosend =0;
         }
 
 
-        if(okayTosend ==1) {
+        if (okayTosend == 1) {
             new AlertDialog.Builder(Accounts.this)
                     .setTitle("Save")
                     .setMessage("Are you sure you want to save the changes?")
@@ -234,12 +235,12 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         return super.onOptionsItemSelected(item);
     }
 
-    public void findnewSchool(View view){
+    public void findnewSchool(View view) {
         CustomDiagFindSchoolAcc customDiagFindSchool = new CustomDiagFindSchoolAcc();
         customDiagFindSchool.show(getFragmentManager(), "abc");
     }
 
-    public void updateaccount(View view){
+    public void updateaccount(View view) {
         checkPassword();
     }
 
@@ -250,15 +251,14 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-    String changed = passwordNew.getText().toString();
-        if (changed.equals("") || passwordConfirm.getText().toString().equals("") ){
+        String changed = passwordNew.getText().toString();
+        if (changed.equals("") || passwordConfirm.getText().toString().equals("")) {
 
             erroImageConfirm.setVisibility(View.GONE);
             errorImagePass.setVisibility(View.GONE);
             errorTextConfirm.setVisibility(View.GONE);
             errorTextPass.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             if (changed.equals(passwordConfirm.getText().toString())) {
 
 
@@ -268,7 +268,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
                 errorTextPass.setVisibility(View.VISIBLE);
 
                 erroImageConfirm.setImageResource(R.drawable.tick_green);
-               errorImagePass.setImageResource(R.drawable.tick_green);
+                errorImagePass.setImageResource(R.drawable.tick_green);
                 errorTextConfirm.setText("Match");
                 errorTextConfirm.setTextColor(Color.parseColor("#67C100"));
                 errorTextPass.setText("Match");
@@ -298,23 +298,23 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
     }
 
 
-    class updateAccount extends AsyncTask<String,String,String>{
+    class updateAccount extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... params) {
-            try{
+            try {
                 List<NameValuePair> params1 = new ArrayList<>();
-                params1.add(new BasicNameValuePair("firstname",sendFirstName));
-                params1.add(new BasicNameValuePair("lastname",sendLastName));
-                params1.add(new BasicNameValuePair("password",sendPassword));
-                params1.add(new BasicNameValuePair("phonenumber",sendPhoneNo));
-                params1.add(new BasicNameValuePair("emailaddress",sendEmail));
-                params1.add(new BasicNameValuePair("schoolname",sendCollege));
-                params1.add(new BasicNameValuePair("username",senduser));
+                params1.add(new BasicNameValuePair("firstname", sendFirstName));
+                params1.add(new BasicNameValuePair("lastname", sendLastName));
+                params1.add(new BasicNameValuePair("password", sendPassword));
+                params1.add(new BasicNameValuePair("phonenumber", sendPhoneNo));
+                params1.add(new BasicNameValuePair("emailaddress", sendEmail));
+                params1.add(new BasicNameValuePair("schoolname", sendCollege));
+                params1.add(new BasicNameValuePair("username", senduser));
 
                 JSONObject json = jsonParser.makeHttpRequest(UPDATE_URL, "POST", params1);
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -327,14 +327,15 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
         Accounts.newschoolname.setText(schoolName);
     }
 
-public void uploadImage(View view){
+    public void uploadImage(View view) {
 
-    Intent intent = new Intent();
-    intent.setType("image/*");
-    intent.setAction(Intent.ACTION_GET_CONTENT);
-    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
 
-}
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -366,6 +367,7 @@ public void uploadImage(View view){
             }
         }
     }
+
     public class uploadImage extends AsyncTask<String, String, String> {
 
         @Override

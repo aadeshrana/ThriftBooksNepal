@@ -11,4 +11,11 @@
         android:id="@+id/log_out"
         android:title="@string/log_out"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/messager"
+        android:orderInCategory="100"
+        android:title="NOTIFICATION TRY"
+        app:showAsAction="never" />
+
+
 </menu>

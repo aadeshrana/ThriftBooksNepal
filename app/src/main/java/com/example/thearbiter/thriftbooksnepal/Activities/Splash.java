@@ -42,7 +42,7 @@ public class Splash extends AppCompatActivity {
 
                 /////FETCHING DETAILS OF SAVED USER FROM THE SERVER
                 Login login = new Login();
-          //    login.sharedInfoPuller(this);
+                //    login.sharedInfoPuller(this);
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -88,4 +88,6 @@ public class Splash extends AppCompatActivity {
 
 
     }
+
+
 }
