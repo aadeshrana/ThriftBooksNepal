@@ -83,6 +83,8 @@ public class MainDrawerHome extends AppCompatActivity {
 
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         CustomDiagFindSchool obj = new CustomDiagFindSchool();
         obj.findAllSchool();
         FragmentNavMenu fragmentNavMenu = (FragmentNavMenu) getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);

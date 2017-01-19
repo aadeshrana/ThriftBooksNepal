@@ -28,7 +28,7 @@
             android:label="@string/app_name" />
         <activity
             android:name=".Activities.MainDrawerHome"
-            android:label="@string/title_activity_main_drawer_home">
+            >
 
         </activity>
         <activity
