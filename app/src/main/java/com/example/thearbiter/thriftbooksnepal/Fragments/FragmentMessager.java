@@ -62,10 +62,12 @@ public class FragmentMessager extends Fragment {
         finalBuyersActivityTextVieNameOfSeller.setText(FragmentMessager.finalBuyersActivityNameOfSeller);
     }
 
+
     public List<InformationMessageActivity> getdata() {
         List<InformationMessageActivity> data = new ArrayList<>();
 
         Log.d("randi ko ban", "" + title[0]);
+
         for (int j = 0; j < title.length; j++) {
             InformationMessageActivity current = new InformationMessageActivity();
             current.textMessage = title[j];

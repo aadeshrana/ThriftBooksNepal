@@ -25,8 +25,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
-                android:src="@drawable/default_user"
-                />
+                android:src="@drawable/default_user" />
 
             <TextView
                 android:id="@+id/messageCustomLayoutNameOfSender"
@@ -43,14 +42,23 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/noNotificationsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/messageCustomLayoutNameOfSender"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:textSize="16sp" />
+
+            <TextView
                 android:id="@+id/messageCustomLayoutTextToSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/messageCustomLayoutNameOfSender"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
-                android:layout_below="@id/messageCustomLayoutNameOfSender"
+                android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/messageUserPicture"
                 android:layout_toRightOf="@id/messageUserPicture"
                 android:text="MESSAGE DEMO"

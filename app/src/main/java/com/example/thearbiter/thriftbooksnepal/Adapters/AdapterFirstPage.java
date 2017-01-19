@@ -71,6 +71,7 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
                 context.startActivity(in);
             }
         });
+
     }
 
     @Override

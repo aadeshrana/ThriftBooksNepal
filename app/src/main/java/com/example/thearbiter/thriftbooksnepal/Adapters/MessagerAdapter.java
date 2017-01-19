@@ -42,6 +42,12 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
         final InformationMessageActivity current = data.get(position);
         holder.text.setText(current.textMessage);
         holder.sendersName.setText(current.sendersName);
+        if (current.textMessage.equals("null")) {
+            holder.text.setVisibility(View.INVISIBLE);
+            holder.sendersName.setVisibility(View.INVISIBLE);
+            holder.noNotifs.setText("BE THE FIRST ONE TO ENQUIRE");
+            holder.messageImageProfilePicture.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -54,9 +60,11 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
         TextView text;
         TextView sendersName;
         ImageView messageImageProfilePicture;
+        TextView noNotifs;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            noNotifs = (TextView) itemView.findViewById(R.id.noNotificationsText);
             sendersName = (TextView) itemView.findViewById(R.id.messageCustomLayoutNameOfSender);
             messageImageProfilePicture = (ImageView) itemView.findViewById(R.id.messageUserPicture);
             text = (TextView) itemView.findViewById(R.id.messageCustomLayoutTextToSend);

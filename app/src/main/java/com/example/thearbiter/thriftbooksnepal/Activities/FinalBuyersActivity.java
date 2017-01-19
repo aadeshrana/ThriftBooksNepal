@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentMessager;
@@ -46,12 +47,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         new LoadAllMessages().execute();
-//
-//        FragmentMessager fragmentMessager = new FragmentMessager();
-//        FragmentManager manager = getFragmentManager();
-//        FragmentTransaction transaction = manager.beginTransaction();
-//        transaction.add(R.id.recyclerPasterId, fragmentMessager, "asdf");
-//        transaction.commit();
+
     }
 
     public class LoadAllMessages extends AsyncTask<String, String, String> {
@@ -71,15 +67,18 @@ public class FinalBuyersActivity extends AppCompatActivity {
 //                param1.add(new BasicNameValuePair("username", spUsername));
 
                 Log.d("SHARED ISSS", "" + FragmentMessager.finalBuyersActivityImage2 + FragmentMessager.finalBuyersActivityPriceOfBook);
+
                 String salesId = FragmentMessager.finalBuyersActivityImage2 + FragmentMessager.finalBuyersActivityPriceOfBook;
 
                 param1.add(new BasicNameValuePair("saleid", salesId));
 
-                JSONObject json = jsonParser.makeHttpRequest(PULL_ALL_MESSAGES_URL, "POST", param1);
-                //full json response
-
                 sender.clear();
                 message.clear();
+                JSONObject json;
+
+                json = jsonParser.makeHttpRequest(PULL_ALL_MESSAGES_URL, "POST", param1);
+                //full json response
+
 
                 try {
                     for (int i = 0; i < json.length(); i++) {
@@ -92,19 +91,27 @@ public class FinalBuyersActivity extends AppCompatActivity {
                 }
 
 
-                FinalBuyersActivity.senderArray = new String[sender.size()];
-                FinalBuyersActivity.messageArray = new String[message.size()];
-
-                FinalBuyersActivity.senderArray = sender.toArray(new String[sender.size()]);
-                FinalBuyersActivity.messageArray = message.toArray(new String[message.size()]);
-
-                Log.d("REACH HERE", "" + senderArray[0]);
-                FragmentMessager.title = message.toArray(new String[message.size()]);
-                FragmentMessager.nameOfSender = sender.toArray(new String[sender.size()]);
             } catch (Exception e) {
 
             }
 
+            FinalBuyersActivity.senderArray = new String[sender.size()];
+            FinalBuyersActivity.messageArray = new String[message.size()];
+
+            FinalBuyersActivity.senderArray = sender.toArray(new String[sender.size()]);
+            FinalBuyersActivity.messageArray = message.toArray(new String[message.size()]);
+
+            try {
+                Log.d("REACH HERE", "" + sender.get(0));
+
+                Toast.makeText(FinalBuyersActivity.this, "NULL BABYY", Toast.LENGTH_SHORT).show();
+
+            } catch (Exception e) {
+
+            }
+            FragmentMessager.title = message.toArray(new String[message.size()]);
+            FragmentMessager.nameOfSender = sender.toArray(new String[sender.size()]);
+            sender = null;
             return null;
         }
 
