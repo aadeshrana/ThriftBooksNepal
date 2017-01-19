@@ -80,6 +80,8 @@ public class MainDrawerHome extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.drawerProgress);
         progressBar.setVisibility(View.VISIBLE);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+
+
         setSupportActionBar(toolbar);
         CustomDiagFindSchool obj = new CustomDiagFindSchool();
         obj.findAllSchool();
@@ -288,5 +290,7 @@ public class MainDrawerHome extends AppCompatActivity {
 
         }
     }
+
+
 
 }

@@ -7,5 +7,14 @@
     android:background="#37474F"
     android:titleTextColor="#ffffff"
 
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-     />
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+
+<ImageView
+android:id="@+id/yourlogo"
+android:layout_width="50dp"
+android:layout_height="wrap_content"
+android:src="@drawable/tick_green"
+android:padding="8dp"
+android:layout_gravity="start"/>
+</android.support.v7.widget.Toolbar>
