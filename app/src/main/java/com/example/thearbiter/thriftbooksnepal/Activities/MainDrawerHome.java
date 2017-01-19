@@ -28,6 +28,7 @@ import com.example.thearbiter.thriftbooksnepal.ExtraClasses.MySingleton;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
+import com.example.thearbiter.thriftbooksnepal.Information.InformationMessageActivity;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -90,6 +91,9 @@ public class MainDrawerHome extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.mainfragmentDrawer, fragmentAdpater, "abc");
 
+        InformationMessageActivity informationMessageActivityObject = new InformationMessageActivity();
+        informationMessageActivityObject.sendersName=null;
+        informationMessageActivityObject.textMessage=null;
         transaction.commit();
         new PullAllAlevelItems().execute();
         getToken();

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.FinalBuyersActivity;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentMessager;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
@@ -41,6 +42,7 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
     @Override
     public AdapterFirstPage.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.custom_item_buyer, parent, false);
+
         MyViewHolder holder = new MyViewHolder(view);
 
         return holder;
@@ -57,15 +59,14 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
         holder.cardMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FinalBuyersActivity.finalBuyersActivityNameOfBook = current.title;
-                FinalBuyersActivity.finalBuyersActivityPriceOfBook = current.priceOfBook;
-                FinalBuyersActivity.finalBuyersActivityNameOfSeller = current.sellerName;
-                FinalBuyersActivity.finalBuyersActivityNameOfAuthor = FragmentNavDraerMain.arrayNameOfAuthor[position];
-                Log.d("THIS SHIT SHOULD ORK", "" + FragmentNavDraerMain.arrayUserName[position]);
-                FinalBuyersActivity.finalBuyersActivityImage1 = FragmentNavDraerMain.arrayImage1Name[position];
-                FinalBuyersActivity.finalBuyersActivityImage2 = FragmentNavDraerMain.arrayImage2Name[position];
-                FinalBuyersActivity.finalBuyersActivityImage3 = FragmentNavDraerMain.arrayImage3Name[position];
-                FinalBuyersActivity.finalBuyersActivityUsernameOfSeller = FragmentNavDraerMain.arrayUserName[position];
+                FragmentMessager.finalBuyersActivityNameOfBook = current.title;
+                FragmentMessager.finalBuyersActivityPriceOfBook = current.priceOfBook;
+                FragmentMessager.finalBuyersActivityNameOfSeller = current.sellerName;
+                FragmentMessager.finalBuyersActivityNameOfAuthor = FragmentNavDraerMain.arrayNameOfAuthor[position];
+                FragmentMessager.finalBuyersActivityImage1 = FragmentNavDraerMain.arrayImage1Name[position];
+                FragmentMessager.finalBuyersActivityImage2 = FragmentNavDraerMain.arrayImage2Name[position];
+                FragmentMessager.finalBuyersActivityImage3 = FragmentNavDraerMain.arrayImage3Name[position];
+                FragmentMessager.finalBuyersActivityUsernameOfSeller = FragmentNavDraerMain.arrayUserName[position];
                 Intent in = new Intent(context, FinalBuyersActivity.class);
                 context.startActivity(in);
             }
