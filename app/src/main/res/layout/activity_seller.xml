@@ -76,21 +76,25 @@
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/sellerTextVieCv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="34dp"
                 android:layout_below="@id/sellerClassAddressOfHome"
-                card_view:cardBackgroundColor="#f9f9f9"
-                card_view:cardElevation="2dp">
+                card_view:cardBackgroundColor="#37474F"
+                card_view:cardElevation="1dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/ooselectPictureTextBox"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:textColor="#ffffff"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Select Pictures of the book"
-                    android:textSize="14sp" />
 
+                    android:text="Select Pictures of the book"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp" />
+                </RelativeLayout>
             </android.support.v7.widget.CardView>
 
             <RelativeLayout
@@ -100,7 +104,7 @@
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/firstcvv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -135,16 +139,32 @@
                             android:layout_marginLeft="5dp"
                             android:hint="fileName1"
                             android:textAlignment="center" />
-
-                        <Button
-                            android:id="@+id/sellerUpload1Button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_below="@id/sellerImageFileName1"
+                            >
+                        <Button
+                            android:id="@+id/sellerUpload1Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
                             android:text="Upload Image"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+
+                            />
+
+                            <ProgressBar
+                                style="?android:attr/progressBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true"
+                                android:id="@+id/imageUploadOneProgress" />
+
+
+                        </RelativeLayout>
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 

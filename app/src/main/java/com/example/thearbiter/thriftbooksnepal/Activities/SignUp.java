@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,12 +43,12 @@ import java.util.List;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends AppCompatActivity implements TextWatcher {
 
     static EditText firstName, lastName, userName, password, confirmPass, phoneNo, email;
     static EditText school;
-    static TextView filePath;
-    static ImageView profileImg;
+    static TextView filePath,checkTextPass, checkTestConf;
+    static ImageView profileImg, checkImgPass, checkImgConf;
     Button sendButton, choseButton;
     String strFirstName, strLastName, strUserName, strPassword, strConfirmPass, strPhoneNo, strEmail, strSchool, strImage;
     static String fname, lname, uname, passwd, confirmpwd, phoneNum, emailer;
@@ -86,6 +88,18 @@ public class SignUp extends AppCompatActivity {
         profileImg = (ImageView) findViewById(R.id.profileImage);
         CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
         customDiagFindSchool.findAllSchool();
+        school.setEnabled(false);
+        confirmPass.addTextChangedListener(this);
+
+        checkImgConf = (ImageView)findViewById(R.id.imageCheckConfirm) ;
+        checkImgPass =(ImageView)findViewById(R.id.imageCheckAccount);
+        checkTestConf=(TextView)findViewById(R.id.errorTextConfirmPass);
+        checkTextPass=(TextView)findViewById(R.id.errorTextNewPass);
+
+        checkTextPass.setVisibility(View.GONE);
+        checkTestConf.setVisibility(View.GONE);
+        checkImgConf.setVisibility(View.GONE);
+        checkImgPass.setVisibility(View.GONE);
 
 
         verifyStoragePermissions(this);
@@ -190,6 +204,61 @@ public class SignUp extends AppCompatActivity {
 
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        String changed = password.getText().toString();
+        if (changed.equals("") || confirmPass.getText().toString().equals("") ){
+
+            checkImgPass.setVisibility(View.GONE);
+            checkImgConf.setVisibility(View.GONE);
+            checkTextPass.setVisibility(View.GONE);
+            checkTestConf.setVisibility(View.GONE);
+        }
+        else {
+            if (changed.equals(confirmPass.getText().toString())) {
+
+                checkImgPass.setVisibility(View.VISIBLE);
+                checkImgConf.setVisibility(View.VISIBLE);
+                checkTextPass.setVisibility(View.VISIBLE);
+                checkTestConf.setVisibility(View.VISIBLE);
+
+                 checkImgConf.setImageResource(R.drawable.tick_green);
+                checkImgPass.setImageResource(R.drawable.tick_green);
+                checkTestConf.setText("Match");
+                checkTestConf.setTextColor(Color.parseColor("#67C100"));
+                checkTextPass.setText("Match");
+                checkTextPass.setTextColor(Color.parseColor("#67C100"));
+            } else {
+
+                checkImgPass.setVisibility(View.VISIBLE);
+                checkImgConf.setVisibility(View.VISIBLE);
+                checkTextPass.setVisibility(View.VISIBLE);
+                checkTestConf.setVisibility(View.VISIBLE);
+
+
+
+                checkImgConf.setImageResource(R.drawable.errorpass);
+                checkImgPass.setImageResource(R.drawable.errorpass);
+                checkTestConf.setText("Passwords Don't Match");
+                checkTestConf.setTextColor(Color.parseColor("#D72828"));
+                checkTextPass.setText("Passwords Don't Match");
+                checkTextPass.setTextColor(Color.parseColor("#D72828"));
+            }
+        }
+
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
     class CheckSchool extends AsyncTask<String, String, String> {
 
         @Override
@@ -256,6 +325,8 @@ public class SignUp extends AppCompatActivity {
 
         CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
         customDiagFindSchool.show(getFragmentManager(), "abc");
+        school.setEnabled(true);
+        school.setHint("College/School not found?");
 
     }
 

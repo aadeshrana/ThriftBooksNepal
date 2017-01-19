@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.thearbiter.thriftbooksnepal.Activities.Login">
+    tools:context="com.example.thearbiter.thriftbooksnepal.Activities.Login"
+    android:background="#ffffff"
+    >
 
     <TextView
         android:id="@+id/nymberiaTitle"
@@ -127,7 +129,7 @@
             android:id="@+id/LoginNewAccount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
+            android:background="#eee"
             android:onClick="newAccount"
             android:text="No Account? Sign Up"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"

@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,7 +79,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     final FTPClient client2 = new FTPClient();
     TextView imageFilePath1, imageFilePath2, imageFilePath3;
     static int selectedSelectImageButton;
-
+    ProgressBar imgUplaodOneProgress;
     Uri filepath1, filepath2, filepath3;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -93,7 +94,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-
+        imgUplaodOneProgress =(ProgressBar)findViewById(R.id.imageUploadOneProgress);
+        imgUplaodOneProgress.setVisibility(View.GONE);
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         sharedpref.edit();
@@ -107,7 +109,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        toolbar.setTitleTextColor(0xFFFFFFFF);
         verifyStoragePermissions(this);
 
 
@@ -175,6 +177,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             intent.setAction(Intent.ACTION_GET_CONTENT);
             selectedSelectImageButton = 1;
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+            imgUplaodOneProgress.setVisibility(View.VISIBLE);
+
         }
         if (v == sellerSelectImage2) {
             Intent intent = new Intent();
@@ -325,11 +329,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-//                pdialog = new ProgressDialog(ActivitySeller.this);
-//                pdialog.setMessage("Uploading 1 .. Please Wait");
-//                pdialog.setIndeterminate(false);
-//                pdialog.setCancelable(false);
-//                pdialog.show();
+              imgUplaodOneProgress.setVisibility(View.VISIBLE);
+                sellerUpload1Button.setVisibility(View.GONE);
             }
 
             @Override
@@ -385,6 +386,9 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 super.onPostExecute(s);
 //                pdialog.dismiss();
                 Toast.makeText(ActivitySeller.this, "Uploaded Image 1", Toast.LENGTH_SHORT).show();
+
+
+
                 img1 = true;
                 value1Poster();
             }
@@ -549,6 +553,9 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     void value1Poster() {
         imageFilePath1.setText("UPLOADED!!!");
         imageFilePath1.setTextColor(Color.MAGENTA);
+        imgUplaodOneProgress.setVisibility(View.GONE);
+
+        sellerUpload1Button.setVisibility(View.VISIBLE);
     }
 
     void value2Poster() {

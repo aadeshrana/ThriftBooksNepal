@@ -251,7 +251,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher{
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-    String changed = passwordNew.getText().toString();
+       String changed = passwordNew.getText().toString();
         if (changed.equals("") || passwordConfirm.getText().toString().equals("") ){
 
             erroImageConfirm.setVisibility(View.GONE);
