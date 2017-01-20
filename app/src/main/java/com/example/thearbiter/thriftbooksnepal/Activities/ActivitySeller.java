@@ -409,7 +409,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-//
+
             }
 
             @Override

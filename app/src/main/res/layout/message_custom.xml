@@ -13,6 +13,7 @@
         card_view:cardBackgroundColor="#FFFFFF"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="2dp"
+        android:padding="2dp"
         card_view:cardUseCompatPadding="true"
         >
 
@@ -58,7 +59,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="1dp"
                 android:layout_toEndOf="@id/messageUserPicture"
                 android:layout_toRightOf="@id/messageUserPicture"
                 android:text="MESSAGE DEMO"

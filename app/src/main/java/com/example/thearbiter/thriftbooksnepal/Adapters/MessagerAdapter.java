@@ -37,6 +37,10 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
         return holder;
     }
 
+    public void notifySetChanged() {
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(MessagerAdapter.MyViewHolder holder, int position) {
         final InformationMessageActivity current = data.get(position);

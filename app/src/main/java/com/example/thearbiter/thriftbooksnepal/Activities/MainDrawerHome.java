@@ -23,7 +23,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
-import com.example.thearbiter.thriftbooksnepal.ExtraClasses.MessagingTryActivity;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.MySingleton;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
@@ -84,7 +83,7 @@ public class MainDrawerHome extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        getToken();
 
         CustomDiagFindSchool obj = new CustomDiagFindSchool();
         obj.findAllSchool();
@@ -97,20 +96,23 @@ public class MainDrawerHome extends AppCompatActivity {
         transaction.add(R.id.mainfragmentDrawer, fragmentAdpater, "abc");
 
         InformationMessageActivity informationMessageActivityObject = new InformationMessageActivity();
-        informationMessageActivityObject.sendersName=null;
-        informationMessageActivityObject.textMessage=null;
+        informationMessageActivityObject.sendersName = null;
+        informationMessageActivityObject.textMessage = null;
         transaction.commit();
         new PullAllAlevelItems().execute();
-        getToken();
 
     }
 
     private void getToken() {
         final String recent_token = FirebaseInstanceId.getInstance().getToken();
+
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor edit = sharedpref.edit();
+        edit.putString("token", recent_token);
+        edit.apply();
         final String token = sharedpref.getString("token", "");
-        Log.d("TOKEN LOG", "" + token);
+        Log.d("TOKEN LOG", "km  " + token);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, app_server_url,
                 new Response.Listener<String>() {
@@ -157,7 +159,7 @@ public class MainDrawerHome extends AppCompatActivity {
             return true;
         }
         if (id == R.id.messager) {
-            Intent in = new Intent(getBaseContext(), MessagingTryActivity.class);
+            Intent in = new Intent(getBaseContext(), MainDrawerHome.class);
             startActivity(in);
         }
         if (id == R.id.log_out) {
@@ -293,7 +295,6 @@ public class MainDrawerHome extends AppCompatActivity {
 
         }
     }
-
 
 
 }
