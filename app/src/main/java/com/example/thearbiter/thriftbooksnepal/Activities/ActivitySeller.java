@@ -109,6 +109,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitleTextColor(0xFFFFFFFF);
         verifyStoragePermissions(this);
 
@@ -408,11 +409,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-//                pdialog = new ProgressDialog(ActivitySeller.this);
-//                pdialog.setMessage("Uploading 2 .. Please Wait");
-//                pdialog.setIndeterminate(false);
-//                pdialog.setCancelable(false);
-//                pdialog.show();
+//
             }
 
             @Override

@@ -166,7 +166,7 @@
 
 
                             <EditText
-                                android:id="@+id/editText"
+                                android:id="@+id/messageEditText"
                                 android:layout_width="265dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="30"
@@ -178,6 +178,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
+                            android:onClick="finalSendMessage"
+                            android:id="@+id/sendMessageButton"
                             android:layout_weight="80"
                             android:text="send" />
 
