@@ -41,7 +41,7 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
 
     @Override
     public AdapterFirstPage.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.custom_item_buyer, parent, false);
+        View view = layoutInflater.inflate(R.layout.temp_custom_recyler, parent, false);
 
         MyViewHolder holder = new MyViewHolder(view);
 

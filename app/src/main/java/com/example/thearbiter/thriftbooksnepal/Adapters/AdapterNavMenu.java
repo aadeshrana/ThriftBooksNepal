@@ -17,6 +17,7 @@ import com.example.thearbiter.thriftbooksnepal.Activities.IbOptions;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainALevelBuyer;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainIbBuyer;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainPlusTwoBuyer;
+import com.example.thearbiter.thriftbooksnepal.Activities.MyOrders;
 import com.example.thearbiter.thriftbooksnepal.Activities.PlusTwoOptions;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentALevelBuy;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentIbBuy;
@@ -101,6 +102,10 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
 
                     case 6:
                         intent = new Intent(context, Accounts.class);
+                        context.startActivity(intent);
+                        break;
+                    case 8:
+                        intent = new Intent(context, MyOrders.class);
                         context.startActivity(intent);
                         break;
                 }
