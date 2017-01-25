@@ -44,6 +44,9 @@
             android:name=".Activities.Login"
             android:label="@string/title_activity_login" />
         <activity
+            android:name=".Activities.ChatMainActivity"
+            android:label="@string/title_activity_login" />
+        <activity
             android:name=".Activities.IbOptions"
             android:label="ib" />
         <activity

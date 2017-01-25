@@ -160,7 +160,7 @@ public class MainDrawerHome extends AppCompatActivity {
             return true;
         }
         if (id == R.id.messager) {
-            Intent in = new Intent(getBaseContext(), MainDrawerHome.class);
+            Intent in = new Intent(getBaseContext(), ChatMainActivity.class);
             startActivity(in);
         }
         if (id == R.id.log_out) {

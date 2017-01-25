@@ -2,6 +2,7 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -137,7 +138,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_ib_options, menu);
+        getMenuInflater().inflate(R.menu.menu_final_buyer, menu);
         return true;
     }
 
@@ -156,8 +157,9 @@ public class FinalBuyersActivity extends AppCompatActivity {
 
         }
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.leaveAMessage) {
+            Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
