@@ -8,6 +8,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.thearbiter.thriftbooksnepal.R;
@@ -25,17 +27,19 @@ public class FcmMessagingService extends FirebaseMessagingService {
         String title = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
 
-        Intent intent = new Intent(this,MessagingTryActivity.class);
+        Intent intent = new Intent(this, MessagingTryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setContentTitle(title);
         notificationBuilder.setContentText(message);
+        Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        notificationBuilder.setSound(uri);
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0,notificationBuilder.build());
+        notificationManager.notify(0, notificationBuilder.build());
 
     }
 }

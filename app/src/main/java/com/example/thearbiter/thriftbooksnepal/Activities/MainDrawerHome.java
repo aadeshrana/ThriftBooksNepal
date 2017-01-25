@@ -98,6 +98,7 @@ public class MainDrawerHome extends AppCompatActivity {
         InformationMessageActivity informationMessageActivityObject = new InformationMessageActivity();
         informationMessageActivityObject.sendersName = null;
         informationMessageActivityObject.textMessage = null;
+        informationMessageActivityObject.timeOfNotification = null;
         transaction.commit();
         new PullAllAlevelItems().execute();
 

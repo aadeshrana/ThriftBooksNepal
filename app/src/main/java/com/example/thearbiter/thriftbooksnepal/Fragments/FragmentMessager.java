@@ -34,7 +34,11 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class FragmentMessager extends Fragment {
@@ -43,6 +47,7 @@ public class FragmentMessager extends Fragment {
     String SEND_NOTIFICATION_TO_USER = "http://frame.ueuo.com/images/send_notification.php";
     ArrayList<String> sender1 = new ArrayList<>();
     ArrayList<String> message1 = new ArrayList<>();
+    ArrayList<String> time1 = new ArrayList<>();
     private static final String SEND_MESSAGE_URL = "http://frame.ueuo.com/thriftbooks/postComment.php";
     JSONParser jsonParser = new JSONParser();
     public static String finalBuyersActivityNameOfBook;
@@ -58,7 +63,10 @@ public class FragmentMessager extends Fragment {
     String stringMessageToSend;
     public static String title[];
     public static String nameOfSender[];
+    public static String Notiftime[];
+    public static String Notiftime2[];
     ImageView sentOrNotImage;
+    public static String timeOfNotification;
     LinearLayoutManager manager;
     TextView finalBuyersActivityTextVieTitleOfBook, finalBuyersActivityTextVieNameOfAuthor, finalBuyersActivityTextViePriceOfBook;
     TextView finalBuyersActivityTextVieNameOfSeller;
@@ -81,11 +89,13 @@ public class FragmentMessager extends Fragment {
         scrollView = (ScrollView) view.findViewById(R.id.scrollVieFinalBuyer);
         setValuesToTextVies();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerVieMessageActivity);
+        recyclerView.setNestedScrollingEnabled(false);
         adapter = new MessagerAdapter(getActivity(), getdata());
         recyclerView.setAdapter(adapter);
         manager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(manager);
         manager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(manager);
+
         if (scrollToBot == 1) {
             scrollView.post(new Runnable() {
                 @Override
@@ -95,7 +105,7 @@ public class FragmentMessager extends Fragment {
                     scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 // Now enable the animation again if needed
                     scrollView.setSmoothScrollingEnabled(true);
-                    sentOrNotImage.setImageResource(R.drawable.tick_green);
+//                    sentOrNotImage.setImageResource(R.drawable.tick_green);
                     sendMessage();
                 }
             });
@@ -117,11 +127,93 @@ public class FragmentMessager extends Fragment {
         return view;
     }
 
+    void timeFinder() {
+        FragmentMessager.timeOfNotification = DateFormat.getDateTimeInstance().format(new Date());
+
+    }
+
+    void changeToIndianTime() {
+        try {
+            //////////////////SYSTEM TIME////////////////////////
+            String localArray1[], localArray2[];
+            int year, month, date, hour, minutes, seconds;
+            Calendar c = Calendar.getInstance();
+            System.out.println("Current time => " + c.getTime());
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:SS");
+            String formattedDate = df.format(c.getTime());
+            String formattedTime = df2.format(c.getTime());
+            localArray1 = (formattedDate.split("-"));
+            localArray2 = (formattedTime.split(":"));
+            year = Integer.parseInt(localArray1[0]);
+            month = Integer.parseInt(localArray1[1]);
+            date = Integer.parseInt(localArray1[2]);
+            hour = Integer.parseInt(localArray2[0]);
+            minutes = Integer.parseInt(localArray2[1]);
+            seconds = Integer.parseInt(localArray2[2]);
+
+            /////////////////////SYSTEM TIME//////////////////////
+            Notiftime2 = new String[Notiftime.length];
+
+            for (int i = 0; i < Notiftime.length; i++) {
+                String localArray4[], localArray5[], localArray6[];
+                int serverYear, serverMonth, serverDate, serverHour, serverMinutes, serverSeconds;
+
+                localArray4 = Notiftime[i].split(" ");
+
+                localArray5 = localArray4[0].split("-");
+                localArray6 = localArray4[1].split(":");
+
+                Log.d("pugyo ki", "pugena" + localArray5[0]);
+
+                serverYear = Integer.parseInt(localArray5[0]);
+                serverMonth = Integer.parseInt(localArray5[1]);
+                serverDate = Integer.parseInt(localArray5[2]);
+                serverHour = Integer.parseInt(localArray6[0]);
+                serverMinutes = Integer.parseInt(localArray6[1]);
+                serverSeconds = Integer.parseInt(localArray6[2]);
+
+                ////////////////////// SERVER TIME///////////////////////////////////
+
+                int totalTime = ((year - 2017) * 365 * 24 * 60 * 60) + (month * 30 * 24 * 60 * 60) + (date * 24 * 60 * 60) + (hour * 60 * 60) + (minutes * 60) + seconds;
+                int serverTime = ((serverYear - 2017) * 365 * 24 * 60 * 60) + (serverMonth * 30 * 24 * 60 * 60) + (serverDate * 24 * 60 * 60) + (serverHour * 60 * 60) + (serverMinutes * 60) + serverSeconds;
+                try {
+                    int difference = totalTime - serverTime - 16200;
+                    if (difference < 60) {
+                        Notiftime2[i] = "before a few seconds";
+                    } else {
+                        float differenceInMinutes = (float) difference / (float) 60;
+                        if (differenceInMinutes < 60) {
+                            Notiftime2[i] = "before " + (int) differenceInMinutes + " minutes";
+                        } else {
+                            float differenceInHour = (float) differenceInMinutes / (float) 60;
+                            if (differenceInHour < 24) {
+                                Notiftime2[i] = "before " + (int) differenceInHour + " hours";
+                            } else {
+                                float differenceInDay = (float) differenceInHour / (float) 24;
+                                if (differenceInDay < 30) {
+                                    Notiftime2[i] = "before " + (int) differenceInDay + " days";
+                                } else {
+                                    Notiftime2[i] = "before more than a month";
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public class AddItemToStore extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            timeFinder();
             pdialog = new ProgressDialog(getActivity());
             pdialog.setMessage("Posting Message");
             pdialog.setIndeterminate(false);
@@ -143,6 +235,7 @@ public class FragmentMessager extends Fragment {
 
                 param1.add(new BasicNameValuePair("senderusername", sendersUsername));
                 param1.add(new BasicNameValuePair("sender", fullName));
+                param1.add(new BasicNameValuePair("time", FragmentMessager.timeOfNotification));
                 param1.add(new BasicNameValuePair("recipient", FragmentMessager.finalBuyersActivityImage2 + FragmentMessager.finalBuyersActivityPriceOfBook));
                 param1.add(new BasicNameValuePair("message", stringMessageToSend));
 
@@ -179,6 +272,8 @@ public class FragmentMessager extends Fragment {
             current.textMessage = title[j];
             Log.d("jjjjjj", "" + title[j]);
             current.sendersName = nameOfSender[j];
+            changeToIndianTime();
+            current.timeOfNotification = Notiftime2[j];
             data.add(current);
         }
         return data;
@@ -208,6 +303,7 @@ public class FragmentMessager extends Fragment {
 
                 sender1.clear();
                 message1.clear();
+                time1.clear();
                 JSONObject json;
 
                 json = jsonParser.makeHttpRequest(PULL_ALL_MESSAGES_URL, "POST", param1);
@@ -218,6 +314,7 @@ public class FragmentMessager extends Fragment {
                     for (int i = 0; i < json.length(); i++) {
                         sender1.add(json.getString("b" + i));
                         message1.add(json.getString("a" + i));
+                        time1.add(json.getString("c" + i));
                     }
 
                 } catch (Exception e) {
@@ -231,10 +328,11 @@ public class FragmentMessager extends Fragment {
 
             FinalBuyersActivity.senderArray = new String[sender1.size()];
             FinalBuyersActivity.messageArray = new String[message1.size()];
+            FinalBuyersActivity.timeArray = new String[time1.size()];
 
             FinalBuyersActivity.senderArray = sender1.toArray(new String[sender1.size()]);
             FinalBuyersActivity.messageArray = message1.toArray(new String[message1.size()]);
-
+            FinalBuyersActivity.timeArray = time1.toArray(new String[time1.size()]);
             try {
                 Log.d("REACH HERE", "" + sender1.get(0));
 
@@ -243,6 +341,7 @@ public class FragmentMessager extends Fragment {
             }
             FragmentMessager.title = message1.toArray(new String[message1.size()]);
             FragmentMessager.nameOfSender = sender1.toArray(new String[sender1.size()]);
+            FragmentMessager.Notiftime = time1.toArray(new String[time1.size()]);
             sender1 = null;
             return null;
         }

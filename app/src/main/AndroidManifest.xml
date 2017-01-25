@@ -49,6 +49,7 @@
         <activity
             android:name=".Activities.ALevelOptions"
             android:label="alevel" />
+
         <activity
             android:name=".Activities.PlusTwoOptions"
             android:label="ib" />

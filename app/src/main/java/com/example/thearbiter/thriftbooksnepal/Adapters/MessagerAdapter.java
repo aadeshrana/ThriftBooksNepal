@@ -46,6 +46,7 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
         final InformationMessageActivity current = data.get(position);
         holder.text.setText(current.textMessage);
         holder.sendersName.setText(current.sendersName);
+        holder.timeOfNotif.setText(current.timeOfNotification);
         if (current.textMessage.equals("null")) {
             holder.text.setVisibility(View.INVISIBLE);
             holder.sendersName.setVisibility(View.INVISIBLE);
@@ -65,9 +66,11 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
         TextView sendersName;
         ImageView messageImageProfilePicture;
         TextView noNotifs;
+        TextView timeOfNotif;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            timeOfNotif = (TextView) itemView.findViewById(R.id.timeOfNotif);
             noNotifs = (TextView) itemView.findViewById(R.id.noNotificationsText);
             sendersName = (TextView) itemView.findViewById(R.id.messageCustomLayoutNameOfSender);
             messageImageProfilePicture = (ImageView) itemView.findViewById(R.id.messageUserPicture);
