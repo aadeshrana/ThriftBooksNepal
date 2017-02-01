@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,11 +24,18 @@ import android.widget.Toast;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +60,11 @@ public class Login extends AppCompatActivity {
     CheckBox keepLoggedIn;
 
     static String checkBoxChecked = "notchecked";
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -83,10 +96,49 @@ public class Login extends AppCompatActivity {
             }
 
         });
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public void sharedInfoPuller(Context context) {
         new LoggedInUserInfoPuller(context).execute();
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Login Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 
     class LoggedInUserInfoPuller extends AsyncTask<String, String, String> {
@@ -158,10 +210,13 @@ public class Login extends AppCompatActivity {
 
 
     ////When you press the button login//////
-    public void loginButton(View view) {
+    public void loginButton(View view) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
         strLoginUsername = loginUsername.getText().toString();
         strLoginPassword = loginPassword.getText().toString();
+
+        Login login = new Login();
+        strLoginPassword = login.SHA1(strLoginPassword);
         //For keeping logged in
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -285,4 +340,24 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte b : data) {
+            int halfbyte = (b >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
+                halfbyte = b & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
+    }
+
+    public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        byte[] textBytes = text.getBytes("iso-8859-1");
+        md.update(textBytes, 0, textBytes.length);
+        byte[] sha1hash = md.digest();
+        return convertToHex(sha1hash);
+    }
 }

@@ -51,10 +51,10 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final InformationBuyerRecycler current = data.get(position);
-        holder.title.setText(current.title);
+       holder.title.setText(current.title);
         holder.priceOfBook.setText(current.priceOfBook);
-        holder.sellerName.setText(current.sellerName);
-        holder.imgOfBook.setImageResource(R.drawable.noimageplaceholder);
+       holder.sellerName.setText(current.sellerName);
+       holder.imgOfBook.setImageResource(R.drawable.noimageplaceholder);
         Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
         holder.cardMain.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thearbiter.thriftbooksnepal.Activities.Notifications;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
+import com.example.thearbiter.thriftbooksnepal.Information.infotest;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
 
@@ -23,9 +25,9 @@ import java.util.List;
 public class AdapterMyOrder extends RecyclerView.Adapter<AdapterMyOrder.MyViewHolder>{
     Context context;
     LayoutInflater layoutInflater;
-    List<InformationBuyerRecycler> data = Collections.emptyList();
+    List<infotest> data = Collections.emptyList();
 
-    public AdapterMyOrder(Context context, List<InformationBuyerRecycler> data) {
+    public AdapterMyOrder(Context context, List<infotest> data) {
         Log.d("LOG", "" + context);
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
@@ -34,20 +36,24 @@ public class AdapterMyOrder extends RecyclerView.Adapter<AdapterMyOrder.MyViewHo
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.temp_custom_recyler, parent, false);
+        View view = layoutInflater.inflate(R.layout.my_order_layout, parent, false);
+        Log.d("hellooo","s"+Notifications.positionOfView);
      MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final InformationBuyerRecycler current = data.get(position);
-        holder.title.setText(current.title);
-        holder.priceOfBook.setText(current.priceOfBook);
-        holder.sellerName.setText(current.sellerName);
+        final infotest current = data.get(position);
 
-        Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
-        Log.d("what is     ","http://aadeshrana.esy.es/" + current.firstBookList);
+        if(Notifications.positionOfView==0){
+            holder.content.setText("Has Commented On Your Post!");
+        }
+        else
+        holder.content.setText("Has Requested a new book!");
+        holder.username.setText(current.title);
+
+
     }
 
     @Override
@@ -57,16 +63,14 @@ public class AdapterMyOrder extends RecyclerView.Adapter<AdapterMyOrder.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imgOfBook;
-        TextView title;
-        TextView priceOfBook;
+        TextView username;
+        TextView content;
         TextView sellerName;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            imgOfBook = (ImageView) itemView.findViewById(R.id.imageOfBookForALevelBuyer);
-            title = (TextView) itemView.findViewById(R.id.titleOfBookForALevelBuyer);
-            priceOfBook = (TextView) itemView.findViewById(R.id.priceOfBookForALevelBuyer);
-            sellerName = (TextView) itemView.findViewById(R.id.nameOfSellerForBuyerCustomALevel);
+            username = (TextView) itemView.findViewById(R.id.userName);
+            content =(TextView)itemView.findViewById(R.id.contentMyOrder);
         }
     }
 }

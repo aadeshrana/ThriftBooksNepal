@@ -34,6 +34,7 @@ dependencies {
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.google.firebase:firebase-messaging:9.2.1'
+    compile 'com.google.android.gms:play-services-appindexing:9.2.1'
 }
 
 

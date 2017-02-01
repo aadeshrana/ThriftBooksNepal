@@ -3,6 +3,7 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,6 +13,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,25 +33,33 @@ import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.ImageFilePath;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 
 public class SignUp extends AppCompatActivity implements TextWatcher {
-
+    static int requestToSend =0;
     static EditText firstName, lastName, userName, password, confirmPass, phoneNo, email;
     static EditText school;
-    static TextView filePath,checkTextPass, checkTestConf;
-    static ImageView profileImg, checkImgPass, checkImgConf;
+    static TextView filePath, checkTextPass, checkTestConf,passStrength,validEmail;
+    static ImageView profileImg, checkImgPass, checkImgConf,checkEmail;
+    View strengthMeter;
     Button sendButton, choseButton;
     String strFirstName, strLastName, strUserName, strPassword, strConfirmPass, strPhoneNo, strEmail, strSchool, strImage;
     static String fname, lname, uname, passwd, confirmpwd, phoneNum, emailer;
@@ -57,11 +68,14 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
     private ProgressDialog pdialog;
     static final String FTP_HOST = "93.188.160.157";
     static final String FTP_USER = "u856924126";
+    private static final String TAG_SUCCESS = "success";
     static final String FTP_PASS = "aadesh";
     private static final String REGISTER_URL = "http://frame.ueuo.com/thriftbooks/register.php";
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    int success;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private int PICK_IMAGE_REQUEST = 1;
     final FTPClient client = new FTPClient();
@@ -70,10 +84,16 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
     Bitmap bitmap;
     File f;
     final FTPClient client2 = new FTPClient();
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AdapterFindSchool.selected = -1;
+        requestToSend =1;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         firstName = (EditText) findViewById(R.id.signUpFirstName);
@@ -90,18 +110,22 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         customDiagFindSchool.findAllSchool();
         school.setEnabled(false);
         confirmPass.addTextChangedListener(this);
-
-        checkImgConf = (ImageView)findViewById(R.id.imageCheckConfirm) ;
-        checkImgPass =(ImageView)findViewById(R.id.imageCheckAccount);
-        checkTestConf=(TextView)findViewById(R.id.errorTextConfirmPass);
-        checkTextPass=(TextView)findViewById(R.id.errorTextNewPass);
-
+        password.addTextChangedListener(this);
+        email.addTextChangedListener(this);
+        checkImgConf = (ImageView) findViewById(R.id.imageCheckConfirm);
+        checkImgPass = (ImageView) findViewById(R.id.imageCheckAccount);
+        checkTestConf = (TextView) findViewById(R.id.errorTextConfirmPass);
+        checkTextPass = (TextView) findViewById(R.id.errorTextNewPass);
+        passStrength =(TextView)findViewById(R.id.passStrength);
+        checkEmail = (ImageView)findViewById(R.id.imageCheckEmail);
+        validEmail =(TextView)findViewById(R.id.errorTextEmail);
         checkTextPass.setVisibility(View.GONE);
         checkTestConf.setVisibility(View.GONE);
         checkImgConf.setVisibility(View.GONE);
         checkImgPass.setVisibility(View.GONE);
-
-
+        passStrength.setVisibility(View.GONE);
+        strengthMeter = (View)findViewById(R.id.view2);
+        strengthMeter.setVisibility(View.GONE);
         verifyStoragePermissions(this);
         try {
             firstName.setText(fname);
@@ -115,6 +139,9 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client3 = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -191,15 +218,17 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         }
 
         strPassword = password.getText().toString();
+
         strConfirmPass = confirmPass.getText().toString();
 
-        if (strPassword.equals(strConfirmPass)) {
+        if (strPassword.equals(strConfirmPass) && requestToSend ==1) {
             new CreateUser().execute();
+            new uploadImage().execute();
         } else {
-            password.setBackgroundColor(Color.RED);
-            confirmPass.setBackgroundColor(Color.RED);
+            Toast.makeText(this, "Cant Create ", Toast.LENGTH_SHORT).show();
+
         }
-        new uploadImage().execute();
+
 
 
     }
@@ -211,15 +240,72 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(email.length()<=0){
+            checkEmail.setVisibility(View.GONE);
+            validEmail.setVisibility(View.GONE);
+            requestToSend =0;
+        }
+        else if(email.getText().toString().trim().matches(emailPattern) && email.length()>0){
+            checkEmail.setVisibility(View.VISIBLE);
+            checkEmail.setImageResource(R.drawable.tick_green);
+            validEmail.setVisibility(View.VISIBLE);
+            validEmail.setText("Valid Email");
+            validEmail.setTextColor(Color.parseColor("#67C100"));
+            requestToSend=1;
+        }
+        else{
+            checkEmail.setVisibility(View.VISIBLE);
+            validEmail.setVisibility(View.VISIBLE);
+            checkEmail.setImageResource(R.drawable.errorpass);
+            validEmail.setText("Not a Valid Email");
+            validEmail.setTextColor(Color.parseColor("#D72828"));
+            requestToSend=1;
+        }
+
+
+
+        if(password.length()<=0){
+            passStrength.setVisibility(View.GONE);
+            strengthMeter.setVisibility(View.GONE);
+            requestToSend =1;
+        }
+        else if (password.length()<7){
+            requestToSend = 0;
+           passStrength.setVisibility(View.VISIBLE);
+            strengthMeter.setVisibility(View.VISIBLE);
+            strengthMeter.getLayoutParams().width=100;
+            strengthMeter.setBackgroundColor(Color.parseColor("#FFFF0000"));
+            passStrength.setText("Very Weak");
+            passStrength.setTextColor(Color.parseColor("#FFFF0000"));
+        }
+        else if(password.length()==7 || password.length()==8){
+            requestToSend =1;
+            passStrength.setText("Moderate");
+            passStrength.setTextColor(Color.parseColor("#FFC1E87D"));
+            strengthMeter.setVisibility(View.VISIBLE);
+            strengthMeter.getLayoutParams().width=150;
+            strengthMeter.setBackgroundColor(Color.parseColor("#FFC1E87D"));
+        }
+        else if(password.length()>8){
+            requestToSend =1;
+            passStrength.setText("Strong");
+            passStrength.setTextColor(Color.parseColor("#67C100"));
+            strengthMeter.setVisibility(View.VISIBLE);
+            strengthMeter.getLayoutParams().width=200;
+            strengthMeter.setBackgroundColor(Color.parseColor("#67C100"));
+
+        }
+
+
+
         String changed = password.getText().toString();
-        if (changed.equals("") || confirmPass.getText().toString().equals("") ){
+        if (changed.equals("") || confirmPass.getText().toString().equals("")) {
 
             checkImgPass.setVisibility(View.GONE);
             checkImgConf.setVisibility(View.GONE);
             checkTextPass.setVisibility(View.GONE);
             checkTestConf.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             if (changed.equals(confirmPass.getText().toString())) {
 
                 checkImgPass.setVisibility(View.VISIBLE);
@@ -227,7 +313,7 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
                 checkTextPass.setVisibility(View.VISIBLE);
                 checkTestConf.setVisibility(View.VISIBLE);
 
-                 checkImgConf.setImageResource(R.drawable.tick_green);
+                checkImgConf.setImageResource(R.drawable.tick_green);
                 checkImgPass.setImageResource(R.drawable.tick_green);
                 checkTestConf.setText("Match");
                 checkTestConf.setTextColor(Color.parseColor("#67C100"));
@@ -239,7 +325,6 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
                 checkImgConf.setVisibility(View.VISIBLE);
                 checkTextPass.setVisibility(View.VISIBLE);
                 checkTestConf.setVisibility(View.VISIBLE);
-
 
 
                 checkImgConf.setImageResource(R.drawable.errorpass);
@@ -257,6 +342,42 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("SignUp Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client3.connect();
+        AppIndex.AppIndexApi.start(client3, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client3, getIndexApiAction());
+        client3.disconnect();
     }
 
     class CheckSchool extends AsyncTask<String, String, String> {
@@ -280,12 +401,13 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
 
         protected String doInBackground(String... args) {
 
+
             try {
                 List<NameValuePair> params = new ArrayList<>();
                 params.add(new BasicNameValuePair("firstname", strFirstName));
                 params.add(new BasicNameValuePair("lastname", strLastName));
                 params.add(new BasicNameValuePair("username", strUserName));
-                params.add(new BasicNameValuePair("password", strPassword));
+                params.add(new BasicNameValuePair("password", Login.SHA1(strPassword)));
                 params.add(new BasicNameValuePair("emailaddress", strEmail));
                 params.add(new BasicNameValuePair("schoolname", strSchool));
                 params.add(new BasicNameValuePair("phonenumber", strPhoneNo));
@@ -295,14 +417,20 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
                 //full json response
                 Log.d("registering attempt", json.toString());
                 //json success element
-                //success = json.getInt(TAG_SUCCESS);
-//                if(success == 1){
-//                    Log.d("User created!",json.toString());
-//                    finish();
-//                    return json.getString(TAG_MESSAGE);
-            } catch (Exception e) {
+                 success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Log.d("User created!", json.toString());
 
+                }
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
+
+
             return null;
         }
 
@@ -310,6 +438,20 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             pdialog.dismiss();
+            if (success == 1) {
+                new AlertDialog.Builder(SignUp.this)
+                        .setTitle("Success")
+                        .setMessage("User Successfully Registered")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(SignUp.this,Login.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
         }
     }
 
@@ -383,9 +525,7 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
                 client.setPassive(true);
                 client.setType(FTPClient.TYPE_BINARY);
                 client.setAutoNoopTimeout(20);
-
                 client.upload(f);
-
                 Log.d("send bho", "" + f);
                 client.disconnect(true);
             } catch (Exception e) {
@@ -410,6 +550,3 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
 }
 
 
-/*
-//////
-*/

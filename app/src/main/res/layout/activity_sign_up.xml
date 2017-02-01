@@ -34,8 +34,8 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
 
+        android:paddingBottom="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -55,8 +55,14 @@
                 android:paddingBottom="30dp">
 
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
 
-
+                    android:layout_alignTop="@+id/signUpPassword"
+                    android:layout_toLeftOf="@+id/errorTextNewPass"
+                    android:layout_toStartOf="@+id/errorTextNewPass" />
 
                 <TextView
                     android:id="@+id/createNewAccount"
@@ -125,6 +131,7 @@
 
                         />
                 </android.support.v7.widget.CardView>
+
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/CVgg"
                     android:layout_width="wrap_content"
@@ -143,19 +150,20 @@
 
                     >
 
-                <ImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/CVLastName"
+                    <ImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/CVLastName"
 
 
-                    android:background="#ffffff"
+                        android:background="#ffffff"
 
-                    />
+                        />
                 </android.support.v7.widget.CardView>
+
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/CVProfilePic"
                     android:layout_width="match_parent"
@@ -173,35 +181,35 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                       >
+                        android:layout_height="match_parent">
 
 
                         <Button
+                            android:id="@+id/choseUpload"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:background="#EEE"
-                            android:text="Choose"
-                            android:textSize="10sp"
-                            android:onClick="uploadProfileSignUp"
-                            android:id="@+id/choseUpload"
-                            android:textColor="#000000"
-
-                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true" />
+                            android:layout_alignParentTop="true"
+                            android:background="#EEE"
+                            android:onClick="uploadProfileSignUp"
+
+                            android:text="Choose"
+                            android:textColor="#000000"
+                            android:textSize="10sp" />
+
                         <TextView
 
-                            android:layout_centerVertical="true"
                             android:id="@+id/imagePathProfile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/choseUpload"
                             android:text=""
                             android:textColor="#000000"
-                            android:textSize="10sp"
-                            android:layout_toLeftOf="@+id/choseUpload"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
+                            android:textSize="10sp" />
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
@@ -245,49 +253,71 @@
                     android:layout_marginTop="10dp"
                     android:background="#FFBB88FF"
                     card_view:cardBackgroundColor="@android:color/transparent">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                    <EditText
-                        android:id="@+id/signUpPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:gravity="center_vertical"
-                        android:hint="Enter Your Password"
-                        android:padding="8dp"
-                        android:password="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="#000000"
-                        android:textColorHint="#7b7b7b"
 
-
-                        />
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/signUpPassword"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:text="Small Tex"
-                            android:id="@+id/errorTextNewPass"
-                            android:layout_alignBottom="@+id/imageCheckAccount"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginEnd="5dp"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="Enter Your Password"
+                            android:padding="8dp"
+                            android:password="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="#000000"
+                            android:textColorHint="#7b7b7b"
+
+
                             />
 
+                        <TextView
+                            android:id="@+id/errorTextNewPass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/imageCheckAccount"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="5dp"
+                            android:text="Small Tex"
+                            android:textSize="10sp" />
+
                         <ImageView
+                            android:id="@+id/imageCheckAccount"
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:id="@+id/imageCheckAccount"
 
                             android:layout_alignTop="@+id/signUpPassword"
-                            android:layout_toLeftOf="@+id/errorTextNewPass"
-                            android:layout_toStartOf="@+id/errorTextNewPass" />
+                            android:layout_toLeftOf="@+id/errorTextNewPass" />
 
+                        <TextView
+                            android:id="@+id/passStrength"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_toEndOf="@+id/view2"
+                            android:layout_toRightOf="@+id/view2"
+                            android:text="TextView"
+                            android:textColor="#000000"
+                            android:textSize="10sp" />
+
+                        <View
+                            android:id="@+id/view2"
+                            android:layout_width="50dp"
+                            android:layout_height="3dp"
+                            android:layout_alignBottom="@+id/signUpPassword"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/black" />
                     </RelativeLayout>
 
                 </android.support.v7.widget.CardView>
@@ -302,43 +332,44 @@
                     android:layout_marginTop="10dp"
                     android:background="#FFBB88FF"
                     card_view:cardBackgroundColor="@android:color/transparent">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                    <EditText
-                        android:id="@+id/signUpConfirmPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:gravity="center_vertical"
-                        android:hint="Confirm Your Password"
-                        android:padding="8dp"
-                        android:password="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="#000000"
-                        android:textColorHint="#7b7b7b"
 
-                        />
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/signUpConfirmPassword"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:text="Small Tex"
-                            android:id="@+id/errorTextConfirmPass"
-                            android:layout_alignTop="@+id/signUpConfirmPassword"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginEnd="5dp"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="Confirm Your Password"
+                            android:padding="8dp"
+                            android:password="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="#000000"
+                            android:textColorHint="#7b7b7b"
+
                             />
 
+                        <TextView
+                            android:id="@+id/errorTextConfirmPass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignTop="@+id/signUpConfirmPassword"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="5dp"
+                            android:text="Small Tex"
+                            android:textSize="10sp" />
+
                         <ImageView
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:id="@+id/imageCheckConfirm"
+                            android:id="@+id/imageCheckConfirm"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
 
                             android:layout_alignTop="@+id/signUpConfirmPassword"
                             android:layout_toLeftOf="@+id/errorTextConfirmPass"
@@ -384,24 +415,49 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
                     android:background="#FFBB88FF"
+                    android:padding="8dp"
                     card_view:cardBackgroundColor="@android:color/transparent">
 
-                    <EditText
-                        android:id="@+id/signUpEmail"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:gravity="center_vertical"
-                        android:hint="Enter Your Email Address"
-                        android:padding="8dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="#000000"
-                        android:textColorHint="#7b7b7b"
+                        android:layout_height="match_parent">
 
 
-                        />
+                        <EditText
+                            android:id="@+id/signUpEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="Enter Your Email Address"
+                            android:padding="8dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="#000000"
+                            android:textColorHint="#7b7b7b"
+
+
+                            />
+
+                        <ImageView
+                            android:id="@+id/imageCheckEmail"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_alignBottom="@+id/errorTextEmail"
+                            android:layout_toLeftOf="@+id/errorTextEmail"
+                            android:layout_toStartOf="@+id/errorTextEmail" />
+
+                        <TextView
+                            android:id="@+id/errorTextEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Small Tex"
+                            android:textSize="10sp"
+                            android:layout_alignTop="@+id/signUpEmail"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
+                    </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
                 <LinearLayout

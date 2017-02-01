@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyOrder;
 import com.example.thearbiter.thriftbooksnepal.Adapters.IbAdapterBuy;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
+import com.example.thearbiter.thriftbooksnepal.Information.infotest;
 import com.example.thearbiter.thriftbooksnepal.R;
 
 import java.util.ArrayList;
@@ -54,15 +55,13 @@ public class FragmentMyOrder extends Fragment {
         recyclerView.setLayoutManager(lin);
         return view;
     }
-    public List<InformationBuyerRecycler> getdata() {
-        List<InformationBuyerRecycler> data = new ArrayList<>();
+    public List<infotest> getdata() {
+        List<infotest> data = new ArrayList<>();
         try {
             for (int j = 0; j < title.length; j++) {
-                InformationBuyerRecycler current = new InformationBuyerRecycler();
+               infotest current = new infotest();
                 current.title = title[j];
-                current.priceOfBook = price[j];
-                current.sellerName = sellerName[j];
-                current.firstBookList = arrayImage1Name[j];
+
                 data.add(current);
 
             }
