@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * Created by Aadesh Rana on 12-01-17.
  */
-public class CustomDiagFindSchool extends DialogFragment implements SearchView.OnQueryTextListener {
+public class    CustomDiagFindSchool extends DialogFragment implements SearchView.OnQueryTextListener {
     public RecyclerView recyclerView;
     public AdapterFindSchool adapterFindSchool;
     public Context context;

@@ -72,6 +72,7 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
     static final String FTP_PASS = "aadesh";
     private static final String REGISTER_URL = "http://frame.ueuo.com/thriftbooks/register.php";
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String numberPatter = "[0-9]+";
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
