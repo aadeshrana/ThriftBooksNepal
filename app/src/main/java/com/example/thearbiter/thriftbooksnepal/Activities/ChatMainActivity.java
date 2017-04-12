@@ -14,10 +14,19 @@ import com.example.thearbiter.thriftbooksnepal.R;
  */
 
 public class ChatMainActivity extends AppCompatActivity {
+
+    //These store values of Name and Room name sent from Intent
+    public String intentName, intentRoomName;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_recylcer_paster);
+
+        intentName = getIntent().getExtras().get("user_name").toString();
+        intentRoomName = getIntent().getExtras().get("room_name").toString();
+
+        setTitle("Chatting with - " + intentName);
 
         FragmentChat fragmentChat = new FragmentChat();
         FragmentManager fragmentManager = getFragmentManager();

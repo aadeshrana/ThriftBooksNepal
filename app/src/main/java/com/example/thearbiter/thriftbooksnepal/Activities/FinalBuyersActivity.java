@@ -3,8 +3,10 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,13 +18,20 @@ import android.widget.Toast;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentMessager;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Gaurav Jayasawal on 1/18/2017.
@@ -34,9 +43,13 @@ public class FinalBuyersActivity extends AppCompatActivity {
     JSONParser jsonParser = new JSONParser();
     private static final String PULL_ALL_MESSAGES_URL = "http://frame.ueuo.com/thriftbooks/pullAllMessages.php";
     ArrayList<String> sender = new ArrayList<>();
+    private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     ArrayList<String> message = new ArrayList<>();
+    public static String newRoomName;
+
     ArrayList<String> time = new ArrayList<>();
     public static String senderArray[], messageArray[], timeArray[];
+    private static final String CREATE_ROOM_TABLE = "http://frame.ueuo.com/images/createRoomThrift.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +66,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
 
     }
 
+    // THIS IS LOAD NOTIFICATION CLASS
     public class LoadAllMessages extends AsyncTask<String, String, String> {
 
         @Override
@@ -142,6 +156,27 @@ public class FinalBuyersActivity extends AppCompatActivity {
         return true;
     }
 
+    //CREATES ROOM IN REALTIME DATABASE AND PhpMySql DATABASE
+    class CreateRoom extends AsyncTask<String, String, String> {
+        List<NameValuePair> params1 = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... params) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
+            String userNameOfUser = preferences.getString("a", "");
+            String new2RoomName = userNameOfUser + FragmentMessager.finalBuyersActivityUsernameOfSeller;
+            params1.add(new BasicNameValuePair("roomName", new2RoomName));
+
+            Log.d("Room","Name"+FinalBuyersActivity.newRoomName);
+            try {
+                jsonParser.makeHttpRequest(CREATE_ROOM_TABLE, "POST", params1);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -156,9 +191,50 @@ public class FinalBuyersActivity extends AppCompatActivity {
                 return true;
 
         }
-        //noinspection SimplifiableIfStatement
         if (id == R.id.leaveAMessage) {
+
+            // FIREBASE ROOM CREATION IS DONE HERE
+            // TABLE FOR ROOM IS ALSO CREATED IN THE DATABASE
+
+
+            final Map<String, Object> map = new HashMap<>();
+            try {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
+                String userNameOfUser = preferences.getString("a", "");
+                newRoomName = userNameOfUser + FragmentMessager.finalBuyersActivityUsernameOfSeller;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            map.put(newRoomName, "");
+
+            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+            rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.hasChild(newRoomName)) {
+                        Toast.makeText(FinalBuyersActivity.this, "Already there", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(FinalBuyersActivity.this, "Not present NEWW", Toast.LENGTH_SHORT).show();
+                        new CreateRoom().execute();
+                        root.updateChildren(map);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            //THIS CREATES TABLE TO STORE IN OUR DATABASE
+
             Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
+            String username = preferences.getString("a", "");
+            intent.putExtra("room_name",username+FragmentMessager.finalBuyersActivityUsernameOfSeller);
+            intent.putExtra("user_name", FragmentMessager.finalBuyersActivityNameOfSeller);
             startActivity(intent);
         }
 

@@ -313,9 +313,9 @@ public class Login extends AppCompatActivity {
                 SharedPreferences sharedpref;
                 sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor edit = sharedpref.edit();
+
                 edit.putString("a", loginUsername.getText().toString());
                 edit.putString("c", checkBoxChecked);
-
                 edit.putString("firstNameSharePref", firstName);
                 edit.putString("lastNameSharePref", lastName);
                 edit.putString("emailSharePref", emailAddress);
