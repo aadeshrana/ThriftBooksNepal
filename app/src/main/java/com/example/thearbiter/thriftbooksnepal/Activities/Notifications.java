@@ -52,7 +52,7 @@ public class Notifications extends AppCompatActivity {
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
-        String[] tabs = {"My Orders", "Requests"};
+        String[] tabs = {"My Orders", "Requests","Messages"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -68,7 +68,7 @@ public class Notifications extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -115,7 +115,15 @@ public class Notifications extends AppCompatActivity {
                     recyclerView1.setLayoutManager(lin1);
 
                     break;
-
+                case 2:
+                    Notifications.positionOfView=2;
+                    layout= inflater.inflate(R.layout.fragment_message,container,false);
+                    RecyclerView recyclerView2 = (RecyclerView) layout.findViewById(R.id.recyclerviewMyMessage);
+                    AdapterMyOrder adapter2 = new AdapterMyOrder(getActivity(), getdata());
+                    recyclerView2.setAdapter(adapter2);
+                    LinearLayoutManager lin2 = new LinearLayoutManager(getActivity());
+                    recyclerView2.setLayoutManager(lin2);
+                    break;
                     default:
                         layout = inflater.inflate(R.layout.fragment_requests, container, false);
             }

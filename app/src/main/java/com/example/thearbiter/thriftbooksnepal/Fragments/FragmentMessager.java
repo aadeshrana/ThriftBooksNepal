@@ -74,7 +74,7 @@ public class FragmentMessager extends Fragment {
     EditText messageEditText;
     ScrollView scrollView;
     MessagerAdapter adapter;
-
+    String userLoggedIn;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,12 +115,20 @@ public class FragmentMessager extends Fragment {
             @TargetApi(Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                if (messageEditText.length() == 0) {
-                    Toast.makeText(getActivity(), "Please rite message first", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpref;
+                sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                userLoggedIn = sharedpref.getString("username", "Guest");
+                if (userLoggedIn.equals("Guest")) {
+                    FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+                    fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
                 } else {
-                    stringMessageToSend = messageEditText.getText().toString();
-                    new AddItemToStore().execute();
-                    messageEditText.setText("");
+                    if (messageEditText.length() == 0) {
+                        Toast.makeText(getActivity(), "Please rite message first", Toast.LENGTH_SHORT).show();
+                    } else {
+                        stringMessageToSend = messageEditText.getText().toString();
+                        new AddItemToStore().execute();
+                        messageEditText.setText("");
+                    }
                 }
             }
         });

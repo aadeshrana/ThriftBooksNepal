@@ -445,14 +445,15 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
                         .setMessage("User Successfully Registered")
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(SignUp.this,Login.class);
-                                startActivity(intent);
+                                finish();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
 
             }
+            else
+                Toast.makeText(SignUp.this, "Failed to create", Toast.LENGTH_SHORT).show();
         }
     }
 

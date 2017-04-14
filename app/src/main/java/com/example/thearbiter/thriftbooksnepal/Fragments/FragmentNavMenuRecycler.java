@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.Login;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterNavMenu;
@@ -49,22 +50,38 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         View layout = inflater.inflate(R.layout.fragment_nav_menu_drawer, container, false);
         SharedPreferences sharedpref1;
         sharedpref1 = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedpref1.edit();
 
         String userProfilePic = sharedpref1.getString("a", "noValue");
+        String userNameDraw = sharedpref.getString("firstNameSharePref","gg");
         CircleImageView circleImageView = (CircleImageView)layout.findViewById(R.id.profile_image);
         String kk= "http://aadeshrana.esy.es/"+Login.username+"ProfilePic";
         Log.d("k ho path?", "hm" + kk);
         Picasso.with(getActivity()).load("http://aadeshrana.esy.es/"+userProfilePic+"ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         navMenuUsername = (TextView) layout.findViewById(R.id.navDrawerUserName);
         navMenuEmailAddress = (TextView) layout.findViewById(R.id.navDrawerEmailAddress);
-        SharedPreferences sharedpref;
-        sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if(userNameDraw.equals("Guest")){
+            circleImageView.isClickable();
+            circleImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentCustomDiagLogin fragmentCustomDiagLogin= new FragmentCustomDiagLogin();
+                    fragmentCustomDiagLogin.show(getFragmentManager(),"cde");
+                }
+            });
+        }
+
+
         sharedpref.edit();
         if(Login.firstName!=null) {
-            navMenuUsername.setText(WELCOME_TEXT + Login.firstName);
-            navMenuEmailAddress.setText(Login.emailAddress);
+            navMenuUsername.setText(WELCOME_TEXT + FragmentCustomDiagLogin.firstName);
+            navMenuEmailAddress.setText(FragmentCustomDiagLogin.emailAddress);
+
         }
+
         else{
             String sharedFirstName = sharedpref.getString("firstNameSharePref", "User");
             String sharedEmail = sharedpref.getString("emailSharePref", "email");
