@@ -54,6 +54,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         holder.chatTimeOfMessage.setText(current.informationChattimeOfChat);
     }
 
+    public void notifyListChanges(){
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return data.size();
