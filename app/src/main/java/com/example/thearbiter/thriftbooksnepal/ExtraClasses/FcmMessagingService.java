@@ -26,14 +26,15 @@ public class FcmMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         String title = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
+        String click_action = remoteMessage.getNotification().getClickAction();
 
-        Intent intent = new Intent(this, MessagingTryActivity.class);
+        Intent intent = new Intent(click_action);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setContentTitle(title);
         notificationBuilder.setContentText(message);
-        Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         notificationBuilder.setSound(uri);
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
         notificationBuilder.setAutoCancel(true);
