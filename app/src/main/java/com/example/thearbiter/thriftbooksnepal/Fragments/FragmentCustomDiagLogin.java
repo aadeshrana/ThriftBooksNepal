@@ -202,6 +202,7 @@ public class FragmentCustomDiagLogin extends DialogFragment {
                 SharedPreferences.Editor edit = sharedpref.edit();
 
                    edit.putString("username", strLoginUsername);
+                   edit.putString("a",strLoginUsername);
                    edit.putString("checkbox", checkBoxChecked);
 
                    edit.putString("firstNameSharePref", firstName);

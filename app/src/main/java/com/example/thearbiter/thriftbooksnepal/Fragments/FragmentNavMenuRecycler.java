@@ -54,10 +54,11 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedpref1.edit();
 
-        String userProfilePic = sharedpref1.getString("a", "noValue");
+        String userProfilePic = sharedpref.getString("username", "noValue");
+        Log.d("lol","wat"+userProfilePic);
         String userNameDraw = sharedpref.getString("firstNameSharePref","gg");
         CircleImageView circleImageView = (CircleImageView)layout.findViewById(R.id.profile_image);
-        String kk= "http://aadeshrana.esy.es/"+Login.username+"ProfilePic";
+        String kk= "http://aadeshrana.esy.es/"+FragmentCustomDiagLogin.username+"ProfilePic";
         Log.d("k ho path?", "hm" + kk);
         Picasso.with(getActivity()).load("http://aadeshrana.esy.es/"+userProfilePic+"ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         navMenuUsername = (TextView) layout.findViewById(R.id.navDrawerUserName);
@@ -76,7 +77,7 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
 
 
         sharedpref.edit();
-        if(Login.firstName!=null) {
+        if(FragmentCustomDiagLogin.firstName!=null) {
             navMenuUsername.setText(WELCOME_TEXT + FragmentCustomDiagLogin.firstName);
             navMenuEmailAddress.setText(FragmentCustomDiagLogin.emailAddress);
 
