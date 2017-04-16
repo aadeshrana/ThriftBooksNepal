@@ -87,7 +87,7 @@ public class FragmentChat extends Fragment {
 
         //Reference to Realtime database
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String username = preferences.getString("a", "");
+        String username = preferences.getString("username", "");
         String roomName2 = username + FragmentMessager.finalBuyersActivityUsernameOfSeller;
 
 
