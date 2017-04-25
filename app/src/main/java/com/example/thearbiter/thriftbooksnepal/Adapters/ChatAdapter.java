@@ -66,10 +66,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         final InformationChatActivity current = data.get(position);
 
       //  holder.chatSendersName.setText(current.informationChatSendersName);
-        holder.chatSendersName.setVisibility(View.GONE);
         holder.chatMessageToSend.setText(current.informationChatTextMessage);
        holder.chatTimeOfMessage.setText(current.informationChattimeOfChat);
-
+        holder.chatSendersName.setVisibility(View.INVISIBLE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String tempUserName = preferences.getString("a", "");
 
@@ -106,6 +105,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                     RelativeLayout.LayoutParams(CardView.LayoutParams.WRAP_CONTENT, CardView.LayoutParams.WRAP_CONTENT);
             params5.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 
+            holder.chatSendersName.setVisibility(View.INVISIBLE);
 
 
 
@@ -126,7 +126,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
            holder.chatUserPicture.setVisibility(View.GONE);
             holder.card.setLayoutParams(params5);
             holder.card.setCardBackgroundColor(Color.parseColor("#00a98f"));
-            holder.card.setVisibility(View.GONE);
+
 
         } else {
             holder.chatSendersName.setTextColor(Color.BLUE);
