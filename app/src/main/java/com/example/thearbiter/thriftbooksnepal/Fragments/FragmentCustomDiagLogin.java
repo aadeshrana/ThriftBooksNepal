@@ -212,6 +212,7 @@ public class FragmentCustomDiagLogin extends DialogFragment {
                 frag.pullAllMainItems(context);
                 Intent intent = new Intent(getActivity(), MainDrawerHome.class);
                 startActivity(intent);
+                getActivity().finish();
             } else {
                 Toast.makeText(getActivity(), "Cannot find account. Please sign up", Toast.LENGTH_SHORT).show();
             }

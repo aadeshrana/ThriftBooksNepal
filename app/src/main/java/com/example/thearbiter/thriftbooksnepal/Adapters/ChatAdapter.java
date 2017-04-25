@@ -3,16 +3,19 @@ package com.example.thearbiter.thriftbooksnepal.Adapters;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.thearbiter.thriftbooksnepal.Information.InformationChatActivity;
@@ -43,14 +46,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        Log.d("value", "oflogic" + logixForLyf);
-        if (logixForLyf == 175) {
+
             view = layoutInflater.inflate(R.layout.message_custom, parent, false);
-            logixForLyf = 0;
-        } else {
-            view = layoutInflater.inflate(R.layout.custom_chat_2_try, parent, false);
-            logixForLyf = 0;
-        }
+
 //        ImageView cv = (ImageView) view.findViewById(R.id.messageUserPicture);
 //
 //        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cv.getLayoutParams();
@@ -68,17 +66,47 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
         holder.chatSendersName.setText(current.informationChatSendersName);
         holder.chatMessageToSend.setText(current.informationChatTextMessage);
-        holder.chatTimeOfMessage.setText(current.informationChattimeOfChat);
+       holder.chatTimeOfMessage.setText(current.informationChattimeOfChat);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String tempUserName = preferences.getString("a", "");
 
         if (current.informationChatSendersName.equals(tempUserName)) {
             holder.chatSendersName.setTextColor(Color.RED);
-            ChatAdapter.logixForLyf = 175;
+            RelativeLayout.LayoutParams params1 = new
+                    RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            final float scale = context.getResources().getDisplayMetrics().density;
+            int pixel = (int) (50 * scale + 0.5f);
+            int marginleft =(int) (10 * scale + 0.5f);
+            int marginImage =(int) (5 * scale + 0.5f);
+            params1.width =pixel;
+            params1.height=pixel;
+            params1.setMargins(marginImage, marginImage, marginImage, marginImage);
+
+            RelativeLayout.LayoutParams params2 = new
+                    RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params2.addRule(RelativeLayout.LEFT_OF, holder.chatUserPicture.getId());
+            params2.setMargins(0, 0, marginleft, 0);  // left, top, right, bottom
+
+            RelativeLayout.LayoutParams params3 = new
+                    RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params3.addRule(RelativeLayout.LEFT_OF, holder.chatUserPicture.getId());
+            params3.addRule(RelativeLayout.BELOW,holder.chatSendersName.getId());
+            params3.setMargins(0, 0, marginleft, 0);  // left, top, right, bottom
+
+
+            RelativeLayout.LayoutParams params4 = new
+                    RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params4.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+            params3.setMargins(marginleft, 0, 0, 0);
+            holder.chatUserPicture.setLayoutParams(params1);
+            holder.chatSendersName.setLayoutParams(params2);
+            holder.chatMessageToSend.setLayoutParams(params3);
+
         } else {
             holder.chatSendersName.setTextColor(Color.BLUE);
-            ChatAdapter.logixForLyf = 465;
+
         }
     }
 
