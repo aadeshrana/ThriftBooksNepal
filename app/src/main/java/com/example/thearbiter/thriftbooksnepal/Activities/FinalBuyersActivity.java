@@ -201,7 +201,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
             try {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
                 String userNameOfUser = preferences.getString("a", "");
-                newRoomName = userNameOfUser + FragmentMessager.finalBuyersActivityUsernameOfSeller;
+                newRoomName = userNameOfUser +"***"+FragmentMessager.finalBuyersActivityUsernameOfSeller;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -233,7 +233,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
             String username = preferences.getString("a", "");
-            intent.putExtra("room_name",username+FragmentMessager.finalBuyersActivityUsernameOfSeller);
+            intent.putExtra("room_name",username+"***"+FragmentMessager.finalBuyersActivityUsernameOfSeller);
             intent.putExtra("user_name", FragmentMessager.finalBuyersActivityNameOfSeller);
             startActivity(intent);
         }

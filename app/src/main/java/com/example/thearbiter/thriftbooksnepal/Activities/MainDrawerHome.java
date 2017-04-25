@@ -24,7 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.MySingleton;
-import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentMessager;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
@@ -158,17 +158,20 @@ public class MainDrawerHome extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            FragmentCustomDiagLogin fragmentCustomDiagLogin= new FragmentCustomDiagLogin();
+            fragmentCustomDiagLogin.show(getFragmentManager(),"cde");
+
+            /*Intent intent = new Intent(MainDrawerHome.this,Login.class);
+            startActivity(intent);*/
+
+
         }
         if (id == R.id.messager) {
             Intent in = new Intent(getBaseContext(), ChatMainActivity.class);
-            in.putExtra("room_name","admin2admin");
-            in.putExtra("user_name", "admin2");
-            FragmentMessager.finalBuyersActivityUsernameOfSeller = "2admin";
             startActivity(in);
         }
         if (id == R.id.log_out) {
-            Intent in = new Intent(MainDrawerHome.this, Login.class);
+            Intent in = new Intent(MainDrawerHome.this, MainDrawerHome.class);
             startActivity(in);
             SharedPreferences sharedpref;
             sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -177,7 +180,7 @@ public class MainDrawerHome extends AppCompatActivity {
             FragmentCustomDiagLogin.emailAddress="";
             FragmentCustomDiagLogin.username="";
             edit.clear();
-            edit.putString("c", "notchecked");
+            edit.putString("checkbox", "notchecked");
             edit.apply();
             finish();
         }

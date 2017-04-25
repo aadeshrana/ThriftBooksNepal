@@ -47,16 +47,7 @@
         <activity
             android:name=".Activities.ChatMainActivity"
             android:label="@string/title_activity_login" />
-        <activity
-            android:name=".Activities.IbOptions"
-            android:label="ib" />
-        <activity
-            android:name=".Activities.ALevelOptions"
-            android:label="alevel" />
 
-        <activity
-            android:name=".Activities.PlusTwoOptions"
-            android:label="ib" />
         <activity
             android:name=".Activities.FinalBuyersActivity"
             android:label="ib" />

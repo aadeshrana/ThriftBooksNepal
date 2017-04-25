@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.thearbiter.thriftbooksnepal.Activities.ChatMainActivity;
 import com.example.thearbiter.thriftbooksnepal.Adapters.ChatAdapter;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationChatActivity;
@@ -81,15 +80,14 @@ public class FragmentChat extends Fragment {
         chatMessageEt = (EditText) view.findViewById(R.id.chatActvityEditText);
 
 
-        final ChatMainActivity chatObject = new ChatMainActivity();
-        String roomName = chatObject.intentRoomName;
-        Log.d("roomName", " Chat" + roomName);
+//        final ChatMainActivity chatObject = new ChatMainActivity();
+//        String roomName = chatObject.intentRoomName;
+//        Log.d("roomName", " Chat" + roomName);
 
         //Reference to Realtime database
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String username = preferences.getString("username", "");
-        String roomName2 = username + FragmentMessager.finalBuyersActivityUsernameOfSeller;
-
+        String username = preferences.getString("a", "");
+        String roomName2 = username +"***"+ FragmentMessager.finalBuyersActivityUsernameOfSeller;
 
         root = FirebaseDatabase.getInstance().getReference().child(roomName2);
 
