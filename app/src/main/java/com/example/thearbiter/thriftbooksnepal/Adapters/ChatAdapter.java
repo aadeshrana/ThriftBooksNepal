@@ -65,7 +65,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final InformationChatActivity current = data.get(position);
 
-        holder.chatSendersName.setText(current.informationChatSendersName);
+      //  holder.chatSendersName.setText(current.informationChatSendersName);
+        holder.chatSendersName.setVisibility(View.GONE);
         holder.chatMessageToSend.setText(current.informationChatTextMessage);
        holder.chatTimeOfMessage.setText(current.informationChattimeOfChat);
 
@@ -124,8 +125,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             relativeParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
            holder.chatUserPicture.setVisibility(View.GONE);
             holder.card.setLayoutParams(params5);
-
-
+            holder.card.setCardBackgroundColor(Color.parseColor("#00a98f"));
+            holder.card.setVisibility(View.GONE);
 
         } else {
             holder.chatSendersName.setTextColor(Color.BLUE);
