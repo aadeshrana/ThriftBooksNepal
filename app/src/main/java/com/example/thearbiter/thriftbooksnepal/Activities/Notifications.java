@@ -6,6 +6,7 @@ import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -74,6 +75,7 @@ public class Notifications extends AppCompatActivity {
                 allData.addAll(set);
                 allChats = new String[allData.size()];
                 allChats = allData.toArray(new String[allData.size()]);
+
             }
 
             @Override
@@ -85,7 +87,7 @@ public class Notifications extends AppCompatActivity {
 
     }
 
-    class MyPagerAdapter extends FragmentPagerAdapter {
+    class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         String[] tabs = {"My Orders", "Requests","Messages"};
 
@@ -120,6 +122,7 @@ public class Notifications extends AppCompatActivity {
             MyFragment myFragment = new MyFragment();
             Bundle args = new Bundle();
             args.putInt("position", position);
+
             myFragment.setArguments(args);
             return myFragment;
         }
@@ -148,6 +151,7 @@ public class Notifications extends AppCompatActivity {
                     RecyclerView recyclerView1 = (RecyclerView) layout.findViewById(R.id.recycleviewRequest);
                     AdapterMyOrder adapter1 = new AdapterMyOrder(getActivity(), getdata());
                     recyclerView1.setAdapter(adapter1);
+                    adapter1.notifyDataSetChanged();
                     LinearLayoutManager lin1 = new LinearLayoutManager(getActivity());
                     recyclerView1.setLayoutManager(lin1);
 
@@ -156,7 +160,9 @@ public class Notifications extends AppCompatActivity {
                     Notifications.positionOfView=2;
                     layout= inflater.inflate(R.layout.fragment_message,container,false);
                     RecyclerView recyclerView2 = (RecyclerView) layout.findViewById(R.id.recyclerviewMyMessage);
+
                     AdapterMyOrder adapter2 = new AdapterMyOrder(getActivity(), getdata1());
+                    adapter2.notifyDataSetChanged();
                     recyclerView2.setAdapter(adapter2);
                     LinearLayoutManager lin2 = new LinearLayoutManager(getActivity());
                     recyclerView2.setLayoutManager(lin2);
@@ -196,7 +202,7 @@ public class Notifications extends AppCompatActivity {
                 for (int j = 0; j < title.length; j++) {
                     infotest current = new infotest();
                     current.title = allChats[j];
-
+                    Log.d("vals",":"+ allChats[1]);
                     data.add(current);
                 }
             } catch (Exception e) {

@@ -176,7 +176,9 @@ public class MainDrawerHome extends AppCompatActivity {
             SharedPreferences sharedpref;
             sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor edit = sharedpref.edit();
-
+            FragmentCustomDiagLogin.firstName="";
+            FragmentCustomDiagLogin.emailAddress="";
+            FragmentCustomDiagLogin.username="";
             edit.clear();
             edit.putString("checkbox", "notchecked");
             edit.apply();

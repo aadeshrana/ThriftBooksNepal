@@ -54,8 +54,8 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
        holder.title.setText(current.title);
         holder.priceOfBook.setText(current.priceOfBook);
        holder.sellerName.setText(current.sellerName);
-       holder.imgOfBook.setImageResource(R.drawable.noimageplaceholder);
-        Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
+    //   holder.imgOfBook.setImageResource(R.drawable.noimageplaceholder);
+    //    Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
         holder.cardMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
