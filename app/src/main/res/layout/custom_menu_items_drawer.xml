@@ -29,7 +29,7 @@
             card_view:cardBackgroundColor="#ffffff"
             card_view:cardElevation="0dp"
             android:layout_toRightOf="@id/imageCustomLayoutspace"
-            android:layout_marginTop="1dp"
+
 
             >
             <RelativeLayout

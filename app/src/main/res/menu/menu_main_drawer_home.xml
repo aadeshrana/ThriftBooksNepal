@@ -4,9 +4,9 @@
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.MainDrawerHome">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+
         android:title="Sign In"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/log_out"
         android:title="@string/log_out"
@@ -15,7 +15,9 @@
         android:id="@+id/messager"
         android:orderInCategory="100"
         android:title="Notification"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
+
+
 
 
 </menu>

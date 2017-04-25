@@ -39,7 +39,7 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
     TextView navMenuEmailAddress;
     final String WELCOME_TEXT = "Welcome ";
     int[] icons = {R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp};
-    String title[] = {"Buy", "Sell", "Buy", "Sell", "Buy", "Sell","Accounts","About Us","My Orders"};
+    String title[] = {"Alevel", "IB", "+2", "Sell any books", "Accounts","About Us"};
 
 
 
@@ -101,10 +101,10 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         List<SectionedGridRecyclerViewAdapter.Section> sections =
                 new ArrayList<SectionedGridRecyclerViewAdapter.Section>();
-        sections.add(new SectionedGridRecyclerViewAdapter.Section(0,"Alevel"));
-        sections.add(new SectionedGridRecyclerViewAdapter.Section(2,"IB"));
-        sections.add(new SectionedGridRecyclerViewAdapter.Section(4,"+2"));
-        sections.add(new SectionedGridRecyclerViewAdapter.Section(6,"Settings"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(0,"Buy"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(3,"Sell"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(4,"Settings"));
+        //sections.add(new SectionedGridRecyclerViewAdapter.Section(6,"Settings"));
 
         SectionedGridRecyclerViewAdapter.Section[] dummy = new SectionedGridRecyclerViewAdapter.Section[sections.size()];
         SectionedGridRecyclerViewAdapter mSectionedAdapter = new

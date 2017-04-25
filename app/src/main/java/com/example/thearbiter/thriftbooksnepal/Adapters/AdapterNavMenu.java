@@ -65,16 +65,15 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                         break;
 
                     case 1:
-                        ActivitySeller.choiseOfBoard = "alevel";
-                        intent = new Intent(context, ActivitySeller.class);
-                        intent.putExtra("chosenValueBoard", "alevel");
+                        intent = new Intent(context, MainIbBuyer.class);
+                        ActivitySeller.choiseOfBoard = "ib";
+                        intent.putExtra("chosenValueBoard", "ib");
                         context.startActivity(intent);
                         break;
 
                     case 2:
-                        intent = new Intent(context, MainIbBuyer.class);
-                        ActivitySeller.choiseOfBoard = "ib";
-                        intent.putExtra("chosenValueBoard", "ib");
+                        ActivitySeller.choiseOfBoard = "plustwo";
+                        intent = new Intent(context, MainPlusTwoBuyer.class);
                         context.startActivity(intent);
                         break;
                     case 3:
@@ -84,28 +83,14 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                         context.startActivity(intent);
                         break;
                     case 4:
-                        ActivitySeller.choiseOfBoard = "plustwo";
-                        intent = new Intent(context, MainPlusTwoBuyer.class);
-                        context.startActivity(intent);
-                        break;
-                    case 5:
-                        ActivitySeller.choiseOfBoard = "plustwo";
-                        intent = new Intent(context, ActivitySeller.class);
-                        context.startActivity(intent);
-                        break;
-                    case 6:
-                        ActivitySeller.choiseOfBoard = "others";
-                        intent = new Intent(context, ActivitySeller.class);
-                        context.startActivity(intent);
-                        break;
-                    case 7:
                         intent = new Intent(context, Accounts.class);
                         context.startActivity(intent);
                         break;
-                    case 8:
-                        intent = new Intent(context, Notifications.class);
-                        context.startActivity(intent);
-                        break;
+
+                    case 5:
+                    break;
+
+
                 }
             }
         });

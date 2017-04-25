@@ -72,7 +72,7 @@ public class MainDrawerHome extends AppCompatActivity {
     private static final String FETCH_NUMBER_URL = "http://frame.ueuo.com/thriftbooks/fetchalldetails.php";
     JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
-
+    String loggedIn="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +81,9 @@ public class MainDrawerHome extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
 
-
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
+        loggedIn = sharedpref.getString("username", "noValue");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getToken();
@@ -103,6 +105,8 @@ public class MainDrawerHome extends AppCompatActivity {
         transaction.commit();
         new PullAllAlevelItems().execute();
         Notifications.whereAreYou = 0;
+
+
 
     }
 
@@ -146,6 +150,21 @@ public class MainDrawerHome extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_drawer_home, menu);
+        MenuItem item2 = menu.findItem(R.id.log_out);
+        MenuItem item1 = menu.findItem(R.id.action_settings);
+        MenuItem item3 = menu.findItem(R.id.messager);
+        item3.setIcon(R.drawable.notif);
+       if(loggedIn.equals("noValue")){
+
+            item2.setVisible(false);
+         item1.setVisible(true);
+        }
+        else{
+            item2.setVisible(true);
+          item1.setVisible(false);
+
+        }
+
         return true;
     }
 
@@ -156,6 +175,7 @@ public class MainDrawerHome extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -168,9 +188,10 @@ public class MainDrawerHome extends AppCompatActivity {
 
         }
         if (id == R.id.messager) {
-            Intent in = new Intent(getBaseContext(), ChatMainActivity.class);
+            Intent in = new Intent(getBaseContext(), Notifications.class);
             startActivity(in);
         }
+
         if (id == R.id.log_out) {
             Intent in = new Intent(MainDrawerHome.this, MainDrawerHome.class);
             startActivity(in);
