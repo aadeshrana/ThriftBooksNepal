@@ -26,6 +26,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     public ChatAdapter(Context context, List<InformationChatActivity> data) {
         Log.d("LOG", "" + context);
         this.context = context;
+        Log.d("hereweare","3"+context);
+
         layoutInflater = LayoutInflater.from(context);
         this.data = data;
     }

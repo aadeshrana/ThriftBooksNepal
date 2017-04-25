@@ -1,7 +1,10 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,8 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyChats;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyOrder;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.SlidingTabLayout;
+import com.example.thearbiter.thriftbooksnepal.Information.InformationCheckChats;
 import com.example.thearbiter.thriftbooksnepal.Information.infotest;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.google.firebase.database.DataSnapshot;
@@ -36,12 +41,18 @@ import java.util.Set;
 public class Notifications extends AppCompatActivity {
     SlidingTabLayout tabs;
     final ArrayList<String> allData = new ArrayList<>();
+    final ArrayList<String> refinedData = new ArrayList<>();
+    final ArrayList<String> refinedRoomNames = new ArrayList<>();
 
     DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     ViewPager viewPager;
     Toolbar toolbar;
     static String title[] = {"test", "test1", "ssss"};
     public static String[] allChats;
+    public static String[] allRooms;
+
+    //Used to differentiate between different versions of onDataChange since it gets called everytime there is a change in Database.
+    public static int whereAreYou = 0;
 
     public static int positionOfView;
 
@@ -49,7 +60,13 @@ public class Notifications extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+        whereAreYou = 1;
         allChats = new String[0];
+        allRooms = new String[0];
+
+        final ProgressDialog progressDialog = new ProgressDialog(Notifications.this);
+        progressDialog.setMessage("Loading messages..");
+        progressDialog.show();
         //To pull the data from firebase for chat
         root.addValueEventListener(new ValueEventListener() {
             @Override
@@ -60,19 +77,67 @@ public class Notifications extends AppCompatActivity {
                     set.add(((DataSnapshot) i.next()).getKey());
 
                 }
+
+                if (whereAreYou == 84) {
+                    viewPager = (ViewPager) findViewById(R.id.pager);
+                    viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+                    viewPager.setCurrentItem(2);
+                    progressDialog.dismiss();
+                    tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+                    tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
+
+                    tabs.setSmoothScrollingEnabled(true);
+                    tabs.setDistributeEvenly(true);
+                    tabs.setViewPager(viewPager);
+                }
+
                 allData.clear();
                 allData.addAll(set);
-                allChats = new String[allData.size()];
-                allChats = allData.toArray(new String[allData.size()]);
 
-                viewPager = (ViewPager) findViewById(R.id.pager);
-                viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-                tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-                tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Notifications.this);
+                String nameSelf = sharedPreferences.getString("a", "");
 
-                tabs.setSmoothScrollingEnabled(true);
-                tabs.setDistributeEvenly(true);
-                tabs.setViewPager(viewPager);
+                Log.d("kaayo", "value=" + allData.get(0));
+
+                for (int j = 0; j < allData.size(); j++) {
+
+                    String[] firstRoundSplitter = allData.get(j).split("\\|\\|");
+
+                    String[] splitter = firstRoundSplitter[0].split("[*]+");
+                    if (splitter[0].equals(nameSelf) || splitter[1].equals(nameSelf)) {
+                        refinedRoomNames.add(allData.get(j));
+                        String[] finalNameSplit = firstRoundSplitter[1].split("---");
+                        String firstNameFromSharedPref = sharedPreferences.getString("firstNameSharePref1", "");
+                        if(finalNameSplit[0].equals(firstNameFromSharedPref)){
+                            refinedData.add(finalNameSplit[1]);
+                        }
+                        else{
+                            refinedData.add(finalNameSplit[0]);
+                        }
+                    } else {
+                        Log.d("not", "compatible" + allData.get(j));
+                    }
+                }
+
+                allChats = new String[refinedData.size()];
+                allChats = refinedData.toArray(new String[refinedData.size()]);
+                allRooms = new String[refinedRoomNames.size()];
+                allRooms = refinedRoomNames.toArray(new String[refinedRoomNames.size()]);
+
+                if (whereAreYou == 1) {
+                    viewPager = (ViewPager) findViewById(R.id.pager);
+                    viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+                    progressDialog.dismiss();
+                    tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+                    tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
+                    viewPager.setCurrentItem(2);
+                    tabs.setSmoothScrollingEnabled(true);
+                    tabs.setDistributeEvenly(true);
+                    tabs.setViewPager(viewPager);
+
+                    whereAreYou = 84;
+                }
+
             }
 
             @Override
@@ -111,6 +176,25 @@ public class Notifications extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        whereAreYou = 0;
+        Log.d("on", "Destroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("on", "Pause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("on", "Stop");
+
+    }
 
     /////////FRAGMENT STARTS HERE
     public static class MyFragment extends Fragment {
@@ -140,6 +224,7 @@ public class Notifications extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
                     LinearLayoutManager lin = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(lin);
+                    whereAreYou = 0;
 
                     break;
                 case 1:
@@ -150,17 +235,17 @@ public class Notifications extends AppCompatActivity {
                     recyclerView1.setAdapter(adapter1);
                     LinearLayoutManager lin1 = new LinearLayoutManager(getActivity());
                     recyclerView1.setLayoutManager(lin1);
-
+                    whereAreYou = 0;
                     break;
                 case 2:
                     Notifications.positionOfView = 2;
                     layout = inflater.inflate(R.layout.fragment_message, container, false);
                     RecyclerView recyclerView2 = (RecyclerView) layout.findViewById(R.id.recyclerviewMyMessage);
-                    final AdapterMyOrder adapter2 = new AdapterMyOrder(getActivity(), getdata1());
+                    final AdapterMyChats adapter2 = new AdapterMyChats(getActivity(), getdata1());
                     recyclerView2.setAdapter(adapter2);
                     LinearLayoutManager lin2 = new LinearLayoutManager(getActivity());
                     recyclerView2.setLayoutManager(lin2);
-                    adapter2.notifyDataSetChanged();
+//                    adapter2.notifyDataSetChanged();
                     break;
 
 
@@ -188,12 +273,12 @@ public class Notifications extends AppCompatActivity {
         }
 
 
-        public List<infotest> getdata1() {
-            List<infotest> data = new ArrayList<>();
+        public List<InformationCheckChats> getdata1() {
+            List<InformationCheckChats> data = new ArrayList<>();
             try {
-                for (int j = 0; j < allChats.length; j++) {
-                    infotest current = new infotest();
-                    current.title = allChats[j];
+                for (int j = 0; j < allRooms.length; j++) {
+                    InformationCheckChats current = new InformationCheckChats();
+                    current.infoUsernameOfChatSender = allRooms[j];
 
                     data.add(current);
                 }

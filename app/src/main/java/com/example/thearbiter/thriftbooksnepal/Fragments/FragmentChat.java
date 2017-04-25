@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.thearbiter.thriftbooksnepal.Activities.ChatMainActivity;
 import com.example.thearbiter.thriftbooksnepal.Adapters.ChatAdapter;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationChatActivity;
@@ -40,6 +41,8 @@ public class FragmentChat extends Fragment {
     public String title[] = {""};
     public String message[] = {""};
     public String date[] = {""};
+
+    public static String selfUsername;
 
     ArrayList<String> titleAl = new ArrayList<>();
     ArrayList<String> messageAl = new ArrayList<>();
@@ -79,15 +82,14 @@ public class FragmentChat extends Fragment {
         sendChatMessage = (Button) view.findViewById(R.id.chatActivitySendButton);
         chatMessageEt = (EditText) view.findViewById(R.id.chatActvityEditText);
 
-
-//        final ChatMainActivity chatObject = new ChatMainActivity();
-//        String roomName = chatObject.intentRoomName;
-//        Log.d("roomName", " Chat" + roomName);
-
         //Reference to Realtime database
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String username = preferences.getString("a", "");
-        String roomName2 = username +"***"+ FragmentMessager.finalBuyersActivityUsernameOfSeller;
+
+        Log.d("intent",""+ChatMainActivity.intentRoomName);
+        String roomName2 = ChatMainActivity.intentRoomName;
+
+//        String roomName2 = username +"***"+ FragmentMessager.finalBuyersActivityUsernameOfSeller;
 
         root = FirebaseDatabase.getInstance().getReference().child(roomName2);
 
@@ -114,6 +116,8 @@ public class FragmentChat extends Fragment {
 
 
                 //SEND NOTIFICATION OF MESSAGE TO SELLER
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                selfUsername = preferences.getString("a", "");
                 new SendNotification().execute();
 
             }
@@ -123,6 +127,7 @@ public class FragmentChat extends Fragment {
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d("hereweare","1");
                 append_chat_conversation(dataSnapshot);
 
             }
@@ -171,10 +176,13 @@ public class FragmentChat extends Fragment {
 
             title = titleAl.toArray(new String[titleAl.size()]);
             message = messageAl.toArray(new String[messageAl.size()]);
+            Log.d("hereweare","2");
 
             adapter = new ChatAdapter(getActivity(), getdata());
             recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            layoutManager.setStackFromEnd(true);
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
     }
@@ -186,8 +194,6 @@ public class FragmentChat extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String selfUsername = preferences.getString("a", "");
 
             params2.add(new BasicNameValuePair("user", FragmentMessager.finalBuyersActivityUsernameOfSeller));
             params2.add(new BasicNameValuePair("title", "Book Sansar new message"));

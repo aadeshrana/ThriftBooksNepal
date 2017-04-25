@@ -102,6 +102,7 @@ public class MainDrawerHome extends AppCompatActivity {
         informationMessageActivityObject.timeOfNotification = null;
         transaction.commit();
         new PullAllAlevelItems().execute();
+        Notifications.whereAreYou = 0;
 
     }
 

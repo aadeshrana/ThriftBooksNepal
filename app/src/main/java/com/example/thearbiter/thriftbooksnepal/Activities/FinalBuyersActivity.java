@@ -58,6 +58,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
         Log.d("OH GOD", "");
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        Notifications.whereAreYou=0;
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -201,7 +202,8 @@ public class FinalBuyersActivity extends AppCompatActivity {
             try {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
                 String userNameOfUser = preferences.getString("a", "");
-                newRoomName = userNameOfUser +"***"+FragmentMessager.finalBuyersActivityUsernameOfSeller;
+                String nameOfUser = preferences.getString("firstNameSharePref1","");
+                newRoomName = userNameOfUser +"***"+FragmentMessager.finalBuyersActivityUsernameOfSeller+"||"+FragmentMessager.finalBuyersActivityNameOfSeller+"---"+nameOfUser;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -233,7 +235,10 @@ public class FinalBuyersActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
             String username = preferences.getString("a", "");
-            intent.putExtra("room_name",username+"***"+FragmentMessager.finalBuyersActivityUsernameOfSeller);
+            String nameOfUser = preferences.getString("firstNameSharePref1","");
+            String stringToSendInIntent = username+"***"+FragmentMessager.finalBuyersActivityUsernameOfSeller+"||"+FragmentMessager.finalBuyersActivityNameOfSeller+"---"+nameOfUser;
+            Log.d("room","fromIntent "+stringToSendInIntent);
+            intent.putExtra("room_name",stringToSendInIntent);
             intent.putExtra("user_name", FragmentMessager.finalBuyersActivityNameOfSeller);
             startActivity(intent);
         }
