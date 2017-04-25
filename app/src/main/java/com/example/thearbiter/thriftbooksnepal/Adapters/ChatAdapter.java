@@ -76,6 +76,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             RelativeLayout.LayoutParams params1 = new
                     RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+
             final float scale = context.getResources().getDisplayMetrics().density;
             int pixel = (int) (50 * scale + 0.5f);
             int marginleft =(int) (10 * scale + 0.5f);
@@ -97,12 +98,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
 
             RelativeLayout.LayoutParams params4 = new
-                    RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params4.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-            params3.setMargins(marginleft, 0, 0, 0);
+                    RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            params4.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
+
+
             holder.chatUserPicture.setLayoutParams(params1);
             holder.chatSendersName.setLayoutParams(params2);
             holder.chatMessageToSend.setLayoutParams(params3);
+            holder.card.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
 
         } else {
             holder.chatSendersName.setTextColor(Color.BLUE);
