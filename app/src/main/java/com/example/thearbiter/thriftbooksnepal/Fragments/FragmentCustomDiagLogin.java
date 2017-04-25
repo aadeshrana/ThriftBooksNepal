@@ -18,8 +18,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.thearbiter.thriftbooksnepal.Activities.Login;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainDrawerHome;
 import com.example.thearbiter.thriftbooksnepal.Activities.SignUp;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
@@ -42,24 +40,17 @@ import java.util.List;
 public class FragmentCustomDiagLogin extends DialogFragment {
     EditText userName,passWord;
     Button loginButton,signUpButton;
-    String sUsername, sPassword;
+    CheckBox keepLoggedIn;
     private static final String LOGIN_URL = "http://frame.ueuo.com/thriftbooks/login.php";
     private static final String FETCH_NUMBER_URL = "http://frame.ueuo.com/thriftbooks/fetchalldetails.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-    public static String firstName;
-    public static String lastName;
-    public static String phoneNumber;
-    public static String school;
-    public static String emailAddress;
-    public static String username;
-    public static String password;
+    public static String firstName, lastName,phoneNumber,school,emailAddress,username,password;
     private ProgressDialog pdialog;
     int success;
-    CheckBox keepLoggedIn;
     JSONParser jsonParser = new JSONParser();
-    static String checkBoxChecked = "notchecked";
-    static String strLoginUsername, strLoginPassword;
+    static String checkBoxChecked = "notchecked",strLoginUsername,strLoginPassword;
+
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -201,18 +192,21 @@ public class FragmentCustomDiagLogin extends DialogFragment {
                 sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor edit = sharedpref.edit();
 
-                   edit.putString("username", strLoginUsername);
-                   edit.putString("a",strLoginUsername);
-                   edit.putString("checkbox", checkBoxChecked);
 
-                   edit.putString("firstNameSharePref", firstName);
-                   edit.putString("lastNameSharePref", lastName);
-                   edit.putString("emailSharePref", emailAddress);
-                   edit.putString("phoneSharePref", phoneNumber);
-                   edit.putString("schoolSharePref", school);
+                if(checkBoxChecked.equals("checked")) {
+                    Log.d("kxa1",":"+firstName);
+                    edit.putString("firstNameSharePref", firstName);
+                    edit.putString("firstNameSharePref1", firstName);
+                    edit.putString("lastNameSharePref", lastName);
+                    edit.putString("emailSharePref", emailAddress);
+                    edit.putString("phoneSharePref", phoneNumber);
+                    edit.putString("schoolSharePref", school);
 
-                   edit.apply();
-
+                }
+                edit.putString("username", strLoginUsername);
+                edit.putString("a",strLoginUsername);
+                edit.putString("checkbox", checkBoxChecked);
+                edit.apply();
                 Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
                 FragmentNavDraerMain frag = new FragmentNavDraerMain();
                 frag.pullAllMainItems(context);
