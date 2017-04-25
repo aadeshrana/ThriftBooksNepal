@@ -1,6 +1,7 @@
 package com.example.thearbiter.thriftbooksnepal.Fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -65,6 +65,7 @@ public class FragmentChat extends Fragment {
 
     private String chat_msg, chat_user_name;
     private TextView chat_coversation;
+    Context context;
     ChatAdapter adapter;
     RecyclerView recyclerView;
 
@@ -73,6 +74,7 @@ public class FragmentChat extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.chat_activity, container, false);
+        context = getActivity();
 
         //Inflating Recyclerview
         recyclerView = (RecyclerView) view.findViewById(R.id.chatActivityRecyclerVie);
@@ -86,7 +88,7 @@ public class FragmentChat extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String username = preferences.getString("a", "");
 
-        Log.d("intent",""+ChatMainActivity.intentRoomName);
+        Log.d("intent", "" + ChatMainActivity.intentRoomName);
         String roomName2 = ChatMainActivity.intentRoomName;
 
 //        String roomName2 = username +"***"+ FragmentMessager.finalBuyersActivityUsernameOfSeller;
@@ -127,14 +129,14 @@ public class FragmentChat extends Fragment {
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Log.d("hereweare","1");
-                append_chat_conversation(dataSnapshot);
+                Log.d("hereweare", "1");
+                append_chat_conversation(dataSnapshot, context);
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                append_chat_conversation(dataSnapshot);
+                append_chat_conversation(dataSnapshot, context);
 
             }
 
@@ -158,7 +160,7 @@ public class FragmentChat extends Fragment {
     }
 
     //Function to load data when data is changed in database
-    private void append_chat_conversation(DataSnapshot dataSnapshot) {
+    private void append_chat_conversation(DataSnapshot dataSnapshot, Context context) {
         Iterator i = dataSnapshot.getChildren().iterator();
         while (i.hasNext()) {
             chat_msg = (String) ((DataSnapshot) i.next()).getValue();
@@ -176,14 +178,15 @@ public class FragmentChat extends Fragment {
 
             title = titleAl.toArray(new String[titleAl.size()]);
             message = messageAl.toArray(new String[messageAl.size()]);
-            Log.d("hereweare","2");
+            Log.d("hereweare", "2" + context);
 
-            adapter = new ChatAdapter(getActivity(), getdata());
+            adapter = new ChatAdapter(context, getdata());
+
             recyclerView.setAdapter(adapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
             layoutManager.setStackFromEnd(true);
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
     }
 

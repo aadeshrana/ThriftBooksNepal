@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
-THIS CLASS IS THE ADAPTER OF CHECK CHAT MESSAGES.
+ * THIS CLASS IS THE ADAPTER OF CHECK CHAT MESSAGES.
  */
 
 public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHolder> {
@@ -53,8 +53,21 @@ public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHo
 //            holder.content.setText("Has Commented On Your Post!");
 //        } else
 //            holder.content.setText("Has Requested a new book!");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String nameSelf = sharedPreferences.getString("a", "");
+        String[] firstRoundSplitter = current.infoUsernameOfChatSender.split("\\|\\|");
+        String[] splitter = firstRoundSplitter[0].split("[*]+");
+        if (splitter[0].equals(nameSelf) || splitter[1].equals(nameSelf)) {
 
-        holder.from.setText(current.infoUsernameOfChatSender);
+            String[] finalNameSplit = firstRoundSplitter[1].split("---");
+            String firstNameFromSharedPref = sharedPreferences.getString("firstNameSharePref1", "");
+            if (finalNameSplit[0].equals(firstNameFromSharedPref)) {
+            holder.from.setText(finalNameSplit[1]);
+            } else {
+                holder.from.setText(finalNameSplit[0]);
+            }
+        }
+
         holder.content.setText("");
         holder.checkChatMessagesCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +78,7 @@ public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHo
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                 String username = preferences.getString("a", "");
 //                String stringToSendInIntent = username+"***"+ FragmentMessager.finalBuyersActivityUsernameOfSeller+"||"+FragmentMessager.finalBuyersActivityNameOfSeller+"---"+nameOfUser;
-                intent.putExtra("room_name",current.infoUsernameOfChatSender);
+                intent.putExtra("room_name", current.infoUsernameOfChatSender);
                 intent.putExtra("user_name", username);
                 context.startActivity(intent);
             }
@@ -88,7 +101,7 @@ public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHo
             super(itemView);
             from = (TextView) itemView.findViewById(R.id.userName);
             content = (TextView) itemView.findViewById(R.id.contentMyOrder);
-            checkChatMessagesCardView = (CardView)itemView.findViewById(R.id.checkChatsLayoutCardViewMain);
+            checkChatMessagesCardView = (CardView) itemView.findViewById(R.id.checkChatsLayoutCardViewMain);
         }
     }
 }

@@ -41,5 +41,6 @@ public class ChatMainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+
     }
 }
