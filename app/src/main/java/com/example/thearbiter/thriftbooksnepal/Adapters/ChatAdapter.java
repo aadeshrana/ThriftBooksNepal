@@ -14,6 +14,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -98,14 +99,33 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
 
             RelativeLayout.LayoutParams params4 = new
-                    RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-            params4.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
+                    RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params4.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            RelativeLayout.LayoutParams params5 = new
+                    RelativeLayout.LayoutParams(CardView.LayoutParams.WRAP_CONTENT, CardView.LayoutParams.WRAP_CONTENT);
+            params5.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 
 
-            holder.chatUserPicture.setLayoutParams(params1);
-            holder.chatSendersName.setLayoutParams(params2);
-            holder.chatMessageToSend.setLayoutParams(params3);
-            holder.card.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+
+
+         //  holder.chatUserPicture.setLayoutParams(params1);
+           // holder.chatSendersName.setLayoutParams(params2);
+           // holder.chatSendersName.setBackgroundColor(Color.GREEN);
+           // holder.chatMessageToSend.setLayoutParams(params3);
+           // holder.chatTimeOfMessage.setLayoutParams(params3);
+           // holder.chatTimeOfMessage.setBackgroundColor(Color.RED);
+           // holder.chatTimeOfMessage.setText("gfajsl");
+       //     holder.card.setLayoutParams(params4);
+           // holder.card.setLayoutParams(params4);
+       //     holder.card.setBackgroundColor(Color.RED);
+         //   holder.relativeLayout1.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+            RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            relativeParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+           holder.chatUserPicture.setVisibility(View.GONE);
+            holder.card.setLayoutParams(params5);
+
+
 
         } else {
             holder.chatSendersName.setTextColor(Color.BLUE);
@@ -127,16 +147,18 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         ImageView chatUserPicture;
         TextView chatSendersName;
         TextView chatMessageToSend;
-        CardView card;
+       CardView card;
         TextView chatTimeOfMessage;
-
+        RelativeLayout relativeLayout1, relativeLayout2;
         public MyViewHolder(View itemView) {
             super(itemView);
-            card = (CardView) itemView.findViewById(R.id.adapterFirstPageCardViewMain);
+           card = (CardView) itemView.findViewById(R.id.adapterFirstPageCardViewMain);
             chatTimeOfMessage = (TextView) itemView.findViewById(R.id.timeOfNotif);
             chatUserPicture = (ImageView) itemView.findViewById(R.id.messageUserPicture);
             chatSendersName = (TextView) itemView.findViewById(R.id.messageCustomLayoutNameOfSender);
             chatMessageToSend = (TextView) itemView.findViewById(R.id.messageCustomLayoutTextToSend);
+            relativeLayout1 = (RelativeLayout)itemView.findViewById(R.id.relative1);
+            relativeLayout2 = (RelativeLayout)itemView.findViewById(R.id.chatRelativeLayout);
         }
     }
 }

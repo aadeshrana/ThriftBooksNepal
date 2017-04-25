@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:id="@+id/chatRelativeLayout"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -13,11 +13,12 @@
         android:padding="2dp"
         app:cardUseCompatPadding="true"
         card_view:cardBackgroundColor="#FFFFFF"
-        card_view:cardCornerRadius="2dp"
+        card_view:cardCornerRadius="5dp"
         card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
         <RelativeLayout
+            android:id="@+id/relative1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -42,14 +43,7 @@
                 android:textColor="#000000"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/noNotificationsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+
 
             <TextView
                 android:id="@+id/messageCustomLayoutTextToSend"
