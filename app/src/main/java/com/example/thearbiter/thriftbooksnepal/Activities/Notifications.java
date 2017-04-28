@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyChats;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyOrder;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.SlidingTabLayout;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationCheckChats;
 import com.example.thearbiter.thriftbooksnepal.Information.infotest;
 import com.example.thearbiter.thriftbooksnepal.R;
@@ -77,67 +78,89 @@ public class Notifications extends AppCompatActivity {
                     set.add(((DataSnapshot) i.next()).getKey());
 
                 }
+                try {
+                    if (whereAreYou == 84) {
+                        viewPager = (ViewPager) findViewById(R.id.pager);
+                        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+                        viewPager.setCurrentItem(2);
+                        progressDialog.dismiss();
+                        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+                        tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
 
-                if (whereAreYou == 84) {
-                    viewPager = (ViewPager) findViewById(R.id.pager);
-                    viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-                    viewPager.setCurrentItem(2);
-                    progressDialog.dismiss();
-                    tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-                    tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
+                        tabs.setSmoothScrollingEnabled(true);
+                        tabs.setDistributeEvenly(true);
+                        tabs.setViewPager(viewPager);
+                    }
+                } catch (Exception e) {
 
-                    tabs.setSmoothScrollingEnabled(true);
-                    tabs.setDistributeEvenly(true);
-                    tabs.setViewPager(viewPager);
                 }
 
-                allData.clear();
-                allData.addAll(set);
+                try {
+                    allData.clear();
+                    allData.addAll(set);
+                } catch (Exception e) {
+
+                }
 
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Notifications.this);
                 String nameSelf = sharedPreferences.getString("a", "");
+                if(nameSelf.equals("")){
+                    nameSelf = FragmentCustomDiagLogin.username;
+                }
 
-                Log.d("kaayo", "value=" + allData.get(0));
+                try {
+                    for (int j = 0; j < allData.size(); j++) {
 
-                for (int j = 0; j < allData.size(); j++) {
+                        String[] firstRoundSplitter = allData.get(j).split("\\|\\|");
 
-                    String[] firstRoundSplitter = allData.get(j).split("\\|\\|");
+                        String[] splitter = firstRoundSplitter[0].split("[*]+");
+                        if (splitter[0].equals(nameSelf) || splitter[1].equals(nameSelf)) {
+                            refinedRoomNames.add(allData.get(j));
+                            String[] finalNameSplit = firstRoundSplitter[1].split("---");
+                            String firstNameFromSharedPref = sharedPreferences.getString("firstNameSharePref1", "");
+                            if(firstNameFromSharedPref.equals("")){
+                                firstNameFromSharedPref = FragmentCustomDiagLogin.firstName;
+                            }
 
-                    String[] splitter = firstRoundSplitter[0].split("[*]+");
-                    if (splitter[0].equals(nameSelf) || splitter[1].equals(nameSelf)) {
-                        refinedRoomNames.add(allData.get(j));
-                        String[] finalNameSplit = firstRoundSplitter[1].split("---");
-                        String firstNameFromSharedPref = sharedPreferences.getString("firstNameSharePref1", "");
-                        if(finalNameSplit[0].equals(firstNameFromSharedPref)){
-                            refinedData.add(finalNameSplit[1]);
+                            if (finalNameSplit[0].equals(firstNameFromSharedPref)) {
+                                refinedData.add(finalNameSplit[1]);
+                            } else {
+                                refinedData.add(finalNameSplit[0]);
+                            }
+                        } else {
+                            Log.d("not", "compatible" + allData.get(j));
                         }
-                        else{
-                            refinedData.add(finalNameSplit[0]);
-                        }
-                    } else {
-                        Log.d("not", "compatible" + allData.get(j));
                     }
+                } catch (Exception e) {
+
                 }
 
-                allChats = new String[refinedData.size()];
-                allChats = refinedData.toArray(new String[refinedData.size()]);
-                allRooms = new String[refinedRoomNames.size()];
-                allRooms = refinedRoomNames.toArray(new String[refinedRoomNames.size()]);
+                try {
+                    allChats = new String[refinedData.size()];
+                    allChats = refinedData.toArray(new String[refinedData.size()]);
+                    allRooms = new String[refinedRoomNames.size()];
+                    allRooms = refinedRoomNames.toArray(new String[refinedRoomNames.size()]);
+                } catch (Exception e) {
 
-                if (whereAreYou == 1) {
-                    viewPager = (ViewPager) findViewById(R.id.pager);
-                    viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-                    progressDialog.dismiss();
-                    tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-                    tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
-                    viewPager.setCurrentItem(2);
-                    tabs.setSmoothScrollingEnabled(true);
-                    tabs.setDistributeEvenly(true);
-                    tabs.setViewPager(viewPager);
-
-                    whereAreYou = 84;
                 }
+                try {
 
+
+                    if (whereAreYou == 1) {
+                        viewPager = (ViewPager) findViewById(R.id.pager);
+                        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+                        progressDialog.dismiss();
+                        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+                        tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
+                        viewPager.setCurrentItem(2);
+                        tabs.setSmoothScrollingEnabled(true);
+                        tabs.setDistributeEvenly(true);
+                        tabs.setViewPager(viewPager);
+
+                        whereAreYou = 84;
+                    }
+                } catch (Exception e) {
+                }
             }
 
             @Override

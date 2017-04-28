@@ -1,8 +1,6 @@
 package com.example.thearbiter.thriftbooksnepal.Fragments;
 
-import android.annotation.TargetApi;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -14,9 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.thearbiter.thriftbooksnepal.Activities.Login;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Adapters.SectionedGridRecyclerViewAdapter;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationNavMenu;
@@ -38,9 +34,8 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
     TextView navMenuUsername;
     TextView navMenuEmailAddress;
     final String WELCOME_TEXT = "Welcome ";
-    int[] icons = {R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp,R.drawable.temp};
-    String title[] = {"Alevel", "IB", "+2", "Sell any books", "Accounts","About Us"};
-
+    int[] icons = {R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp};
+    String title[] = {"Alevel", "IB", "+2", "Sell any books", "Accounts", "About Us"};
 
 
     @Nullable
@@ -53,38 +48,49 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 
-        String userProfilePic = sharedpref.getString("username", "noValue");
+        String userProfilePic = sharedpref.getString("a", "noValue");
+        try {
+            if (userProfilePic.equals("noValue")) {
+                userProfilePic = FragmentCustomDiagLogin.username;
+                Log.d("log","chiryo1 "+FragmentCustomDiagLogin.username);
+            }
+        } catch (Exception e) {
 
-        String userNameDraw = sharedpref.getString("firstNameSharePref","gg");
+        }
+        String userNameDraw = sharedpref.getString("firstNameSharePref", "gg");
+        try {
+            if (userNameDraw.equals("gg")) {
+                userNameDraw = FragmentCustomDiagLogin.firstName;
+                Log.d("log","chiryo2 "+FragmentCustomDiagLogin.firstName);
+            }
+        } catch (Exception e) {
 
-        CircleImageView circleImageView = (CircleImageView)layout.findViewById(R.id.profile_image);
-        String kk= "http://aadeshrana.esy.es/"+FragmentCustomDiagLogin.username+"ProfilePic";
+        }
+        CircleImageView circleImageView = (CircleImageView) layout.findViewById(R.id.profile_image);
+        String kk = "http://aadeshrana.esy.es/" + FragmentCustomDiagLogin.username + "ProfilePic";
 
-        Picasso.with(getActivity()).load("http://aadeshrana.esy.es/"+userProfilePic+"ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
+        Picasso.with(getActivity()).load("http://aadeshrana.esy.es/" + userProfilePic + "ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         navMenuUsername = (TextView) layout.findViewById(R.id.navDrawerUserName);
         navMenuEmailAddress = (TextView) layout.findViewById(R.id.navDrawerEmailAddress);
 
-        if(userNameDraw.equals("Guest")){
+        if (userNameDraw.equals("gg")) {
             circleImageView.isClickable();
             circleImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentCustomDiagLogin fragmentCustomDiagLogin= new FragmentCustomDiagLogin();
-                    fragmentCustomDiagLogin.show(getFragmentManager(),"cde");
+                    FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+                    fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
                 }
             });
         }
 
 
-
-        if(FragmentCustomDiagLogin.firstName != null) {
+        if (FragmentCustomDiagLogin.firstName != null) {
             navMenuUsername.setText(WELCOME_TEXT + FragmentCustomDiagLogin.firstName);
             navMenuEmailAddress.setText(FragmentCustomDiagLogin.emailAddress);
 
 
-        }
-
-        else{
+        } else {
 
             String sharedFirstName = sharedpref.getString("firstNameSharePref1", "Guest");
             String sharedEmail = sharedpref.getString("emailSharePref", " ");
@@ -101,14 +107,14 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         List<SectionedGridRecyclerViewAdapter.Section> sections =
                 new ArrayList<SectionedGridRecyclerViewAdapter.Section>();
-        sections.add(new SectionedGridRecyclerViewAdapter.Section(0,"Buy"));
-        sections.add(new SectionedGridRecyclerViewAdapter.Section(3,"Sell"));
-        sections.add(new SectionedGridRecyclerViewAdapter.Section(4,"Settings"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(0, "Buy"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(3, "Sell"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(4, "Settings"));
         //sections.add(new SectionedGridRecyclerViewAdapter.Section(6,"Settings"));
 
         SectionedGridRecyclerViewAdapter.Section[] dummy = new SectionedGridRecyclerViewAdapter.Section[sections.size()];
         SectionedGridRecyclerViewAdapter mSectionedAdapter = new
-                SectionedGridRecyclerViewAdapter(getActivity(),R.layout.section,R.id.section_text,recyclerView,adapter);
+                SectionedGridRecyclerViewAdapter(getActivity(), R.layout.section, R.id.section_text, recyclerView, adapter);
         mSectionedAdapter.setSections(sections.toArray(dummy));
         recyclerView.setAdapter(mSectionedAdapter);
 

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentChat;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
 import com.example.thearbiter.thriftbooksnepal.R;
 
 /**
@@ -35,12 +36,15 @@ public class ChatMainActivity extends AppCompatActivity {
         String[] a = intentRoomName.split("\\|\\|");
         String[] b = a[1].split("---");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ChatMainActivity.this);
-        String prefName = preferences.getString("firstNameSharePref1","");
-        String finalfinalName;
-        if(prefName.equals(b[0])){
-            finalfinalName = b[1];
+        String prefName = preferences.getString("firstNameSharePref1", "");
+        if (prefName.equals("")) {
+            prefName = FragmentCustomDiagLogin.firstName;
         }
-        else{
+
+        String finalfinalName;
+        if (prefName.equals(b[0])) {
+            finalfinalName = b[1];
+        } else {
             finalfinalName = b[0];
         }
 
@@ -56,11 +60,23 @@ public class ChatMainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        finish();
+//
+//    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
 
     @Override

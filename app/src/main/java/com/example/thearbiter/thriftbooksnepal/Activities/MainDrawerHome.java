@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -72,7 +73,8 @@ public class MainDrawerHome extends AppCompatActivity {
     private static final String FETCH_NUMBER_URL = "http://frame.ueuo.com/thriftbooks/fetchalldetails.php";
     JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
-    String loggedIn="";
+    String loggedIn = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +85,7 @@ public class MainDrawerHome extends AppCompatActivity {
 
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
-        loggedIn = sharedpref.getString("username", "noValue");
+        loggedIn = sharedpref.getString("loggedIn", "noValue");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getToken();
@@ -105,7 +107,6 @@ public class MainDrawerHome extends AppCompatActivity {
         transaction.commit();
         new PullAllAlevelItems().execute();
         Notifications.whereAreYou = 0;
-
 
 
     }
@@ -154,14 +155,13 @@ public class MainDrawerHome extends AppCompatActivity {
         MenuItem item1 = menu.findItem(R.id.action_settings);
         MenuItem item3 = menu.findItem(R.id.messager);
         item3.setIcon(R.drawable.notif);
-       if(loggedIn.equals("noValue")){
+        if (loggedIn.equals("noValue")) {
 
             item2.setVisible(false);
-         item1.setVisible(true);
-        }
-        else{
+            item1.setVisible(true);
+        } else {
             item2.setVisible(true);
-          item1.setVisible(false);
+            item1.setVisible(false);
 
         }
 
@@ -179,8 +179,8 @@ public class MainDrawerHome extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            FragmentCustomDiagLogin fragmentCustomDiagLogin= new FragmentCustomDiagLogin();
-            fragmentCustomDiagLogin.show(getFragmentManager(),"cde");
+            FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+            fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
 
             /*Intent intent = new Intent(MainDrawerHome.this,Login.class);
             startActivity(intent);*/
@@ -188,19 +188,24 @@ public class MainDrawerHome extends AppCompatActivity {
 
         }
         if (id == R.id.messager) {
-            Intent in = new Intent(getBaseContext(), Notifications.class);
-            startActivity(in);
+            if (loggedIn.equals("noValue")) {
+                Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent in = new Intent(getBaseContext(), Notifications.class);
+                startActivity(in);
+            }
         }
 
         if (id == R.id.log_out) {
             Intent in = new Intent(MainDrawerHome.this, MainDrawerHome.class);
             startActivity(in);
+            tokenClear();
             SharedPreferences sharedpref;
             sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor edit = sharedpref.edit();
-            FragmentCustomDiagLogin.firstName="";
-            FragmentCustomDiagLogin.emailAddress="";
-            FragmentCustomDiagLogin.username="";
+            FragmentCustomDiagLogin.firstName = "";
+            FragmentCustomDiagLogin.emailAddress = "";
+            FragmentCustomDiagLogin.username = "";
             edit.clear();
             edit.putString("checkbox", "notchecked");
             edit.apply();
@@ -210,11 +215,43 @@ public class MainDrawerHome extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void tokenClear() {
+
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+        SharedPreferences.Editor edit = sharedpref.edit();
+        edit.putString("token", "");
+        edit.apply();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, app_server_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("fcm_token", "");
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+                String loginUsername = pref.getString("a", "");
+                params.put("user", loginUsername);
+
+                return params;
+            }
+        };
+        MySingleton.getmInstance(MainDrawerHome.this).addToRequestque(stringRequest);
+    }
+
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {
-
-//
-
+        //
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

@@ -75,6 +75,7 @@ public class FragmentMessager extends Fragment {
     ScrollView scrollView;
     MessagerAdapter adapter;
     String userLoggedIn;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,8 +118,8 @@ public class FragmentMessager extends Fragment {
             public void onClick(View v) {
                 SharedPreferences sharedpref;
                 sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                userLoggedIn = sharedpref.getString("username", "Guest");
-                if (userLoggedIn.equals("Guest")) {
+                userLoggedIn = sharedpref.getString("loggedIn", "noValue");
+                if (userLoggedIn.equals("noValue")) {
                     FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
                     fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
                 } else {
@@ -238,8 +239,15 @@ public class FragmentMessager extends Fragment {
                 SharedPreferences sharedpref;
                 sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 sharedpref.edit();
-                String sendersUsername = sharedpref.getString("a", "noValue");
-                String fullName = sharedpref.getString("firstNameSharePref", "noValue") + " " + sharedpref.getString("lastNameSharePref", "noValue");
+                String sendersUsername = sharedpref.getString("a", "");
+                if (sendersUsername.equals("")) {
+                    sendersUsername = FragmentCustomDiagLogin.username;
+                }
+
+                String fullName = sharedpref.getString("firstNameSharePref", "") + " " + sharedpref.getString("lastNameSharePref", "");
+                if (fullName.equals(" ")) {
+                    fullName = FragmentCustomDiagLogin.firstName + " " + FragmentCustomDiagLogin.lastName;
+                }
 
                 param1.add(new BasicNameValuePair("senderusername", sendersUsername));
                 param1.add(new BasicNameValuePair("sender", fullName));
@@ -302,8 +310,6 @@ public class FragmentMessager extends Fragment {
 
                 List<NameValuePair> param1 = new ArrayList<>();
 //                param1.add(new BasicNameValuePair("username", spUsername));
-
-                Log.d("SHARED ISSS", "" + FragmentMessager.finalBuyersActivityImage2 + FragmentMessager.finalBuyersActivityPriceOfBook);
 
                 String salesId = FragmentMessager.finalBuyersActivityImage2 + FragmentMessager.finalBuyersActivityPriceOfBook;
 
@@ -374,9 +380,7 @@ public class FragmentMessager extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            SharedPreferences sharedpref;
-            sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String token = sharedpref.getString("token", "");
+
             Log.d("this is ", "life" + finalBuyersActivityUsernameOfSeller);
 
             params1.add(new BasicNameValuePair("user", finalBuyersActivityUsernameOfSeller));

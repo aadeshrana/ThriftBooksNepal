@@ -18,10 +18,18 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainDrawerHome;
 import com.example.thearbiter.thriftbooksnepal.Activities.SignUp;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.MySingleton;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,92 +39,95 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Aadesh Rana on 30-03-17.
  */
 
 public class FragmentCustomDiagLogin extends DialogFragment {
-    EditText userName,passWord;
-    Button loginButton,signUpButton;
+    EditText userName, passWord;
+    Button loginButton, signUpButton;
     CheckBox keepLoggedIn;
+    String app_server_url = "http://frame.ueuo.com/images/fcm_insert.php";
     private static final String LOGIN_URL = "http://frame.ueuo.com/thriftbooks/login.php";
     private static final String FETCH_NUMBER_URL = "http://frame.ueuo.com/thriftbooks/fetchalldetails.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-    public static String firstName, lastName,phoneNumber,school,emailAddress,username,password;
+    public static String firstName, lastName, phoneNumber, school, emailAddress, username, password;
     private ProgressDialog pdialog;
     int success;
     JSONParser jsonParser = new JSONParser();
-    static String checkBoxChecked = "notchecked",strLoginUsername,strLoginPassword;
+    static String checkBoxChecked = "notchecked", strLoginUsername, strLoginPassword;
 
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_login_diag,container,false);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_login_diag, container, false);
 
-            userName = (EditText)view.findViewById(R.id.loginUsername);
-            passWord = (EditText)view.findViewById(R.id.loginPassword);
-            loginButton = (Button)view.findViewById(R.id.loginButton);
-            signUpButton = (Button)view.findViewById(R.id.LoginNewAccount);
-            keepLoggedIn = (CheckBox)view.findViewById(R.id.keepLoggedIn);
-            keepLoggedIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Toast.makeText(getActivity(), "Please check this on private devices only.", Toast.LENGTH_SHORT).show();
+        userName = (EditText) view.findViewById(R.id.loginUsername);
+        passWord = (EditText) view.findViewById(R.id.loginPassword);
+        loginButton = (Button) view.findViewById(R.id.loginButton);
+        signUpButton = (Button) view.findViewById(R.id.LoginNewAccount);
+        keepLoggedIn = (CheckBox) view.findViewById(R.id.keepLoggedIn);
+        keepLoggedIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(getActivity(), "Please check this on private devices only.", Toast.LENGTH_SHORT).show();
 
-                    if (isChecked) {
-                        checkBoxChecked = "checked";
+                if (isChecked) {
+                    checkBoxChecked = "checked";
 
-                    } else {
-                        checkBoxChecked = "notchecked";
-                        SharedPreferences sharedpref;
-                        sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                        SharedPreferences.Editor edit = sharedpref.edit();
-                        edit.putString("checkbox", checkBoxChecked);
-                        edit.apply();
-                    }
+                } else {
+                    checkBoxChecked = "notchecked";
+                    SharedPreferences sharedpref;
+                    sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor edit = sharedpref.edit();
+                    edit.putString("checkbox", checkBoxChecked);
+                    edit.apply();
                 }
+            }
 
-            });
+        });
 
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                   strLoginUsername = userName.getText().toString();
-                    strLoginPassword = passWord.getText().toString();
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                strLoginUsername = userName.getText().toString();
+                strLoginPassword = passWord.getText().toString();
+                try {
+                    strLoginPassword = SHA1(strLoginPassword);
+
+                    password = strLoginPassword;
                     try {
-                        strLoginPassword = SHA1(strLoginPassword);
+                        new LoginUser(getActivity()).execute();
 
-                        password = strLoginPassword;
-                        try {
-                            new LoginUser(getActivity()).execute();
+                    } catch (Exception e) {
 
-                        } catch (Exception e) {
-
-                        }
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
                     }
-
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
-            });
-            signUpButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), SignUp.class);
-                   startActivityForResult(intent,1);
-                }
-            });
 
-            getDialog().setTitle("Login");
-            getDialog().setCancelable(true);
+            }
+        });
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SignUp.class);
+                startActivityForResult(intent, 1);
+            }
+        });
 
-            return view;
-        }
+        getDialog().setTitle("Login");
+        getDialog().setCancelable(true);
+
+        return view;
+    }
 
 
     class LoginUser extends AsyncTask<String, String, String> {
@@ -149,8 +160,8 @@ public class FragmentCustomDiagLogin extends DialogFragment {
                 params1.add(new BasicNameValuePair("username", strLoginUsername));
                 params.add(new BasicNameValuePair("username", strLoginUsername));
                 params.add(new BasicNameValuePair("password", password));
-                Log.d("Username"," UserName: "+strLoginUsername);
-                Log.d("password","Password: "+password);
+                Log.d("Username", " UserName: " + strLoginUsername);
+                Log.d("password", "Password: " + password);
                 //getting product details by making http request
 
                 JSONObject json = jsonParser.makeHttpRequest(LOGIN_URL, "POST", params);
@@ -191,20 +202,22 @@ public class FragmentCustomDiagLogin extends DialogFragment {
                 SharedPreferences sharedpref;
                 sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor edit = sharedpref.edit();
+                getToken();
 
-
-                if(checkBoxChecked.equals("checked")) {
-                    Log.d("kxa1",":"+firstName);
+                if (checkBoxChecked.equals("checked")) {
+                    Log.d("kxa1", ":" + firstName);
                     edit.putString("firstNameSharePref", firstName);
                     edit.putString("firstNameSharePref1", firstName);
                     edit.putString("lastNameSharePref", lastName);
                     edit.putString("emailSharePref", emailAddress);
                     edit.putString("phoneSharePref", phoneNumber);
                     edit.putString("schoolSharePref", school);
-
+                    edit.putString("username", strLoginUsername);
+                    edit.putString("a", strLoginUsername);
                 }
-                edit.putString("username", strLoginUsername);
-                edit.putString("a",strLoginUsername);
+//                edit.putString("username", strLoginUsername);
+//                edit.putString("a",strLoginUsername);
+                edit.putString("loggedIn",strLoginUsername);
                 edit.putString("checkbox", checkBoxChecked);
                 edit.apply();
                 Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
@@ -220,14 +233,51 @@ public class FragmentCustomDiagLogin extends DialogFragment {
 
             if (file_url != null) {
                 Toast.makeText(getActivity(), file_url, Toast.LENGTH_LONG).show();
-              
+
             }
         }
     }
 
+    private void getToken() {
+        final String recent_token = FirebaseInstanceId.getInstance().getToken();
+
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor edit = sharedpref.edit();
+        edit.putString("token", recent_token);
+        edit.apply();
+        final String token = sharedpref.getString("token", "");
+        Log.d("TOKEN LOG", "km  " + token);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, app_server_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("fcm_token", recent_token);
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String loginUsername = pref.getString("a", "");
+                params.put("user", loginUsername);
+//
+
+                return params;
+            }
+        };
+        MySingleton.getmInstance(getActivity()).addToRequestque(stringRequest);
+    }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private static String convertToHex(byte[] data) {
         StringBuilder buf = new StringBuilder();
         for (byte b : data) {

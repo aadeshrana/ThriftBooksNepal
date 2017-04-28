@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentMessager;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.google.firebase.database.DataSnapshot;
@@ -58,7 +59,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
         Log.d("OH GOD", "");
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        Notifications.whereAreYou=0;
+        Notifications.whereAreYou = 0;
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -165,10 +166,13 @@ public class FinalBuyersActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
             String userNameOfUser = preferences.getString("a", "");
-            String new2RoomName = userNameOfUser + FragmentMessager.finalBuyersActivityUsernameOfSeller;
+            if (userNameOfUser.equals("")) {
+                userNameOfUser = FragmentCustomDiagLogin.username;
+            }
+
+            String new2RoomName = userNameOfUser + "nameSeparatorHere" + FragmentMessager.finalBuyersActivityUsernameOfSeller;
             params1.add(new BasicNameValuePair("roomName", new2RoomName));
 
-            Log.d("Room","Name"+FinalBuyersActivity.newRoomName);
             try {
                 jsonParser.makeHttpRequest(CREATE_ROOM_TABLE, "POST", params1);
 
@@ -196,53 +200,71 @@ public class FinalBuyersActivity extends AppCompatActivity {
 
             // FIREBASE ROOM CREATION IS DONE HERE
             // TABLE FOR ROOM IS ALSO CREATED IN THE DATABASE
+            SharedPreferences sharedpref;
+            sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
+            String loggedIn = sharedpref.getString("loggedIn", "noValue");
 
+            if (loggedIn.equals("noValue")) {
+                Toast.makeText(this, "Please sign in to leave a message.", Toast.LENGTH_SHORT).show();
+            } else {
+                final Map<String, Object> map = new HashMap<>();
+                try {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
+                    String userNameOfUser = preferences.getString("a", "");
+                    if (userNameOfUser.equals("")) {
+                        userNameOfUser = FragmentCustomDiagLogin.username;
+                    }
 
-            final Map<String, Object> map = new HashMap<>();
-            try {
+                    String nameOfUser = preferences.getString("firstNameSharePref1", "");
+                    if (nameOfUser.equals("")) {
+                        nameOfUser = FragmentCustomDiagLogin.firstName;
+                    }
+
+                    newRoomName = userNameOfUser + "***" + FragmentMessager.finalBuyersActivityUsernameOfSeller + "||" + FragmentMessager.finalBuyersActivityNameOfSeller + "---" + nameOfUser;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                map.put(newRoomName, "");
+
+                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChild(newRoomName)) {
+                            Toast.makeText(FinalBuyersActivity.this, "Already there", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(FinalBuyersActivity.this, "Not present NEWW", Toast.LENGTH_SHORT).show();
+                            new CreateRoom().execute();
+                            root.updateChildren(map);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                //THIS CREATES TABLE TO STORE IN OUR DATABASE
+
+                Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
-                String userNameOfUser = preferences.getString("a", "");
-                String nameOfUser = preferences.getString("firstNameSharePref1","");
-                newRoomName = userNameOfUser +"***"+FragmentMessager.finalBuyersActivityUsernameOfSeller+"||"+FragmentMessager.finalBuyersActivityNameOfSeller+"---"+nameOfUser;
-            } catch (Exception e) {
-                e.printStackTrace();
+                String username = preferences.getString("a", "");
+                if (username.equals("")) {
+                    username = FragmentCustomDiagLogin.username;
+                }
+                String nameOfUser = preferences.getString("firstNameSharePref1", "");
+                if(nameOfUser.equals("")){
+                    nameOfUser=FragmentCustomDiagLogin.firstName;
+                }
+                String stringToSendInIntent = username + "***" + FragmentMessager.finalBuyersActivityUsernameOfSeller + "||" + FragmentMessager.finalBuyersActivityNameOfSeller + "---" + nameOfUser;
+                Log.d("room", "fromIntent " + stringToSendInIntent);
+                intent.putExtra("room_name", stringToSendInIntent);
+                intent.putExtra("user_name", FragmentMessager.finalBuyersActivityNameOfSeller);
+                startActivity(intent);
             }
-
-            map.put(newRoomName, "");
-
-            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-            rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.hasChild(newRoomName)) {
-                        Toast.makeText(FinalBuyersActivity.this, "Already there", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(FinalBuyersActivity.this, "Not present NEWW", Toast.LENGTH_SHORT).show();
-                        new CreateRoom().execute();
-                        root.updateChildren(map);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-            //THIS CREATES TABLE TO STORE IN OUR DATABASE
-
-            Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
-            String username = preferences.getString("a", "");
-            String nameOfUser = preferences.getString("firstNameSharePref1","");
-            String stringToSendInIntent = username+"***"+FragmentMessager.finalBuyersActivityUsernameOfSeller+"||"+FragmentMessager.finalBuyersActivityNameOfSeller+"---"+nameOfUser;
-            Log.d("room","fromIntent "+stringToSendInIntent);
-            intent.putExtra("room_name",stringToSendInIntent);
-            intent.putExtra("user_name", FragmentMessager.finalBuyersActivityNameOfSeller);
-            startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
     }
 

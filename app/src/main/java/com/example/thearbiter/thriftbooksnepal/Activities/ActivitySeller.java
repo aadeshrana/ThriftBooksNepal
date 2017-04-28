@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.ImageFilePath;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
 import com.example.thearbiter.thriftbooksnepal.R;
 
 import org.apache.http.NameValuePair;
@@ -87,24 +88,38 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    String spUsername,spfirstName,splastName,spEmail,spSchool,spPhoneNo;
+    String spUsername, spfirstName, splastName, spEmail, spSchool, spPhoneNo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        imgUplaodOneProgress =(ProgressBar)findViewById(R.id.imageUploadOneProgress);
+        imgUplaodOneProgress = (ProgressBar) findViewById(R.id.imageUploadOneProgress);
         imgUplaodOneProgress.setVisibility(View.GONE);
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         sharedpref.edit();
+
         spUsername = sharedpref.getString("a", "nullSeller");
         spfirstName = sharedpref.getString("firstNameSharePref", "nullSeller");
         splastName = sharedpref.getString("lastNameSharePref", "nullSeller");
         spEmail = sharedpref.getString("emailSharePref", "nullSeller");
         spSchool = sharedpref.getString("schoolSharePref", "nullSeller");
         spPhoneNo = sharedpref.getString("phoneSharePref", "nullSeller");
+
+        try {
+            if (spUsername.equals("nullSeller")) {
+                spUsername = FragmentCustomDiagLogin.username;
+                spfirstName = FragmentCustomDiagLogin.firstName;
+                splastName = FragmentCustomDiagLogin.lastName;
+                spEmail = FragmentCustomDiagLogin.emailAddress;
+                spSchool = FragmentCustomDiagLogin.school;
+                spPhoneNo = FragmentCustomDiagLogin.phoneNumber;
+            }
+        } catch (Exception e) {
+
+        }
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -262,8 +277,6 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             try {
 
 
-
-
                 List<NameValuePair> param1 = new ArrayList<>();
                 param1.add(new BasicNameValuePair("username", spUsername));
                 param1.add(new BasicNameValuePair("firstname", spfirstName));
@@ -330,7 +343,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-              imgUplaodOneProgress.setVisibility(View.VISIBLE);
+                imgUplaodOneProgress.setVisibility(View.VISIBLE);
                 sellerUpload1Button.setVisibility(View.GONE);
             }
 
@@ -387,7 +400,6 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 super.onPostExecute(s);
 //                pdialog.dismiss();
                 Toast.makeText(ActivitySeller.this, "Uploaded Image 1", Toast.LENGTH_SHORT).show();
-
 
 
                 img1 = true;

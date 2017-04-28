@@ -60,6 +60,7 @@ public class FragmentChat extends Fragment {
 
     //NOTIFICATION URL
     private static final String SEND_NOTIFICATION_TO_PARTICIPANTS = "http://frame.ueuo.com/images/send_notification_chat.php";
+    private static final String SEND_CHAT_TO_SERVER = "http://frame.ueuo.com/thriftbooks/sendChatToServer.php";
 
     JSONParser jsonParser = new JSONParser();
 
@@ -87,6 +88,9 @@ public class FragmentChat extends Fragment {
         //Reference to Realtime database
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String username = preferences.getString("a", "");
+        if (username.equals("")) {
+            username = FragmentCustomDiagLogin.username;
+        }
 
         Log.d("intent", "" + ChatMainActivity.intentRoomName);
         String roomName2 = ChatMainActivity.intentRoomName;
@@ -107,6 +111,9 @@ public class FragmentChat extends Fragment {
 
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 String username = sharedPreferences.getString("a", "");
+                if (username.equals("")) {
+                    username = FragmentCustomDiagLogin.username;
+                }
 
                 map2.put("name", username);
                 map2.put("msg", chatMessageEt.getText().toString());
@@ -120,7 +127,14 @@ public class FragmentChat extends Fragment {
                 //SEND NOTIFICATION OF MESSAGE TO SELLER
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 selfUsername = preferences.getString("a", "");
+                if (selfUsername.equals("")) {
+                    selfUsername = FragmentCustomDiagLogin.username;
+                }
+                Log.d("kbhayo", "pher");
                 new SendNotification().execute();
+
+                //This sends message to our database
+                new SendMessageToMainDatabase().execute();
 
             }
         });
@@ -198,7 +212,24 @@ public class FragmentChat extends Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-            params2.add(new BasicNameValuePair("user", FragmentMessager.finalBuyersActivityUsernameOfSeller));
+            //Finding out the username to whom we have to send the notification to
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String yourName = preferences.getString("a", "");
+            if (yourName.equals("")) {
+                yourName = FragmentCustomDiagLogin.username;
+            }
+            String roomName = ChatMainActivity.intentRoomName;
+            String[] stepOne = roomName.split("\\|\\|");
+            String[] stepTwo = stepOne[0].split("[*]+");
+            String nameToSendNotificationTo;
+            if (stepTwo[0].equals(yourName)) {
+                nameToSendNotificationTo = stepTwo[1];
+            } else {
+                nameToSendNotificationTo = stepTwo[0];
+            }
+            Log.d("nameTo", "Send" + nameToSendNotificationTo);
+
+            params2.add(new BasicNameValuePair("user", nameToSendNotificationTo));
             params2.add(new BasicNameValuePair("title", "Book Sansar new message"));
             params2.add(new BasicNameValuePair("message", selfUsername + ": " + messageForNotif));
 
@@ -208,6 +239,38 @@ public class FragmentChat extends Fragment {
 
     }
 
+    class SendMessageToMainDatabase extends AsyncTask<String, String, String> {
+
+        List<NameValuePair> params2 = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... params) {
+
+
+            //This is the firebase roomName
+            String wholeRoomName = ChatMainActivity.intentRoomName;
+
+            String stepOne[] = wholeRoomName.split("\\|\\|");
+            String stepTwo[] = stepOne[0].split("[*]+");
+
+            String usernameTo;
+            if (stepTwo[0].equals(selfUsername)) {
+                usernameTo = stepTwo[1];
+            } else {
+                usernameTo = stepTwo[0];
+            }
+
+            //Adding parametres to send to PHP File
+
+            params2.add(new BasicNameValuePair("usernameFrom", selfUsername));
+            params2.add(new BasicNameValuePair("to", usernameTo));
+            params2.add(new BasicNameValuePair("message", messageForNotif));
+
+            jsonParser.makeHttpRequest(SEND_CHAT_TO_SERVER, "POST", params2);
+            return null;
+        }
+
+    }
 
     public List<InformationChatActivity> getdata() {
         List<InformationChatActivity> data = new ArrayList<>();

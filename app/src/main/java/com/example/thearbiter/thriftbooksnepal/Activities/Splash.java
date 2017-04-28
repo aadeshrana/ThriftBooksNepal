@@ -13,10 +13,6 @@ import android.widget.ImageView;
 
 import com.example.thearbiter.thriftbooksnepal.R;
 
-import java.util.Objects;
-
-import static android.R.id.edit;
-
 /**
  * Created by Gaurav Jayasawal on 1/15/2017.
  */
@@ -91,6 +87,7 @@ public class Splash extends AppCompatActivity {
             //}
             Intent intent = new Intent(getApplication(),MainDrawerHome.class);
             startActivity(intent);
+            finish();
         } catch (Exception e) {
             e.printStackTrace();
         }
