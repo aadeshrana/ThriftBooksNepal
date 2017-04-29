@@ -154,7 +154,7 @@ public class MainDrawerHome extends AppCompatActivity {
         MenuItem item2 = menu.findItem(R.id.log_out);
         MenuItem item1 = menu.findItem(R.id.action_settings);
         MenuItem item3 = menu.findItem(R.id.messager);
-        item3.setIcon(R.drawable.notif);
+        item3.setIcon(R.drawable.messages);
         if (loggedIn.equals("noValue")) {
 
             item2.setVisible(false);

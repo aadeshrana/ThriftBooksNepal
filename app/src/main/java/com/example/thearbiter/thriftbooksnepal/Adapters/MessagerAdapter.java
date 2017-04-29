@@ -32,7 +32,7 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
     @Override
     public MessagerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = layoutInflater.inflate(R.layout.message_custom, parent, false);
+        View view = layoutInflater.inflate(R.layout.comment_custom, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }

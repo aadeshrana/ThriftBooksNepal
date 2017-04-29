@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:id="@+id/chatRelativeLayout"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -13,11 +13,12 @@
         android:padding="2dp"
         app:cardUseCompatPadding="true"
         card_view:cardBackgroundColor="#FFFFFF"
-        card_view:cardCornerRadius="2dp"
+        card_view:cardCornerRadius="5dp"
         card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
         <RelativeLayout
+            android:id="@+id/relative1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -27,12 +28,19 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:src="@drawable/default_user" />
-
+            <TextView
+                android:id="@+id/noNotificationsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
             <TextView
                 android:id="@+id/messageCustomLayoutNameOfSender"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="7dp"
@@ -42,21 +50,14 @@
                 android:textColor="#000000"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/noNotificationsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+
 
             <TextView
                 android:id="@+id/messageCustomLayoutTextToSend"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/messageCustomLayoutNameOfSender"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="1dp"
@@ -69,11 +70,12 @@
                 android:id="@+id/timeOfNotif"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/messageCustomLayoutTextToSend"
-                android:layout_marginRight="10dp"
-                android:text="date and time" />
+                android:text="date and time"
+                android:layout_below="@+id/messageCustomLayoutTextToSend"
+                android:layout_marginEnd="8dp" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>

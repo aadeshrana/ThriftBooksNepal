@@ -80,7 +80,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     final FTPClient client2 = new FTPClient();
     TextView imageFilePath1, imageFilePath2, imageFilePath3;
     static int selectedSelectImageButton;
-    ProgressBar imgUplaodOneProgress;
+    ProgressBar imgUploadOneProgress, imgUploadTwoProgress, imgUploadThreeProgress;
     Uri filepath1, filepath2, filepath3;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -95,19 +95,26 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        imgUplaodOneProgress = (ProgressBar) findViewById(R.id.imageUploadOneProgress);
-        imgUplaodOneProgress.setVisibility(View.GONE);
+        imgUploadOneProgress = (ProgressBar) findViewById(R.id.imageUploadOneProgress);
+        imgUploadTwoProgress = (ProgressBar) findViewById(R.id.imageUploadTwoProgress);
+        imgUploadThreeProgress = (ProgressBar) findViewById(R.id.imageUploadThreeProgress);
+
+        imgUploadOneProgress.setVisibility(View.GONE);
+        imgUploadTwoProgress.setVisibility(View.GONE);
+        imgUploadThreeProgress.setVisibility(View.GONE);
+
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         sharedpref.edit();
 
         spUsername = sharedpref.getString("a", "nullSeller");
-        spfirstName = sharedpref.getString("firstNameSharePref", "nullSeller");
+        spfirstName = sharedpref.getString("firstNameSharePref1", "nullSeller");
         splastName = sharedpref.getString("lastNameSharePref", "nullSeller");
         spEmail = sharedpref.getString("emailSharePref", "nullSeller");
         spSchool = sharedpref.getString("schoolSharePref", "nullSeller");
         spPhoneNo = sharedpref.getString("phoneSharePref", "nullSeller");
 
+        Log.d("shared","bataako "+spfirstName);
         try {
             if (spUsername.equals("nullSeller")) {
                 spUsername = FragmentCustomDiagLogin.username;
@@ -116,7 +123,10 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 spEmail = FragmentCustomDiagLogin.emailAddress;
                 spSchool = FragmentCustomDiagLogin.school;
                 spPhoneNo = FragmentCustomDiagLogin.phoneNumber;
+                Log.d("Fragment","bataako "+spfirstName);
             }
+
+
         } catch (Exception e) {
 
         }
@@ -193,7 +203,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             intent.setAction(Intent.ACTION_GET_CONTENT);
             selectedSelectImageButton = 1;
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-            imgUplaodOneProgress.setVisibility(View.VISIBLE);
+            imgUploadOneProgress.setVisibility(View.VISIBLE);
 
         }
         if (v == sellerSelectImage2) {
@@ -202,6 +212,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             intent.setAction(Intent.ACTION_GET_CONTENT);
             selectedSelectImageButton = 2;
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+            imgUploadTwoProgress.setVisibility(View.VISIBLE);
         }
         if (v == sellerSelectImage3) {
             Intent intent = new Intent();
@@ -209,6 +220,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             intent.setAction(Intent.ACTION_GET_CONTENT);
             selectedSelectImageButton = 3;
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+            imgUploadThreeProgress.setVisibility(View.VISIBLE);
         }
 
         if (v == sellerUpload1Button) {
@@ -343,7 +355,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                imgUplaodOneProgress.setVisibility(View.VISIBLE);
+                imgUploadOneProgress.setVisibility(View.VISIBLE);
                 sellerUpload1Button.setVisibility(View.GONE);
             }
 
@@ -421,7 +433,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-
+                imgUploadTwoProgress.setVisibility(View.VISIBLE);
+                sellerUpload2Button.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -487,11 +500,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-//                pdialog = new ProgressDialog(ActivitySeller.this);
-//                pdialog.setMessage("Uploading 3.. Please Wait");
-//                pdialog.setIndeterminate(false);
-//                pdialog.setCancelable(false);
-//                pdialog.show();
+                imgUploadThreeProgress.setVisibility(View.VISIBLE);
+                sellerUpload3Button.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -562,7 +572,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     void value1Poster() {
         imageFilePath1.setText("UPLOADED!!!");
         imageFilePath1.setTextColor(Color.MAGENTA);
-        imgUplaodOneProgress.setVisibility(View.GONE);
+        imgUploadOneProgress.setVisibility(View.GONE);
 
         sellerUpload1Button.setVisibility(View.VISIBLE);
     }
@@ -570,11 +580,15 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     void value2Poster() {
         imageFilePath2.setText("UPLOADED!!!");
         imageFilePath2.setTextColor(Color.MAGENTA);
+        imgUploadTwoProgress.setVisibility(View.GONE);
+        sellerUpload2Button.setVisibility(View.VISIBLE);
     }
 
     void value3Poster() {
         imageFilePath3.setText("UPLOADED!!!");
         imageFilePath3.setTextColor(Color.MAGENTA);
+        imgUploadThreeProgress.setVisibility(View.GONE);
+        sellerUpload3Button.setVisibility(View.VISIBLE);
     }
 
     //////////////////////////////////////////////POSTER FUNCTIONS END HERE//////////////////////////////////////////////////

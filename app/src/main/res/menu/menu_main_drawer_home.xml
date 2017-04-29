@@ -4,7 +4,6 @@
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.MainDrawerHome">
     <item
         android:id="@+id/action_settings"
-
         android:title="Sign In"
         app:showAsAction="ifRoom" />
     <item

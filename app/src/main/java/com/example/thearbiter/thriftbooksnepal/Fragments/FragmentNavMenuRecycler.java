@@ -34,7 +34,7 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
     TextView navMenuUsername;
     TextView navMenuEmailAddress;
     final String WELCOME_TEXT = "Welcome ";
-    int[] icons = {R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp, R.drawable.temp};
+    int[] icons = {R.drawable.alevel, R.drawable.ib, R.drawable.plustwo, R.drawable.sell, R.drawable.account, R.drawable.about};
     String title[] = {"Alevel", "IB", "+2", "Sell any books", "Accounts", "About Us"};
 
 

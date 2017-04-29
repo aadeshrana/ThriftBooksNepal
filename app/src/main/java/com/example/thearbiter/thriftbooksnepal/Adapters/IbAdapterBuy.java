@@ -51,6 +51,7 @@ public class IbAdapterBuy extends RecyclerView.Adapter<IbAdapterBuy.MyViewHolder
         holder.title.setText(current.title);
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
+        Log.d("ib","image"+current.firstBookList);
         Picasso.with(context).load("http://aadeshrana.esy.es/"+current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
 
         holder.cardIbBuy.setOnClickListener(new View.OnClickListener() {

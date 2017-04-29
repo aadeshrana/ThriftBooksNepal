@@ -15,7 +15,6 @@ import com.example.thearbiter.thriftbooksnepal.Activities.ActivitySeller;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainALevelBuyer;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainIbBuyer;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainPlusTwoBuyer;
-import com.example.thearbiter.thriftbooksnepal.Activities.Notifications;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationNavMenu;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
@@ -49,7 +48,7 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final InformationNavMenu current = data.get(position);
         holder.title.setText(current.name);
-       // Picasso.with(context).load(current.iconId).fit().centerCrop().into(holder.iconId);
+        Picasso.with(context).load(current.iconId).fit().centerCrop().into(holder.iconId);
 
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             Intent intent;
