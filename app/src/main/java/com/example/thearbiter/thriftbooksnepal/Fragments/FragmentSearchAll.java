@@ -58,7 +58,7 @@ public class FragmentSearchAll  extends Fragment implements SearchView.OnQueryTe
 
         searchView = (SearchView)layout.findViewById(R.id.searchAllData);
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.left_right);
-        searchView.startAnimation(animation);
+       // searchView.startAnimation(animation);
         setUpSearchView();
         return layout;
     }

@@ -40,7 +40,7 @@ public class AdapterSearchAll extends RecyclerView.Adapter<AdapterSearchAll.MyVi
         this.data = data;
 
         this.filerlist = new ArrayList<InformationAllData>();
-        this.filerlist.addAll(this.data);
+        //this.filerlist.addAll(this.data);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AdapterSearchAll extends RecyclerView.Adapter<AdapterSearchAll.MyVi
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
         holder.title.setText(current.title);
-        Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
+      //  Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
     }
 
 
@@ -76,7 +76,7 @@ public class AdapterSearchAll extends RecyclerView.Adapter<AdapterSearchAll.MyVi
                 if (TextUtils.isEmpty(text)) {
 
 
-                    filerlist.addAll(data);
+                    filerlist.clear();
 
 
                 } else {
