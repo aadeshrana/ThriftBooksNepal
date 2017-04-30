@@ -12,6 +12,7 @@
 
         />
 
+
     <android.support.v4.widget.DrawerLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mainDrawerLayout"
@@ -26,7 +27,13 @@
             android:layout_height="match_parent"
             android:id="@+id/mainFragmentNavHome"
             >
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Request books"
+                android:id="@+id/requestBooksButton"
+                />
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

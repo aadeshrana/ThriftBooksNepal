@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Request A Book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleReq"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        />
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/CVReqNameOfBook"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/titleReq"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="#FFBB88FF"
+        card_view:cardBackgroundColor="@android:color/transparent"
+
+
+        >
+
+        <EditText
+            android:id="@+id/reqBookName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:enabled="true"
+            android:hint="Enter The Name Of The book"
+            android:inputType="text|textEmailAddress"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#000000"
+
+            android:textColorHint="#7b7b7b" />
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/CVReqNameOfAuth"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        android:layout_below="@id/CVReqNameOfBook"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="#FFBB88FF"
+        card_view:cardBackgroundColor="@android:color/transparent"
+
+
+        >
+
+        <EditText
+            android:id="@+id/reqAuthorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:enabled="true"
+            android:hint="Enter The Author"
+            android:inputType="text|textEmailAddress"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#000000"
+
+            android:textColorHint="#7b7b7b" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/CVRequestButton"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/CVReqNameOfAuth"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="5dp"
+        android:background="#FFBB88FF"
+        card_view:cardBackgroundColor="@android:color/transparent"
+        android:layout_marginBottom="5dp"
+        card_view:cardElevation="2dp">
+
+        <Button
+            android:id="@+id/reqBookButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:onClick="loginButton"
+            android:text="Request "
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#000000" />
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

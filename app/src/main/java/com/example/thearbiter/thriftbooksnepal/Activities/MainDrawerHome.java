@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchool;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.MySingleton;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomReqBooks;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
@@ -74,7 +76,7 @@ public class MainDrawerHome extends AppCompatActivity {
     JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
     String loggedIn = "";
-
+    Button requestBooks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +91,15 @@ public class MainDrawerHome extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getToken();
+        requestBooks = (Button)findViewById(R.id.requestBooksButton);
+        requestBooks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentCustomReqBooks fragmentCustomReqBooks = new FragmentCustomReqBooks();
+                fragmentCustomReqBooks.show(getFragmentManager(),"cde");
 
+            }
+        });
         CustomDiagFindSchool obj = new CustomDiagFindSchool();
         obj.findAllSchool();
         FragmentNavMenu fragmentNavMenu = (FragmentNavMenu) getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);
