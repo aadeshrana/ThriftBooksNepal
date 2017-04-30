@@ -1,5 +1,6 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentChat;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
@@ -51,6 +54,7 @@ public class ChatMainActivity extends AppCompatActivity {
         Log.d("hi", "bi" + intentRoomName);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle(finalfinalName);
+        setSupportActionBar(toolbar);
         FragmentChat fragmentChat = new FragmentChat();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -81,6 +85,37 @@ public class ChatMainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        MenuItem item2 = menu.findItem(R.id.attach);
+        MenuItem item1 = menu.findItem(R.id.deliverRequest);
+
+        item1.setIcon(R.drawable.deliver);
+        item2.setIcon(R.drawable.attach);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.attach) {
+            Toast.makeText(this, "attach coming soon", Toast.LENGTH_SHORT).show();
+
+        }
+
+        if (id == R.id.deliverRequest) {
+            final Dialog dialog = new Dialog(ChatMainActivity.this);
+            dialog.setContentView(R.layout.deliver_dialog);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -169,8 +169,10 @@ public class MainDrawerHome extends AppCompatActivity {
 
             item2.setVisible(false);
             item1.setVisible(true);
+            item1.setIcon(R.drawable.login);
         } else {
             item2.setVisible(true);
+            item2.setIcon(R.drawable.logout);
             item1.setVisible(false);
 
         }

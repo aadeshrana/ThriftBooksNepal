@@ -1,13 +1,9 @@
 package com.example.thearbiter.thriftbooksnepal.Fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.thearbiter.thriftbooksnepal.Activities.MainDrawerHome;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFirstPage;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
