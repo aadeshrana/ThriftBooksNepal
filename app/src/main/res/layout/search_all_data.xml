@@ -6,14 +6,18 @@
     android:layout_height="match_parent"
 
     tools:context="com.example.thearbiter.thriftbooksnepal.Activities.SearchAllData">
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_toolbar"
 
+        />
 
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/searchPaster"
-        android:layout_below="@+id/searchAllData"
+        android:layout_below="@+id/app_bar"
         />
 
 

@@ -16,6 +16,7 @@ import com.example.thearbiter.thriftbooksnepal.Information.InformationAllData;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationFindSchool;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +45,7 @@ public class AdapterSearchAll extends RecyclerView.Adapter<AdapterSearchAll.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.custom_item_buyer, parent, false);
+        View view = inflater.inflate(R.layout.temp_custom_recyler, parent, false);
         AdapterSearchAll.MyViewHolder holder = new AdapterSearchAll.MyViewHolder(view);
         return holder;
     }
@@ -53,8 +54,10 @@ public class AdapterSearchAll extends RecyclerView.Adapter<AdapterSearchAll.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
        final InformationAllData current = filerlist.get(position);
       //  final int choice[] = new int[data.size()];
-
+        holder.priceOfBook.setText(current.priceOfBook);
+        holder.sellerName.setText(current.sellerName);
         holder.title.setText(current.title);
+        Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
     }
 
 
@@ -79,7 +82,7 @@ public class AdapterSearchAll extends RecyclerView.Adapter<AdapterSearchAll.MyVi
                 } else {
                     for (InformationAllData information : data) {
 
-                        if (information.title.toLowerCase().contains(text.toLowerCase())) {
+                        if (information.title.toLowerCase().contains(text.toLowerCase()) || information.sellerName.toLowerCase().contains(text.toLowerCase())|| information.sellerName.toLowerCase().contains(text.toLowerCase()) ) {
 
                             filerlist.add(information);
                         }

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.SearchView;
 
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterFindSchool;
@@ -55,6 +57,8 @@ public class FragmentSearchAll  extends Fragment implements SearchView.OnQueryTe
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         searchView = (SearchView)layout.findViewById(R.id.searchAllData);
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.left_right);
+        searchView.startAnimation(animation);
         setUpSearchView();
         return layout;
     }
