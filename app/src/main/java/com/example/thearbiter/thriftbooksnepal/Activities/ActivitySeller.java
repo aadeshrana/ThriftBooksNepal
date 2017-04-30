@@ -21,9 +21,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,7 +91,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     String spUsername, spfirstName, splastName, spEmail, spSchool, spPhoneNo;
-
+    Spinner spinnerCourse;
+    static String sendcourse;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,8 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         imgUploadTwoProgress = (ProgressBar) findViewById(R.id.imageUploadTwoProgress);
         imgUploadThreeProgress = (ProgressBar) findViewById(R.id.imageUploadThreeProgress);
 
+        spinnerCourse =(Spinner)findViewById(R.id.spinnerCourse);
+        spinnerCourse.setOnItemSelectedListener(new CustomOnItemSelectedListener());
         imgUploadOneProgress.setVisibility(View.GONE);
         imgUploadTwoProgress.setVisibility(View.GONE);
         imgUploadThreeProgress.setVisibility(View.GONE);
@@ -114,7 +119,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         spSchool = sharedpref.getString("schoolSharePref", "nullSeller");
         spPhoneNo = sharedpref.getString("phoneSharePref", "nullSeller");
 
-        Log.d("shared","bataako "+spfirstName);
+        Log.d("shared", "bataako " + spfirstName);
         try {
             if (spUsername.equals("nullSeller")) {
                 spUsername = FragmentCustomDiagLogin.username;
@@ -123,7 +128,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 spEmail = FragmentCustomDiagLogin.emailAddress;
                 spSchool = FragmentCustomDiagLogin.school;
                 spPhoneNo = FragmentCustomDiagLogin.phoneNumber;
-                Log.d("Fragment","bataako "+spfirstName);
+                Log.d("Fragment", "bataako " + spfirstName);
             }
 
 
@@ -304,7 +309,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 param1.add(new BasicNameValuePair("phonenumber", spPhoneNo));
                 param1.add(new BasicNameValuePair("emailaddress", spEmail));
                 //maile change gary hai
-                param1.add(new BasicNameValuePair("course", ActivitySeller.choiseOfBoard));
+                param1.add(new BasicNameValuePair("course", sendcourse));
 
                /* Log.d("username", "" + Login.username);
                 Log.d("", "" + Login.firstName);
@@ -743,6 +748,38 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            switch(pos){
+                case 0:
+                    sendcourse = "alevel";
+                    break;
+                case 1:
+                    sendcourse ="ib";
+                    break;
+                case 2:
+                    sendcourse="plustwo";
+                    break;
+                case 3:
+                    sendcourse="others";
+                    break;
+                default:
+                    sendcourse="nullValue";
+                    break;
+
+            }
+            Log.d("Value",":"+sendcourse);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
     }
 }
 

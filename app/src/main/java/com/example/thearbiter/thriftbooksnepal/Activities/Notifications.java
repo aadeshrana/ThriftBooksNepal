@@ -64,7 +64,13 @@ public class Notifications extends AppCompatActivity {
         whereAreYou = 1;
         allChats = new String[0];
         allRooms = new String[0];
+        messageFunction();
 
+
+
+    }
+
+    public void messageFunction(){
         final ProgressDialog progressDialog = new ProgressDialog(Notifications.this);
         progressDialog.setMessage("Loading messages..");
         progressDialog.show();
@@ -169,8 +175,9 @@ public class Notifications extends AppCompatActivity {
             }
         });
 
-
     }
+
+
 
     class MyPagerAdapter extends FragmentStatePagerAdapter {
 

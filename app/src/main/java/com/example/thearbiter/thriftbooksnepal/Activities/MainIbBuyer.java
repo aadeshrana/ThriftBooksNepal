@@ -117,7 +117,7 @@ public class MainIbBuyer extends AppCompatActivity {
                 emailAddress.clear();
 
                 try {
-                    for (int i = 0; i < 10; i++) {
+                    for (int i = 0; i < json.length(); i++) {
                         userName.add(json.getString("a" + i));
                         firstName.add(json.getString("b" + i));
                         lastName.add(json.getString("c" + i));

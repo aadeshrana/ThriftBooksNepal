@@ -16,4 +16,15 @@
     <string name="FCM_PREF">com.example.thearbiter.thriftbooksnepal.fcm_pref</string>
     <string name="FCM_TOKEN">com.example.thearbiter.thriftbooksnepal.fcm_token</string>
 
+
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="country_arrays">
+        <item>A-level</item>
+        <item>Ib</item>
+        <item>+2</item>
+        <item>Others</item>
+    </string-array>
+    <string name="title_activity_search_all_data">searchAllData</string>
+
 </resources>

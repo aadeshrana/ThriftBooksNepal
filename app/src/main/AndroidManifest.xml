@@ -47,7 +47,6 @@
         <activity
             android:name=".Activities.ChatMainActivity"
             android:label="@string/title_activity_login" />
-
         <activity
             android:name=".Activities.FinalBuyersActivity"
             android:label="ib" />
@@ -76,16 +75,25 @@
 
         <activity android:name=".Activities.MyOrders">
             <intent-filter>
-                <action android:name="com.example.thearbiter.thriftbooksnepal_TARGET_NOTIFICATION"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-            </intent-filter>
+                <action android:name="com.example.thearbiter.thriftbooksnepal_TARGET_NOTIFICATION" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-        <activity android:name=".Activities.Notifications"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity android:name=".Activities.Notifications" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".Activities.searchAllData"
+            android:label="@string/title_activity_search_all_data"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Activities.SearchAllData"></activity>
     </application>
 
 </manifest>

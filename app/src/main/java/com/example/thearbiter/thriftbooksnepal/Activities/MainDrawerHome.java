@@ -31,6 +31,7 @@ import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomReqBooks;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
+
 import com.example.thearbiter.thriftbooksnepal.Information.InformationMessageActivity;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -106,9 +107,13 @@ public class MainDrawerHome extends AppCompatActivity {
         fragmentNavMenu.setUp(R.id.mainfragmentDrawer, (DrawerLayout) findViewById(R.id.mainDrawerLayout), toolbar);
 
         FragmentNavMenuRecycler fragmentAdpater = new FragmentNavMenuRecycler();
+
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        final FragmentTransaction transaction = fragmentManager.beginTransaction();
+
         transaction.add(R.id.mainfragmentDrawer, fragmentAdpater, "abc");
+
+
 
         InformationMessageActivity informationMessageActivityObject = new InformationMessageActivity();
         informationMessageActivityObject.sendersName = null;
@@ -223,6 +228,10 @@ public class MainDrawerHome extends AppCompatActivity {
             edit.apply();
             finish();
         }
+        if(id==R.id.search){
+            Intent intent = new Intent(this,SearchAllData.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -301,7 +310,7 @@ public class MainDrawerHome extends AppCompatActivity {
                 emailAddress.clear();
 
                 try {
-                    for (int i = 0; i < 10; i++) {
+                    for (int i = 0; i < json.length(); i++) {
                         userName.add(json.getString("a" + i));
                         firstName.add(json.getString("b" + i));
                         lastName.add(json.getString("c" + i));
