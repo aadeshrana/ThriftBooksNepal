@@ -20,20 +20,24 @@
         android:layout_height="match_parent"
         android:background="#ffffff"
         >
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Request books"
+        android:id="@+id/requestBooksButton"
+        />
 
-        <RelativeLayout
+    <RelativeLayout
             android:background="#EEE"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/mainFragmentNavHome"
+        android:layout_below="@id/requestBooksButton"
             >
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Request books"
-                android:id="@+id/requestBooksButton"
-                />
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -44,7 +48,7 @@
 
                 />
         </RelativeLayout>
-
+</RelativeLayout>
         <fragment
             android:id="@+id/mainfragmentDrawer"
             android:name="com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu"

@@ -81,6 +81,7 @@ public class FragmentPlusTwoBuy extends Fragment {
                 current.priceOfBook = price[j];
                 current.sellerName = sellerName[j];
                 current.firstBookList = arrayImage1Name[j];
+                current.authName = arrayNameOfAuthor[j];
                 data.add(current);
             }
         } catch (Exception e) {

@@ -10,4 +10,5 @@ public class InformationBuyerRecycler {
     public String sellerName;
     public int imageView;
     public String firstBookList;
+    public String authName;
 }

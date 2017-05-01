@@ -381,7 +381,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(ActivitySeller.this, "Unsuccessful. Try Again", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ActivitySeller.this, "Unsuccessful. Try Again", Toast.LENGTH_SHORT).show();
                 }
 
                 try {

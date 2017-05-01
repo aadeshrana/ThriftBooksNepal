@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -80,7 +81,8 @@ public class FragmentNavDraerMain extends Fragment {
         RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerFirstPageKo);
         AdapterFirstPage adapterFirstPage = new AdapterFirstPage(getActivity(), getData());
         recyclerView.setAdapter(adapterFirstPage);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        GridLayoutManager glm = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(glm);
 
         return layout;
     }
@@ -95,6 +97,7 @@ public class FragmentNavDraerMain extends Fragment {
                 current.sellerName = sellerName[j];
                 current.imageView = img[j];
                 current.firstBookList = arrayImage1Name[j];
+                current.authName = arrayNameOfAuthor[j];
                 data.add(current);
             }
         } catch (Exception e) {

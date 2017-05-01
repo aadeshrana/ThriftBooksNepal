@@ -41,7 +41,7 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
 
     @Override
     public AdapterFirstPage.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.temp_custom_recyler, parent, false);
+        View view = layoutInflater.inflate(R.layout.custom_item_buyer, parent, false);
 
         MyViewHolder holder = new MyViewHolder(view);
 
@@ -52,10 +52,11 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final InformationBuyerRecycler current = data.get(position);
        holder.title.setText(current.title);
-        holder.priceOfBook.setText(current.priceOfBook);
-       holder.sellerName.setText(current.sellerName);
-    //   holder.imgOfBook.setImageResource(R.drawable.noimageplaceholder);
-        Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
+        holder.priceOfBook.setText("$ "+current.priceOfBook);
+       holder.sellerName.setText("by: "+current.sellerName);
+        holder.authName.setText(current.authName);
+        Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
+        Log.d("imgVals",":"+current.firstBookList);
         holder.cardMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +87,7 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
         TextView title;
         CardView cardMain;
         TextView priceOfBook;
-        TextView sellerName;
+        TextView sellerName,authName;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -95,6 +96,7 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
             title = (TextView) itemView.findViewById(R.id.titleOfBookForALevelBuyer);
             priceOfBook = (TextView) itemView.findViewById(R.id.priceOfBookForALevelBuyer);
             sellerName = (TextView) itemView.findViewById(R.id.nameOfSellerForBuyerCustomALevel);
+            authName=(TextView)itemView.findViewById(R.id.nameOfAuthor);
         }
     }
 }

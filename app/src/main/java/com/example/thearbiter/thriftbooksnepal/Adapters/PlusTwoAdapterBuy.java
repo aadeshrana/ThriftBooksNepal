@@ -51,6 +51,7 @@ public class PlusTwoAdapterBuy extends RecyclerView.Adapter<PlusTwoAdapterBuy.My
         holder.title.setText(current.title);
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
+        holder.authorName.setText(current.authName);
         Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
         holder.cardMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +80,7 @@ public class PlusTwoAdapterBuy extends RecyclerView.Adapter<PlusTwoAdapterBuy.My
         ImageView imgOfBook;
         TextView title;
         TextView priceOfBook;
-        TextView sellerName;
+        TextView sellerName,authorName;
         CardView cardMain;
 
         public MyViewHolder(View itemView) {
@@ -89,6 +90,7 @@ public class PlusTwoAdapterBuy extends RecyclerView.Adapter<PlusTwoAdapterBuy.My
             title = (TextView) itemView.findViewById(R.id.titleOfBookForALevelBuyer);
             priceOfBook = (TextView) itemView.findViewById(R.id.priceOfBookForALevelBuyer);
             sellerName = (TextView) itemView.findViewById(R.id.nameOfSellerForBuyerCustomALevel);
+            authorName = (TextView)itemView.findViewById(R.id.nameOfAuthor);
         }
     }
 }
