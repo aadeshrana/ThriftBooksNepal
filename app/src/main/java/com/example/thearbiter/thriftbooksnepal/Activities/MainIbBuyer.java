@@ -43,7 +43,7 @@ public class MainIbBuyer extends AppCompatActivity {
     ArrayList<String> image3name = new ArrayList<>();
     ArrayList<String> phoneNumber = new ArrayList<>();
     ArrayList<String> emailAddress = new ArrayList<>();
-    JSONParser jsonParser = new JSONParser();
+    private  JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class MainIbBuyer extends AppCompatActivity {
                 Log.d("Before Vie Orders", "");
                 List<NameValuePair> params1 = new ArrayList<>();
 
-                params1.add(new BasicNameValuePair("course", ActivitySeller.choiseOfBoard));
+                params1.add(new BasicNameValuePair("course", "ib"));
 
 
 
@@ -121,6 +121,7 @@ public class MainIbBuyer extends AppCompatActivity {
                         userName.add(json.getString("a" + i));
                         firstName.add(json.getString("b" + i));
                         lastName.add(json.getString("c" + i));
+                        Log.d("thisone2",""+ json.getString("c" + i));
                         nameofBook.add(json.getString("d" + i));
                         nameofAuthor.add(json.getString("e" + i));
                         priceOfBook.add(json.getString("f" + i));

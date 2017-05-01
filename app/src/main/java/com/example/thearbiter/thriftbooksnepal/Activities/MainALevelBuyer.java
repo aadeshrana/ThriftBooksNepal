@@ -104,7 +104,7 @@ public class MainALevelBuyer extends AppCompatActivity {
                 Log.d("Before Vie Orders", "");
                 List<NameValuePair> params1 = new ArrayList<>();
 
-                params1.add(new BasicNameValuePair("course", ActivitySeller.choiseOfBoard));
+                params1.add(new BasicNameValuePair("course", "alevel"));
 
                 Log.d("CHOICE CHOICE", "" + ActivitySeller.choiseOfBoard);
 

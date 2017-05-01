@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.thearbiter.thriftbooksnepal.CustomDiagFindSchoolAcc;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.ImageFilePath;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
 
@@ -38,6 +39,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,12 +113,12 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedpref.edit();
-        String sharedFirstName = sharedpref.getString("firstNameSharePref", "User");
+        String sharedFirstName = sharedpref.getString("firstNameSharePref1", "User");
         String sharedEmail = sharedpref.getString("emailSharePref", "email");
         String sharedLastName = sharedpref.getString("lastNameSharePref", "last");
         String sharedPhoneNo = sharedpref.getString("phoneSharePref", "last");
         String sharedSchool = sharedpref.getString("schoolSharePref", "last");
-        shareUserName = sharedpref.getString("a", "username");
+        shareUserName = sharedpref.getString("username", "username");
         CircleImageView circleImageView = (CircleImageView) findViewById(R.id.profile_image_accounts);
         Picasso.with(this).load("http://aadeshrana.esy.es/" + shareUserName + "ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         dispFirst = sharedFirstName.substring(0, 1).toUpperCase() + sharedFirstName.substring(1);
@@ -132,21 +136,23 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
 
     }
 
-    public void checkPassword() {
-
+    public void checkPassword() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String oldPassSha1;
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         sharedpref.edit();
-        Login.password = sharedpref.getString("passwordShared", "any");
+        FragmentCustomDiagLogin.password = sharedpref.getString("sharedPassword", "any");
         sendFirstName = firstName.getText().toString();
         sendLastName = lastName.getText().toString();
         sendCollege = college.getText().toString();
         sendPhoneNo = phoneNo.getText().toString();
         sendEmail = email.getText().toString();
         senduser = Login.username;
+        oldPassSha1 = SHA1(passwordOld.getText().toString());
+
         if (passwordOld.getText().toString().length() > 0) {
-            if (passwordOld.getText().toString().equals(Login.password)) {
-                Log.d("password", "" + Login.password);
+            if (oldPassSha1.equals(FragmentCustomDiagLogin.password)) {
+
 
                 if (!passwordNew.getText().toString().equals("") || !passwordConfirm.getText().toString().equals("")) {
 
@@ -174,7 +180,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
                                 .show();
                     }
                 } else {
-                    Toast.makeText(Accounts.this, "Password field cant be blank", Toast.LENGTH_SHORT).show();
+
                     okayTosend = 0;
                 }
 
@@ -212,6 +218,28 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
         }
 
     }
+    private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte b : data) {
+            int halfbyte = (b >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
+                halfbyte = b & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
+    }
+
+    public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        byte[] textBytes = text.getBytes("iso-8859-1");
+        md.update(textBytes, 0, textBytes.length);
+        byte[] sha1hash = md.digest();
+        return convertToHex(sha1hash);
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -240,7 +268,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
         customDiagFindSchool.show(getFragmentManager(), "abc");
     }
 
-    public void updateaccount(View view) {
+    public void updateaccount(View view) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         checkPassword();
     }
 
@@ -370,6 +398,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
 
     public class uploadImage extends AsyncTask<String, String, String> {
 
+
         @Override
         protected String doInBackground(String... params) {
             try {
@@ -401,7 +430,13 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
             return null;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(Accounts.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
 
 }

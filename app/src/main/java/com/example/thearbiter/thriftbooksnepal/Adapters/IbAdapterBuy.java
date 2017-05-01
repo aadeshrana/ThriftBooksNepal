@@ -32,7 +32,7 @@ public class IbAdapterBuy extends RecyclerView.Adapter<IbAdapterBuy.MyViewHolder
     List<InformationBuyerRecycler> data = Collections.emptyList();
 
     public IbAdapterBuy(Context context, List<InformationBuyerRecycler> data) {
-        Log.d("LOG", "" + context);
+
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
         this.data = data;
@@ -40,7 +40,7 @@ public class IbAdapterBuy extends RecyclerView.Adapter<IbAdapterBuy.MyViewHolder
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.temp_custom_recyler, parent, false);
+        View view = layoutInflater.inflate(R.layout.custom_item_buyer, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
@@ -51,7 +51,8 @@ public class IbAdapterBuy extends RecyclerView.Adapter<IbAdapterBuy.MyViewHolder
         holder.title.setText(current.title);
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
-        Log.d("ib","image"+current.firstBookList);
+        holder.authName.setText(current.authName);
+
         Picasso.with(context).load("http://aadeshrana.esy.es/"+current.firstBookList).fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
 
         holder.cardIbBuy.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +79,7 @@ public class IbAdapterBuy extends RecyclerView.Adapter<IbAdapterBuy.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imgOfBook;
-        TextView title;
+        TextView title,authName;
         TextView priceOfBook;
         TextView sellerName;
         CardView cardIbBuy;
@@ -89,6 +90,7 @@ public class IbAdapterBuy extends RecyclerView.Adapter<IbAdapterBuy.MyViewHolder
             priceOfBook = (TextView) itemView.findViewById(R.id.priceOfBookForALevelBuyer);
             sellerName = (TextView) itemView.findViewById(R.id.nameOfSellerForBuyerCustomALevel);
             cardIbBuy = (CardView)itemView.findViewById(R.id.adapterFirstPageCardViewMain);
+            authName = (TextView)itemView.findViewById(R.id.nameOfAuthor);
         }
     }
 }

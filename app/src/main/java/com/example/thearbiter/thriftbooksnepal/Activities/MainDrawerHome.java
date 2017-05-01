@@ -376,15 +376,15 @@ public class MainDrawerHome extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
 
-            Log.d("ETA PUGYO HAI", "");
+
             try {
 
-                Log.d("Before Vie Orders", "");
+
                 List<NameValuePair> params1 = new ArrayList<>();
 
                 params1.add(new BasicNameValuePair("course", "others"));
 
-                Log.d("CHOICE CHOICE", "" + "others");
+
 
                 JSONObject json = jsonParser.makeHttpRequest(LOGIN_URL, "POST", params1);
 

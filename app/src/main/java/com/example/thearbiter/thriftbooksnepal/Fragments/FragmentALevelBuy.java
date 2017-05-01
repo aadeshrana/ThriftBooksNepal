@@ -65,8 +65,8 @@ public class FragmentALevelBuy extends Fragment {
         ALevelAdapterBuy adapter = new ALevelAdapterBuy(getActivity(), getdata());
         recyclerView.setAdapter(adapter);
         GridLayoutManager man1 = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
-        LinearLayoutManager lin = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(lin);
+        GridLayoutManager glm = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(glm);
         return view;
     }
 
@@ -80,6 +80,7 @@ public class FragmentALevelBuy extends Fragment {
                 current.sellerName = sellerName[j];
                 current.imageView = img[j];
                 current.firstBookList = arrayImage1Name[j];
+                current.authName =arrayNameOfAuthor[j];
                 data.add(current);
             }
         } catch (Exception e) {

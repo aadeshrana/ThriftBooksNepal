@@ -305,9 +305,11 @@ public class FragmentMessager extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
+
+            Log.d("thisis","beforeASy");
             try {
 
-
+                Log.d("thisis2","insideasy");
                 List<NameValuePair> param1 = new ArrayList<>();
 //                param1.add(new BasicNameValuePair("username", spUsername));
 
@@ -322,9 +324,10 @@ public class FragmentMessager extends Fragment {
 
                 json = jsonParser.makeHttpRequest(PULL_ALL_MESSAGES_URL, "POST", param1);
                 //full json response
-
+                Log.d("thisis3","afterReq");
 
                 try {
+                    Log.d("thisis",":"+json.length());
                     for (int i = 0; i < json.length(); i++) {
                         sender1.add(json.getString("b" + i));
                         message1.add(json.getString("a" + i));

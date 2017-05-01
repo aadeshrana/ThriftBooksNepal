@@ -67,9 +67,8 @@ public class FragmentIbBuy extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleviewswipe1);
         IbAdapterBuy adapter = new IbAdapterBuy(getActivity(), getdata());
         recyclerView.setAdapter(adapter);
-        GridLayoutManager man1 = new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
-        LinearLayoutManager lin = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(lin);
+        GridLayoutManager glm = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(glm);
         return view;
     }
 
@@ -82,6 +81,7 @@ public class FragmentIbBuy extends Fragment {
                 current.priceOfBook = price[j];
                 current.sellerName = sellerName[j];
                 current.firstBookList = arrayImage1Name[j];
+                current.authName= arrayNameOfAuthor[j];
                 data.add(current);
 
             }

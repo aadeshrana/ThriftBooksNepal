@@ -215,6 +215,7 @@ public class FragmentCustomDiagLogin extends DialogFragment {
                     edit.putString("schoolSharePref", school);
                     edit.putString("username", strLoginUsername);
                     edit.putString("a", strLoginUsername);
+                    edit.putString("sharedPassword",password);
                 }
 //                edit.putString("username", strLoginUsername);
 //                edit.putString("a",strLoginUsername);

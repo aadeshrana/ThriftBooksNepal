@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser2;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentPlusTwoBuy;
 import com.example.thearbiter.thriftbooksnepal.R;
 
@@ -29,7 +30,7 @@ import java.util.List;
 
 public class MainPlusTwoBuyer extends AppCompatActivity {
     Toolbar toolbar;
-    JSONParser jsonParser = new JSONParser();
+
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
     ArrayList<String> lastName = new ArrayList<>();
@@ -84,21 +85,23 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public class PullAllAlevelItems extends AsyncTask<String, String, String> {
 
+
+    public class PullAllAlevelItems extends AsyncTask<String, String, String> {
+        private JSONParser jsonParser1 = new JSONParser();
         @Override
         protected String doInBackground(String... args) {
 
             try {
 
                 Log.d("Before Vie Orders", "");
-                List<NameValuePair> params1 = new ArrayList<>();
+                List<NameValuePair> params4 = new ArrayList<>();
 
-                params1.add(new BasicNameValuePair("course", ActivitySeller.choiseOfBoard));
+                params4.add(new BasicNameValuePair("course", "plustwo"));
 
                 Log.d("CHOICE CHOICE", "" + ActivitySeller.choiseOfBoard);
-
-                JSONObject json = jsonParser.makeHttpRequest(PULL_ITEMS_URL, "POST", params1);
+JSONObject json1 = null;
+                 json1 = jsonParser1.makeHttpRequest(PULL_ITEMS_URL, "POST", params4);
 
                 userName.clear();
                 firstName.clear();
@@ -113,25 +116,26 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
                 image3name.clear();
                 phoneNumber.clear();
                 emailAddress.clear();
-
+                Log.d("thisone",""+json1.length());
                 try {
-                    for (int i = 0; i < json.length(); i++) {
-                        userName.add(json.getString("a" + i));
-                        firstName.add(json.getString("b" + i));
-                        lastName.add(json.getString("c" + i));
-                        nameofBook.add(json.getString("d" + i));
-                        nameofAuthor.add(json.getString("e" + i));
-                        priceOfBook.add(json.getString("f" + i));
-                        homeAddress.add(json.getString("g" + i));
-                        school.add(json.getString("h" + i));
-                        image1name.add(json.getString("i" + i));
-                        image2name.add(json.getString("j" + i));
-                        image3name.add(json.getString("k" + i));
-                        phoneNumber.add(json.getString("l" + i));
-                        emailAddress.add(json.getString("m" + i));
+                    for (int i = 0; i < json1.length(); i++) {
+                        userName.add(json1.getString("a" + i));
+                        firstName.add(json1.getString("b" + i));
+                        lastName.add(json1.getString("c" + i));
+                        Log.d("thisone2",""+ json1.getString("c" + i));
+                        nameofBook.add(json1.getString("d" + i));
+                        nameofAuthor.add(json1.getString("e" + i));
+                        priceOfBook.add(json1.getString("f" + i));
+                        homeAddress.add(json1.getString("g" + i));
+                        school.add(json1.getString("h" + i));
+                        image1name.add(json1.getString("i" + i));
+                        image2name.add(json1.getString("j" + i));
+                        image3name.add(json1.getString("k" + i));
+                        phoneNumber.add(json1.getString("l" + i));
+                        emailAddress.add(json1.getString("m" + i));
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                   Log.d("error11",":"+e);
                 }
 
 

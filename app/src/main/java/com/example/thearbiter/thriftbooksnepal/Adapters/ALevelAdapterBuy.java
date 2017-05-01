@@ -40,7 +40,7 @@ public class ALevelAdapterBuy extends RecyclerView.Adapter<ALevelAdapterBuy.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.temp_custom_recyler, parent, false);
+        View view = layoutInflater.inflate(R.layout.custom_item_buyer, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
@@ -51,7 +51,7 @@ public class ALevelAdapterBuy extends RecyclerView.Adapter<ALevelAdapterBuy.MyVi
         holder.title.setText(current.title);
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
-
+        holder.authName.setText(current.authName);
         Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
         holder.cardMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +77,7 @@ public class ALevelAdapterBuy extends RecyclerView.Adapter<ALevelAdapterBuy.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imgOfBook;
-        TextView title;
+        TextView title,authName;
         TextView priceOfBook;
         TextView sellerName;
         CardView cardMain;
@@ -89,6 +89,7 @@ public class ALevelAdapterBuy extends RecyclerView.Adapter<ALevelAdapterBuy.MyVi
             title = (TextView) itemView.findViewById(R.id.titleOfBookForALevelBuyer);
             priceOfBook = (TextView) itemView.findViewById(R.id.priceOfBookForALevelBuyer);
             sellerName = (TextView) itemView.findViewById(R.id.nameOfSellerForBuyerCustomALevel);
+            authName = (TextView)itemView.findViewById(R.id.nameOfAuthor);
         }
     }
 }

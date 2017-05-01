@@ -101,6 +101,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
 
 
                 try {
+                    Log.d("values",":"+json.length());
                     for (int i = 0; i < json.length(); i++) {
                         sender.add(json.getString("b" + i));
                         message.add(json.getString("a" + i));

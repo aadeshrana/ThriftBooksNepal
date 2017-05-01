@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class JSONParser {
     InputStream is = null;
-    static String json = "";
-    static JSONObject jObj = null;
+     String json = "";
+     JSONObject jObj = null;
     public JSONObject makeHttpRequest(String url, String method, List<NameValuePair> params){
 
         try{
@@ -69,5 +69,6 @@ public class JSONParser {
             Log.e("JSON PARSER","Error parsing data " +e.toString());
         }
         return jObj;
+
     }
 }
