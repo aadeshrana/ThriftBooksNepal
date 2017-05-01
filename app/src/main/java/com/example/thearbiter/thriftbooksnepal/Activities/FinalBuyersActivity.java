@@ -247,7 +247,6 @@ public class FinalBuyersActivity extends AppCompatActivity {
                 });
 
                 //THIS CREATES TABLE TO STORE IN OUR DATABASE
-
                 Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
                 String username = preferences.getString("a", "");
@@ -255,13 +254,18 @@ public class FinalBuyersActivity extends AppCompatActivity {
                     username = FragmentCustomDiagLogin.username;
                 }
                 String nameOfUser = preferences.getString("firstNameSharePref1", "");
-                if(nameOfUser.equals("")){
-                    nameOfUser=FragmentCustomDiagLogin.firstName;
+                if (nameOfUser.equals("")) {
+                    nameOfUser = FragmentCustomDiagLogin.firstName;
                 }
                 String stringToSendInIntent = username + "***" + FragmentMessager.finalBuyersActivityUsernameOfSeller + "||" + FragmentMessager.finalBuyersActivityNameOfSeller + "---" + nameOfUser;
                 Log.d("room", "fromIntent " + stringToSendInIntent);
+
                 intent.putExtra("room_name", stringToSendInIntent);
                 intent.putExtra("user_name", FragmentMessager.finalBuyersActivityNameOfSeller);
+                intent.putExtra("book_name", FragmentMessager.finalBuyersActivityNameOfBook);
+                intent.putExtra("author_name", FragmentMessager.finalBuyersActivityNameOfAuthor);
+                intent.putExtra("price_of_book", FragmentMessager.finalBuyersActivityPriceOfBook);
+
                 startActivity(intent);
             }
         }

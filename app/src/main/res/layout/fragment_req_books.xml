@@ -53,8 +53,6 @@
         android:layout_marginRight="4dp"
         android:background="#FFBB88FF"
         card_view:cardBackgroundColor="@android:color/transparent"
-
-
         >
 
         <EditText

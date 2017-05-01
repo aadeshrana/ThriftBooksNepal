@@ -1,5 +1,6 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,7 +34,6 @@ import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomReqBooks;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenuRecycler;
-
 import com.example.thearbiter.thriftbooksnepal.Information.InformationMessageActivity;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -47,6 +49,7 @@ import java.util.Map;
 
 public class MainDrawerHome extends AppCompatActivity {
     Toolbar toolbar;
+    int jsonLength;
 
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
@@ -61,6 +64,12 @@ public class MainDrawerHome extends AppCompatActivity {
     ArrayList<String> image3name = new ArrayList<>();
     ArrayList<String> phoneNumber = new ArrayList<>();
     ArrayList<String> emailAddress = new ArrayList<>();
+
+    ArrayList<String> offeredBy = new ArrayList<>();
+    ArrayList<String> offeredByNameOfUser = new ArrayList<>();
+    ArrayList<String> bookName = new ArrayList<>();
+    ArrayList<String> authorName = new ArrayList<>();
+    ArrayList<String> price = new ArrayList<>();
 
 
     public static String firstName1;
@@ -78,6 +87,8 @@ public class MainDrawerHome extends AppCompatActivity {
     ProgressBar progressBar;
     String loggedIn = "";
     Button requestBooks;
+    public static final String PENDING_OFFERS = "http://frame.ueuo.com/thriftbooks/pullPendingOffers.php";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,19 +96,19 @@ public class MainDrawerHome extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.drawerProgress);
         progressBar.setVisibility(View.VISIBLE);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-
+        new CheckPendingOffers().execute();
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         loggedIn = sharedpref.getString("loggedIn", "noValue");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getToken();
-        requestBooks = (Button)findViewById(R.id.requestBooksButton);
+        requestBooks = (Button) findViewById(R.id.requestBooksButton);
         requestBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentCustomReqBooks fragmentCustomReqBooks = new FragmentCustomReqBooks();
-                fragmentCustomReqBooks.show(getFragmentManager(),"cde");
+                fragmentCustomReqBooks.show(getFragmentManager(), "cde");
 
             }
         });
@@ -114,7 +125,6 @@ public class MainDrawerHome extends AppCompatActivity {
         transaction.add(R.id.mainfragmentDrawer, fragmentAdpater, "abc");
 
 
-
         InformationMessageActivity informationMessageActivityObject = new InformationMessageActivity();
         informationMessageActivityObject.sendersName = null;
         informationMessageActivityObject.textMessage = null;
@@ -123,6 +133,92 @@ public class MainDrawerHome extends AppCompatActivity {
         new PullAllAlevelItems().execute();
         Notifications.whereAreYou = 0;
 
+
+    }
+
+    public class CheckPendingOffers extends AsyncTask<String, String, String> {
+        JSONObject json;
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+            String tempUsername = sharedPreferences.getString("a", "");
+            if (tempUsername.equals("")) {
+                try {
+                    tempUsername = FragmentCustomDiagLogin.username;
+                    Log.d("dialog", "check1" + tempUsername);
+                } catch (Exception e) {
+
+                }
+            }
+
+            List<NameValuePair> param = new ArrayList<>();
+            param.add(new BasicNameValuePair("username", tempUsername));
+
+            try {
+                json = jsonParser.makeHttpRequest(PENDING_OFFERS, "POST", param);
+                Log.d("dialog", "check2");
+                if (json.length() > 0) {
+
+                    for (int i = 0; i < json.length(); i++) {
+                        offeredBy.add(json.getString("a" + i));
+                        offeredByNameOfUser.add(json.getString("b" + i));
+                        bookName.add(json.getString("d" + i));
+                        authorName.add(json.getString("e" + i));
+                        price.add(json.getString("f" + i));
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                jsonLength = json.length();
+            } catch (Exception e) {
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (jsonLength > 0)
+                dialogFinishPending(jsonLength);
+        }
+    }
+
+    private void dialogFinishPending(int howMany) {
+        Log.d("dialog", "check3" + howMany / 6);
+
+        final Dialog dialog = new Dialog(MainDrawerHome.this);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.accept_offer_dialog);
+        dialog.show();
+
+        TextView tv = (TextView) dialog.findViewById(R.id.offerTotalPendingOffers);
+        tv.setText(howMany / 6 + " total offers");
+
+        CardView acceptOffer, declineOffer;
+        acceptOffer = (CardView) dialog.findViewById(R.id.acceptOfferCard);
+        declineOffer = (CardView) dialog.findViewById(R.id.declineOfferCard);
+
+        declineOffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(MainDrawerHome.this, "Offer cancelled. You can renegotiate by chatting with seller.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        acceptOffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(MainDrawerHome.this, "Order confirmed. Delivery will be done within 3 - 5 business days", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -171,7 +267,7 @@ public class MainDrawerHome extends AppCompatActivity {
         MenuItem item3 = menu.findItem(R.id.messager);
         item3.setIcon(R.drawable.messages);
         if (loggedIn.equals("noValue")) {
-
+            Log.d("logged", "in" + loggedIn);
             item2.setVisible(false);
             item1.setVisible(true);
             item1.setIcon(R.drawable.login);
@@ -184,7 +280,6 @@ public class MainDrawerHome extends AppCompatActivity {
 
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -228,8 +323,8 @@ public class MainDrawerHome extends AppCompatActivity {
             edit.apply();
             finish();
         }
-        if(id==R.id.search){
-            Intent intent = new Intent(this,SearchAllData.class);
+        if (id == R.id.search) {
+            Intent intent = new Intent(this, SearchAllData.class);
             startActivity(intent);
         }
 
@@ -269,7 +364,6 @@ public class MainDrawerHome extends AppCompatActivity {
         };
         MySingleton.getmInstance(MainDrawerHome.this).addToRequestque(stringRequest);
     }
-
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {
         //
@@ -381,7 +475,6 @@ public class MainDrawerHome extends AppCompatActivity {
             FragmentTransaction transaction1 = manager3.beginTransaction();
             transaction1.add(R.id.mainFragmentNavHome, fragmentNavDraerMain, "asdf");
             transaction1.commit();
-
 
         }
     }

@@ -73,7 +73,6 @@ public class FragmentChat extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.chat_activity, container, false);
         context = getActivity();
 

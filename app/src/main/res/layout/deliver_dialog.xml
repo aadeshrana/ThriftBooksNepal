@@ -18,7 +18,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -27,424 +28,8 @@
                 android:layout_marginTop="10dp"
                 android:text="Finalize Order and Request Delivery"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/topCardCheckoutDialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/headingCheckoutDialog"
-        android:layout_marginTop="10dp"
-        app:cardUseCompatPadding="true"
-        card_view:cardBackgroundColor="#FFFFFF"
-        card_view:cardCornerRadius="0dp"
-        card_view:cardElevation="1dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:contentPadding="5dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/allFieldsRequired"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:text="*Please enter all information correctly."
-                android:textColor="#D72828"
-                android:textSize="10sp"
-                android:visibility="invisible" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/checkoutNameTvCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:cardUseCompatPadding="true"
-                card_view:cardBackgroundColor="#FFFFFF"
-                card_view:cardCornerRadius="0dp"
-                card_view:cardElevation="0.5dp"
-                card_view:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/checkoutNameTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Full Name:"
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/checkOutName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@id/checkoutNameTv"
-                        android:layout_toRightOf="@id/checkoutNameTv"
-                        android:hint="Example - John Doe"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/checkoutPhoneNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/checkoutNameTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Phone Number:"
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/checkOutPhoneNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/checkoutNameTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toEndOf="@id/checkoutPhoneNumber"
-                        android:layout_toRightOf="@id/checkoutPhoneNumber"
-                        android:hint="10 digit number"
-                        android:inputType="phone"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/phoneNumberValidation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/checkoutNameTv"
-                        android:layout_marginTop="5dp"
-                        android:text="Valid Hostel Block"
-                        android:textSize="10sp"
-                        android:visibility="invisible" />
-
-                    <ImageView
-                        android:id="@+id/phoneNumberValidationImage"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_below="@id/checkoutNameTv"
-                        android:layout_marginEnd="2dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toLeftOf="@id/phoneNumberValidation"
-                        android:layout_toStartOf="@id/phoneNumberValidation"
-                        android:src="@drawable/tick_green"
-                        android:visibility="invisible" />
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/bookInfoCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/checkoutNameTvCard"
-                android:layout_marginTop="10dp"
-                app:cardUseCompatPadding="true"
-                card_view:cardBackgroundColor="#FFFFFF"
-                card_view:cardCornerRadius="0dp"
-                card_view:cardElevation="0.5dp"
-                card_view:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/checkoutBookInformationTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:text="Book Information:"
-                        android:textColor="@android:color/black"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:id="@+id/bookNameTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/checkoutBookInformationTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Book Name: "
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/checkoutBookName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/checkoutBookInformationTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@id/bookNameTv"
-                        android:layout_toRightOf="@id/bookNameTv"
-                        android:hint="Physics"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/bookAuthorTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bookNameTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Author of Book: "
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/checkoutHostelAddressFloor"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bookNameTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@id/bookAuthorTv"
-                        android:hint="Tom Duncan"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/bookMarkedPriceTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bookAuthorTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Marked Price: "
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/bookMarkedPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bookAuthorTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toEndOf="@id/bookMarkedPriceTv"
-                        android:layout_toRightOf="@id/bookMarkedPriceTv"
-                        android:hint="3000"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/suiteValidation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/bookAuthorTv"
-                        android:layout_marginTop="5dp"
-                        android:text="Valid Hostel Block"
-                        android:textSize="10sp"
-                        android:visibility="invisible" />
-
-                    <ImageView
-                        android:id="@+id/hostelSuiteValidationImage"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_below="@id/bookAuthorTv"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toLeftOf="@id/suiteValidation"
-                        android:src="@drawable/tick_green"
-                        android:visibility="invisible" />
-
-                    <TextView
-                        android:id="@+id/bookPriceAgreedTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bookMarkedPriceTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Price Agreed (Final price): "
-
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/bookPriceAgreed"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bookMarkedPriceTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toEndOf="@id/bookPriceAgreedTv"
-                        android:layout_toRightOf="@id/bookPriceAgreedTv"
-                        android:hint="2500"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/roomValidation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/bookMarkedPriceTv"
-                        android:layout_marginTop="5dp"
-                        android:text="Valid Hostel Block"
-                        android:textSize="10sp"
-                        android:visibility="invisible" />
-
-                    <ImageView
-                        android:id="@+id/hostelRoomValidationImage"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_below="@id/bookMarkedPriceTv"
-                        android:layout_marginEnd="2dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toLeftOf="@id/roomValidation"
-                        android:layout_toStartOf="@id/roomValidation"
-                        android:src="@drawable/tick_green"
-                        android:visibility="invisible" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/addressInfoCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bookInfoCard"
-                android:layout_marginTop="10dp"
-                app:cardUseCompatPadding="true"
-                card_view:cardBackgroundColor="#FFFFFF"
-                card_view:cardCornerRadius="0dp"
-                card_view:cardElevation="0.5dp"
-                card_view:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/checkoutAddressInformationTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:text="Address Information for Delivery/Pick up:"
-                        android:textColor="@android:color/black"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:id="@+id/houseNumberTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/checkoutAddressInformationTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="House Number: "
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/houseNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/checkoutAddressInformationTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@id/houseNumberTv"
-                        android:layout_toRightOf="@id/houseNumberTv"
-                        android:hint="51"
-                        android:textSize="14sp" />
-
-
-                    <TextView
-                        android:id="@+id/streetAddressTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/houseNumberTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Street Address: "
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/streetAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/houseNumberTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@id/streetAddressTv"
-                        android:hint="Anantalingeshwar Marg"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/detailedAddressTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/streetAddressTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Detailed Address: "
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/detailedAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/streetAddressTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toEndOf="@id/detailedAddressTv"
-                        android:layout_toRightOf="@id/detailedAddressTv"
-                        android:hint="Near Bir Hospital, Gaushala"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/landmarksSpecialTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/detailedAddressTv"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Special Landmarks: "
-
-                        android:textColor="@android:color/black" />
-
-                    <EditText
-                        android:id="@+id/landmarksSpecial"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/detailedAddressTv"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toEndOf="@id/landmarksSpecialTv"
-                        android:layout_toRightOf="@id/landmarksSpecialTv"
-                        android:hint="Gun Cinema Hall"
-                        android:textSize="14sp" />
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
@@ -456,7 +41,7 @@
         app:cardUseCompatPadding="true"
         card_view:cardBackgroundColor="#FFFFFF"
         card_view:cardCornerRadius="0dp"
-        card_view:cardElevation="2dp"
+        card_view:cardElevation="1dp"
         card_view:cardUseCompatPadding="true"
         card_view:contentPadding="5dp">
 
@@ -470,9 +55,528 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
                 android:clickable="false"
                 android:text="Place Final Offer"
                 android:textColor="#0000EE" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/checkoutScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/placeOrderFinal"
+        android:layout_below="@id/headingCheckoutDialog">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/topCardCheckoutDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardUseCompatPadding="true"
+            card_view:cardBackgroundColor="#FFFFFF"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="1dp"
+            card_view:cardUseCompatPadding="true"
+            card_view:contentPadding="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/allFieldsRequired"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="*Please enter all information correctly."
+                    android:textColor="#D72828"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/checkoutNameTvCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardUseCompatPadding="true"
+                    card_view:cardBackgroundColor="#FFFFFF"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="0.5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/personalInformationTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="Personal Information:"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/checkoutNameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/personalInformationTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Full Name:"
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/checkOutName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/personalInformationTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_toEndOf="@id/checkoutNameTv"
+                            android:layout_toRightOf="@id/checkoutNameTv"
+                            android:hint="Example - John Doe"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/nameRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/personalInformationTv"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textSize="10sp"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/checkoutPhoneNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/checkoutNameTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Phone Number:"
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/checkOutPhoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/checkoutNameTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@id/checkoutPhoneNumber"
+                            android:layout_toRightOf="@id/checkoutPhoneNumber"
+                            android:hint="10 digit number"
+                            android:inputType="phone"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/phoneNumberValidation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="5dp"
+                            android:layout_alignParentRight="true"
+                            android:textSize="10sp"
+                            android:layout_below="@id/checkoutNameTv"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:text="*required"
+                            android:visibility="invisible" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/bookInfoCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/checkoutNameTvCard"
+                    android:layout_marginTop="10dp"
+                    app:cardUseCompatPadding="true"
+                    card_view:cardBackgroundColor="#FFFFFF"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="0.5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/checkoutBookInformationTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:textStyle="bold"
+                            android:layout_marginStart="10dp"
+                            android:text="Book Information:"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/offerBookNameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/checkoutBookInformationTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Book Name: "
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/offerBookName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/checkoutBookInformationTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_toEndOf="@id/offerBookNameTv"
+                            android:layout_toRightOf="@id/offerBookNameTv"
+                            android:hint="Physics"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/bookNameRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/checkoutBookInformationTv"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/offerBookAuthorTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/offerBookNameTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Author of Book: "
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/offerBookAuthor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/offerBookNameTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/offerBookAuthorTv"
+                            android:hint="Tom Duncan"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/authorOfBookRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/offerBookNameTv"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/bookSoldByTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/offerBookAuthorTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Marked Price: "
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/offerBookSoldBy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/offerBookAuthorTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:inputType="phone"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@id/bookSoldByTv"
+                            android:layout_toRightOf="@id/bookSoldByTv"
+                            android:hint="3000"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/markedPriceRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/offerBookAuthorTv"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/markedPriceRequiredImage"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_below="@id/offerBookAuthorTv"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_toLeftOf="@id/markedPriceRequired"
+                            android:src="@drawable/tick_green"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/offerFinalPriceTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/bookSoldByTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Price Agreed (Final price): "
+
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/offerFinalPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/bookSoldByTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:inputType="phone"
+                            android:layout_toEndOf="@id/offerFinalPriceTv"
+                            android:layout_toRightOf="@id/offerFinalPriceTv"
+                            android:hint="2500"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/agreedPriceRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/bookSoldByTv"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/agreedPriceImageRequired"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_below="@id/bookSoldByTv"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_toLeftOf="@id/agreedPriceRequired"
+                            android:layout_toStartOf="@id/agreedPriceRequired"
+                            android:src="@drawable/tick_green"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/addressInfoCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bookInfoCard"
+                    android:layout_marginTop="10dp"
+                    app:cardUseCompatPadding="true"
+                    card_view:cardBackgroundColor="#FFFFFF"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="0.5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/checkoutAddressInformationTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:textStyle="bold"
+                            android:layout_marginStart="10dp"
+                            android:text="Delivery/Pickup Address:"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/houseNumberTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/checkoutAddressInformationTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="House Number: "
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/houseNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/checkoutAddressInformationTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_toEndOf="@id/houseNumberTv"
+                            android:layout_toRightOf="@id/houseNumberTv"
+                            android:hint="51"
+                            android:textSize="14sp" />
+
+
+                        <TextView
+                            android:id="@+id/streetAddressTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/houseNumberTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Street Address: "
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/streetAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/houseNumberTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/streetAddressTv"
+                            android:hint="Anantalingeshwar Marg"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/streetAddressRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/houseNumberTv"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/detailedAddressTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/streetAddressTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Other details: "
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/detailedAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/streetAddressTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@id/detailedAddressTv"
+                            android:layout_toRightOf="@id/detailedAddressTv"
+                            android:hint="Bir Hospital"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/otherDetailsRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/streetAddressTv"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/landmarksSpecialTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailedAddressTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Special Landmarks: "
+
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/landmarksSpecial"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailedAddressTv"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@id/landmarksSpecialTv"
+                            android:layout_toRightOf="@id/landmarksSpecialTv"
+                            android:hint="Gun Cinema Hall"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/landmarksRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/detailedAddressTv"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </ScrollView>
+
 </RelativeLayout>
