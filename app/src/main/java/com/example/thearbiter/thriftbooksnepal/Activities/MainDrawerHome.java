@@ -3,8 +3,11 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,11 +15,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,10 +53,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainDrawerHome extends AppCompatActivity {
+public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     Toolbar toolbar;
-    int jsonLength;
-
+    int jsonLength=0;
+    TextView refresh, refreshMessage;
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
     ArrayList<String> lastName = new ArrayList<>();
@@ -64,22 +70,26 @@ public class MainDrawerHome extends AppCompatActivity {
     ArrayList<String> image3name = new ArrayList<>();
     ArrayList<String> phoneNumber = new ArrayList<>();
     ArrayList<String> emailAddress = new ArrayList<>();
-
+    JSONObject json66;
     ArrayList<String> offeredBy = new ArrayList<>();
     ArrayList<String> offeredByNameOfUser = new ArrayList<>();
     ArrayList<String> bookName = new ArrayList<>();
     ArrayList<String> authorName = new ArrayList<>();
     ArrayList<String> price = new ArrayList<>();
 
+    private TextView allFieldsRequired, bookNameRequired, checkOutNameRequired, checkOutPhoneRequired,
+            bookAuthorRequired, bookFinalPriceRequired, streetAddressRequired,
+            otherDetailsRequired, specialLandmarksRequired;
+    private EditText etFullName, etPhoneNumber, etBookName, etBookAuthorName, etBookFinalPrice, etHouseNumber, etStreetAddress, etOtherDetails, etSpecialLandmarks;
 
-    public static String firstName1;
-    public static String lastName1;
-    public static String phoneNumber1;
-    public static String school1;
-    public static String emailAddress1;
-    public static String username1;
-    public static String password1;
 
+    public String getEtFullName, getEtPhoneNumber, getEtBookName, getEtBookAuthorName, getEtBookFinalPrice, getEtHouseNumber,
+            getEtStreetAddress, getEtOtherDetails, getEtSpecialLandmarks;
+
+    public static String firstName1, lastName1, phoneNumber1, school1, emailAddress1, username1, password1;
+
+
+    public static final String SEND_DELIVERY_REQUEST = "http://frame.ueuo.com/thriftbooks/finishDeliveryRequest.php";
     String app_server_url = "http://frame.ueuo.com/images/fcm_insert.php";
     private static final String LOGIN_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
     private static final String FETCH_NUMBER_URL = "http://frame.ueuo.com/thriftbooks/fetchalldetails.php";
@@ -93,51 +103,77 @@ public class MainDrawerHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer_home);
-        progressBar = (ProgressBar) findViewById(R.id.drawerProgress);
-        progressBar.setVisibility(View.VISIBLE);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        new CheckPendingOffers().execute();
-        SharedPreferences sharedpref;
-        sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
-        loggedIn = sharedpref.getString("loggedIn", "noValue");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getToken();
+        refresh = (TextView) findViewById(R.id.refreshAfterInternetConnectivity);
+        refreshMessage = (TextView) findViewById(R.id.noInternetTextview);
+        progressBar = (ProgressBar) findViewById(R.id.drawerProgress);
+        progressBar.setVisibility(View.INVISIBLE);
         requestBooks = (Button) findViewById(R.id.requestBooksButton);
-        requestBooks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentCustomReqBooks fragmentCustomReqBooks = new FragmentCustomReqBooks();
-                fragmentCustomReqBooks.show(getFragmentManager(), "cde");
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        } else
+            connected = false;
 
-            }
-        });
-        CustomDiagFindSchool obj = new CustomDiagFindSchool();
-        obj.findAllSchool();
-        FragmentNavMenu fragmentNavMenu = (FragmentNavMenu) getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);
-        fragmentNavMenu.setUp(R.id.mainfragmentDrawer, (DrawerLayout) findViewById(R.id.mainDrawerLayout), toolbar);
+        if (!connected) {
+            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+            refreshMessage.setVisibility(View.VISIBLE);
+            refresh.setVisibility(View.VISIBLE);
+            requestBooks.setVisibility(View.GONE);
+            refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent in = new Intent(MainDrawerHome.this, MainDrawerHome.class);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(in);
+                }
+            });
+        } else {
+            progressBar = (ProgressBar) findViewById(R.id.drawerProgress);
+            progressBar.setVisibility(View.VISIBLE);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            new CheckPendingOffers().execute();
+            SharedPreferences sharedpref;
+            sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
+            loggedIn = sharedpref.getString("loggedIn", "noValue");
+            getToken();
+            requestBooks.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentCustomReqBooks fragmentCustomReqBooks = new FragmentCustomReqBooks();
+                    fragmentCustomReqBooks.show(getFragmentManager(), "cde");
 
-        FragmentNavMenuRecycler fragmentAdpater = new FragmentNavMenuRecycler();
+                }
+            });
+            CustomDiagFindSchool obj = new CustomDiagFindSchool();
+            obj.findAllSchool();
+            FragmentNavMenu fragmentNavMenu = (FragmentNavMenu) getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);
+            fragmentNavMenu.setUp(R.id.mainfragmentDrawer, (DrawerLayout) findViewById(R.id.mainDrawerLayout), toolbar);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        final FragmentTransaction transaction = fragmentManager.beginTransaction();
+            FragmentNavMenuRecycler fragmentAdpater = new FragmentNavMenuRecycler();
 
-        transaction.add(R.id.mainfragmentDrawer, fragmentAdpater, "abc");
+            FragmentManager fragmentManager = getFragmentManager();
+            final FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-
-        InformationMessageActivity informationMessageActivityObject = new InformationMessageActivity();
-        informationMessageActivityObject.sendersName = null;
-        informationMessageActivityObject.textMessage = null;
-        informationMessageActivityObject.timeOfNotification = null;
-        transaction.commit();
-        new PullAllAlevelItems().execute();
-        Notifications.whereAreYou = 0;
+            transaction.add(R.id.mainfragmentDrawer, fragmentAdpater, "abc");
 
 
+            InformationMessageActivity informationMessageActivityObject = new InformationMessageActivity();
+            informationMessageActivityObject.sendersName = null;
+            informationMessageActivityObject.textMessage = null;
+            informationMessageActivityObject.timeOfNotification = null;
+            transaction.commit();
+            new PullAllAlevelItems().execute();
+            Notifications.whereAreYou = 0;
+
+        }
     }
 
     public class CheckPendingOffers extends AsyncTask<String, String, String> {
-        JSONObject json;
 
         @Override
         protected String doInBackground(String... params) {
@@ -155,25 +191,30 @@ public class MainDrawerHome extends AppCompatActivity {
 
             List<NameValuePair> param = new ArrayList<>();
             param.add(new BasicNameValuePair("username", tempUsername));
-
+            offeredBy.clear();
+            offeredByNameOfUser.clear();
+            bookName.clear();
+            authorName.clear();
+            price.clear();
+            jsonParser = new JSONParser();
             try {
-                json = jsonParser.makeHttpRequest(PENDING_OFFERS, "POST", param);
-                Log.d("dialog", "check2");
-                if (json.length() > 0) {
-
-                    for (int i = 0; i < json.length(); i++) {
-                        offeredBy.add(json.getString("a" + i));
-                        offeredByNameOfUser.add(json.getString("b" + i));
-                        bookName.add(json.getString("d" + i));
-                        authorName.add(json.getString("e" + i));
-                        price.add(json.getString("f" + i));
+                json66 = jsonParser.makeHttpRequest(PENDING_OFFERS, "POST", param);
+                Log.d("dialog", "check2" + json66.length());
+                if (json66.length() > 0) {
+                    for (int i = 0; i < json66.length(); i++) {
+                        offeredBy.add(json66.getString("a" + i));
+                        offeredByNameOfUser.add(json66.getString("b" + i));
+                        bookName.add(json66.getString("d" + i));
+                        authorName.add(json66.getString("e" + i));
+                        price.add(json66.getString("f" + i));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                jsonLength = json.length();
+                Log.d("offered","by"+offeredBy.get(0));
+                jsonLength = json66.length();
             } catch (Exception e) {
 
             }
@@ -184,9 +225,11 @@ public class MainDrawerHome extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (jsonLength > 0)
+            if (jsonLength > 5) {
+                Log.d("length", "json"+jsonLength);
                 dialogFinishPending(jsonLength);
-        }
+            }
+            }
     }
 
     private void dialogFinishPending(int howMany) {
@@ -197,8 +240,22 @@ public class MainDrawerHome extends AppCompatActivity {
         dialog.setContentView(R.layout.accept_offer_dialog);
         dialog.show();
 
-        TextView tv = (TextView) dialog.findViewById(R.id.offerTotalPendingOffers);
-        tv.setText(howMany / 6 + " total offers");
+        final TextView totalOffersTv = (TextView) dialog.findViewById(R.id.offerTotalPendingOffers);
+        TextView bookNameTv = (TextView) dialog.findViewById(R.id.offerBookName);
+        TextView bookAuthorTv = (TextView) dialog.findViewById(R.id.offerBookAuthor);
+        TextView bookSoldByTv = (TextView) dialog.findViewById(R.id.offerBookSoldBy);
+        TextView bookFinalPriceTv = (TextView) dialog.findViewById(R.id.offerFinalPrice);
+
+        totalOffersTv.setText(howMany / 6 + " total offers");
+
+        try {
+            bookNameTv.setText(bookName.get(0));
+            bookAuthorTv.setText(authorName.get(0));
+            bookSoldByTv.setText(offeredBy.get(0));
+            bookFinalPriceTv.setText(price.get(0));
+        } catch (Exception e) {
+
+        }
 
         CardView acceptOffer, declineOffer;
         acceptOffer = (CardView) dialog.findViewById(R.id.acceptOfferCard);
@@ -216,10 +273,216 @@ public class MainDrawerHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Toast.makeText(MainDrawerHome.this, "Order confirmed. Delivery will be done within 3 - 5 business days", Toast.LENGTH_SHORT).show();
+                final Dialog enterDetails2 = new Dialog(MainDrawerHome.this, android.R.style.Theme_Holo_Light_NoActionBar_Fullscreen);
+                enterDetails2.setContentView(R.layout.deliver_dialog2);
+                enterDetails2.show();
+                enterDetails2.setCancelable(true);
+
+                CardView placeFinalAcceptance;
+
+                etFullName = (EditText) enterDetails2.findViewById(R.id.checkOutName);
+                etPhoneNumber = (EditText) enterDetails2.findViewById(R.id.checkOutPhoneNumber);
+                etBookName = (EditText) enterDetails2.findViewById(R.id.offerBookName);
+                etBookAuthorName = (EditText) enterDetails2.findViewById(R.id.offerBookAuthor);
+                etBookFinalPrice = (EditText) enterDetails2.findViewById(R.id.offerFinalPrice);
+                etHouseNumber = (EditText) enterDetails2.findViewById(R.id.houseNumber);
+                etStreetAddress = (EditText) enterDetails2.findViewById(R.id.streetAddress);
+                etOtherDetails = (EditText) enterDetails2.findViewById(R.id.detailedAddress);
+                etSpecialLandmarks = (EditText) enterDetails2.findViewById(R.id.landmarksSpecial);
+
+                allFieldsRequired = (TextView) enterDetails2.findViewById(R.id.allFieldsRequired);
+                checkOutNameRequired = (TextView) enterDetails2.findViewById(R.id.nameRequired);
+                checkOutPhoneRequired = (TextView) enterDetails2.findViewById(R.id.phoneNumberValidation);
+                bookNameRequired = (TextView) enterDetails2.findViewById(R.id.bookNameRequired);
+                bookAuthorRequired = (TextView) enterDetails2.findViewById(R.id.authorOfBookRequired);
+                bookFinalPriceRequired = (TextView) enterDetails2.findViewById(R.id.agreedPriceRequired);
+                streetAddressRequired = (TextView) enterDetails2.findViewById(R.id.streetAddressRequired);
+                otherDetailsRequired = (TextView) enterDetails2.findViewById(R.id.otherDetailsRequired);
+                specialLandmarksRequired = (TextView) enterDetails2.findViewById(R.id.landmarksRequired);
+
+                placeFinalAcceptance = (CardView) enterDetails2.findViewById(R.id.confirmConfirmConfirm);
+
+                etFullName.addTextChangedListener(MainDrawerHome.this);
+                etPhoneNumber.addTextChangedListener(MainDrawerHome.this);
+                etBookName.addTextChangedListener(MainDrawerHome.this);
+                etBookAuthorName.addTextChangedListener(MainDrawerHome.this);
+                etBookFinalPrice.addTextChangedListener(MainDrawerHome.this);
+                etStreetAddress.addTextChangedListener(MainDrawerHome.this);
+                etOtherDetails.addTextChangedListener(MainDrawerHome.this);
+                etSpecialLandmarks.addTextChangedListener(MainDrawerHome.this);
+
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+
+                String firstName = pref.getString("firstNameSharePref1", "");
+                String lastName = pref.getString("lastNameSharePref", "");
+                String phoneNum = pref.getString("phoneSharePref", "");
+
+                if (firstName.equals("")) {
+                    firstName = FragmentCustomDiagLogin.firstName;
+                    lastName = FragmentCustomDiagLogin.lastName;
+                    phoneNum = FragmentCustomDiagLogin.phoneNumber;
+                }
+
+                etFullName.setText(firstName + " " + lastName);
+                etPhoneNumber.setText(phoneNum);
+                etBookName.setText(bookName.get(0));
+                etBookAuthorName.setText(authorName.get(0));
+                etBookFinalPrice.setText(price.get(0));
+
+                placeFinalAcceptance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etFullName.getText().toString().length() == 0) {
+                            allFieldsRequired.setVisibility(View.VISIBLE);
+                            checkOutNameRequired.setVisibility(View.VISIBLE);
+                        }
+                        if (etPhoneNumber.getText().toString().length() == 0) {
+                            allFieldsRequired.setVisibility(View.VISIBLE);
+                            checkOutPhoneRequired.setVisibility(View.VISIBLE);
+                        }
+                        if (etBookName.getText().toString().length() == 0) {
+                            allFieldsRequired.setVisibility(View.VISIBLE);
+                            bookNameRequired.setVisibility(View.VISIBLE);
+                        }
+                        if (etBookAuthorName.getText().toString().length() == 0) {
+                            allFieldsRequired.setVisibility(View.VISIBLE);
+                            bookAuthorRequired.setVisibility(View.VISIBLE);
+                        }
+                        if (etBookFinalPrice.getText().toString().length() == 0) {
+                            allFieldsRequired.setVisibility(View.VISIBLE);
+                            bookFinalPriceRequired.setVisibility(View.VISIBLE);
+
+                        }
+                        if (etStreetAddress.getText().toString().length() == 0) {
+                            allFieldsRequired.setVisibility(View.VISIBLE);
+                            streetAddressRequired.setVisibility(View.VISIBLE);
+
+                        }
+                        if (etOtherDetails.getText().toString().length() == 0) {
+                            allFieldsRequired.setVisibility(View.VISIBLE);
+                            otherDetailsRequired.setVisibility(View.VISIBLE);
+                        }
+
+                        if (etSpecialLandmarks.getText().toString().length() == 0) {
+                            allFieldsRequired.setVisibility(View.VISIBLE);
+                            specialLandmarksRequired.setVisibility(View.VISIBLE);
+                        }
+
+                        if (allFieldsRequired.getVisibility() == View.INVISIBLE) {
+                            Toast.makeText(MainDrawerHome.this, "success", Toast.LENGTH_SHORT).show();
+                            enterDetails2.dismiss();
+
+                            getEtFullName = etFullName.getText().toString();
+                            getEtPhoneNumber = etPhoneNumber.getText().toString();
+                            getEtBookName = etBookName.getText().toString();
+                            getEtBookAuthorName = etBookAuthorName.getText().toString();
+                            getEtBookFinalPrice = etBookFinalPrice.getText().toString();
+                            getEtHouseNumber = etHouseNumber.getText().toString();
+                            getEtStreetAddress = etStreetAddress.getText().toString();
+                            getEtOtherDetails = etOtherDetails.getText().toString();
+                            getEtSpecialLandmarks = etSpecialLandmarks.getText().toString();
+
+                            new ConfirmFinalFinalOrder().execute();
+                        }
+
+                    }
+                });
+
             }
         });
 
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (etFullName.getText().toString().length() >= 1) {
+            checkOutNameRequired.setVisibility(View.GONE);
+        }
+        if (etPhoneNumber.getText().toString().length() > 0) {
+            checkOutPhoneRequired.setVisibility(View.INVISIBLE);
+
+        }
+        if (etBookName.getText().toString().length() > 0) {
+            bookNameRequired.setVisibility(View.INVISIBLE);
+
+        }
+        if (etBookAuthorName.getText().toString().length() > 0) {
+            bookAuthorRequired.setVisibility(View.INVISIBLE);
+
+        }
+
+        if (etBookFinalPrice.getText().toString().length() > 0) {
+            bookFinalPriceRequired.setVisibility(View.INVISIBLE);
+
+        }
+        if (etStreetAddress.getText().toString().length() > 0) {
+            streetAddressRequired.setVisibility(View.INVISIBLE);
+        }
+        if (etOtherDetails.getText().toString().length() > 0) {
+            otherDetailsRequired.setVisibility(View.INVISIBLE);
+        }
+        if (etSpecialLandmarks.getText().toString().length() > 0) {
+            specialLandmarksRequired.setVisibility(View.INVISIBLE);
+        }
+
+        if (etFullName.getText().toString().length() >= 1 && etPhoneNumber.getText().toString().length() > 0 && etBookName.getText().toString().length() > 0
+                && etBookAuthorName.getText().toString().length() > 0 && etBookFinalPrice.getText().toString().length() > 0
+                && etStreetAddress.getText().toString().length() > 0 && etOtherDetails.getText().toString().length() > 0 && etSpecialLandmarks.getText().toString().length() > 0) {
+            allFieldsRequired.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    class ConfirmFinalFinalOrder extends AsyncTask<String, String, String> {
+
+        List<NameValuePair> params2 = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... params) {
+
+//            String[] a = intentRoomName.split("\\|\\|");
+//            String[] b = a[0].split("[*]+");
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+            String tempSelfName = sharedPref.getString("a", "");
+
+            if (tempSelfName.equals("")) {
+                tempSelfName = FragmentCustomDiagLogin.username;
+            }
+
+            params2.add(new BasicNameValuePair("fullName", getEtFullName));
+            params2.add(new BasicNameValuePair("soldBy", offeredBy.get(0)));
+            params2.add(new BasicNameValuePair("soldTo", tempSelfName));
+            params2.add(new BasicNameValuePair("phoneNumber", getEtPhoneNumber));
+            params2.add(new BasicNameValuePair("bookName", getEtBookName));
+            params2.add(new BasicNameValuePair("authorOfBook", getEtBookAuthorName));
+            params2.add(new BasicNameValuePair("markedPrice", "NOBODYCARESANYMORE"));
+            params2.add(new BasicNameValuePair("finalPrice", getEtBookFinalPrice));
+            params2.add(new BasicNameValuePair("houseNumber", getEtHouseNumber));
+            params2.add(new BasicNameValuePair("streetAddress", getEtStreetAddress));
+            params2.add(new BasicNameValuePair("otherDetails", getEtOtherDetails));
+            params2.add(new BasicNameValuePair("specialLandmarks", getEtSpecialLandmarks));
+
+
+            jsonParser.makeHttpRequest(SEND_DELIVERY_REQUEST, "POST", params2);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
     }
 
     private void getToken() {
@@ -270,9 +533,11 @@ public class MainDrawerHome extends AppCompatActivity {
             Log.d("logged", "in" + loggedIn);
             item2.setVisible(false);
             item1.setVisible(true);
+            item3.setVisible(false);
             item1.setIcon(R.drawable.login);
         } else {
             item2.setVisible(true);
+            item3.setVisible(true);
             item2.setIcon(R.drawable.logout);
             item1.setVisible(false);
 

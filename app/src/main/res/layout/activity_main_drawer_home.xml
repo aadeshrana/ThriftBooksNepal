@@ -3,52 +3,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:orientation="vertical"
-    >
+    tools:context=".MainActivity">
+
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_toolbar"
 
         />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <android.support.v4.widget.DrawerLayout
-        xmlns:tools="http://schemas.android.com/tools"
+        <TextView
+            android:id="@+id/noInternetTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No internet Connection. Please connect and click on refresh."
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="REFRESH"
+            android:clickable="true"
+            android:id="@+id/refreshAfterInternetConnectivity"
+            android:layout_below="@id/noInternetTextview"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mainDrawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
-        >
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="Request books"
-        android:id="@+id/requestBooksButton"
-        />
+        android:background="#ffffff">
 
-    <RelativeLayout
-            android:background="#EEE"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/mainFragmentNavHome"
-        android:layout_below="@id/requestBooksButton"
-            >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <ProgressBar
+            <Button
+                android:id="@+id/requestBooksButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/drawerProgress"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentRight="true"
+                android:text="Request books" />
 
-                />
+            <RelativeLayout
+                android:id="@+id/mainFragmentNavHome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/requestBooksButton"
+                android:background="#EEE">
+
+                <ProgressBar
+                    android:id="@+id/drawerProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+
+                    />
+            </RelativeLayout>
         </RelativeLayout>
-</RelativeLayout>
+
         <fragment
             android:id="@+id/mainfragmentDrawer"
             android:name="com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavMenu"
@@ -61,7 +81,6 @@
             tools:layout="@layout/fragment_nav_menu"
 
             />
-
 
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>
