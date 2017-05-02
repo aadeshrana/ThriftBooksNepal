@@ -263,12 +263,17 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         if (v == sellerUploadAllButton) {
             checkEmptyBoxes();
             try {
-                title = editTitleOfBook.getText().toString();
-                author = editAuthorOfBook.getText().toString();
-                price = editPriceOfBook.getText().toString();
-                homeaddress = editHomeAddress.getText().toString();
+                if(checkAllBoxes) {
+                    title = editTitleOfBook.getText().toString();
+                    author = editAuthorOfBook.getText().toString();
+                    price = editPriceOfBook.getText().toString();
+                    homeaddress = editHomeAddress.getText().toString();
 
-                new AddItemToStore().execute();
+                    new AddItemToStore().execute();
+                }
+                else{
+                    Toast.makeText(this, "Please fill all details", Toast.LENGTH_SHORT).show();
+                }
             } catch (Exception e) {
                 Toast.makeText(this, "Please fill all details with at least 1 image", Toast.LENGTH_SHORT).show();
             }
@@ -308,33 +313,15 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 param1.add(new BasicNameValuePair("image3name", spUsername + titleOfBook + "file3.jpg"));
                 param1.add(new BasicNameValuePair("phonenumber", spPhoneNo));
                 param1.add(new BasicNameValuePair("emailaddress", spEmail));
-                //maile change gary hai
+
                 param1.add(new BasicNameValuePair("course", sendcourse));
 
-               /* Log.d("username", "" + Login.username);
-                Log.d("", "" + Login.firstName);
-                Log.d("", "" + Login.lastName);
-                Log.d("", "" + title);
-                Log.d("", "" + author);
-                Log.d("", "" + price);
-                Log.d("", "" + homeaddress);
-                Log.d("", "" + Login.school);
-                Log.d("", "" + Login.username + titleOfBook + "file1.jpg");
-                Log.d("", "" + Login.username + titleOfBook + "file2.jpg");
-                Log.d("", "" + Login.username + titleOfBook + "file3.jpg");
-                Log.d("", "" + Login.phoneNumber);
-                Log.d("", "" + Login.emailAddress);*/
 
-                //posting user data to script
+
                 JSONObject json = jsonParser.makeHttpRequest(ADD_ITEM_URL, "POST", param1);
-                //full json response
+
                 Log.d("registering attempt", json.toString());
-                //json success element
-                //success = json.getInt(TAG_SUCCESS);
-//                if(success == 1){
-//                    Log.d("User created!",json.toString());
-//                    finish();
-//                    return json.getString(TAG_MESSAGE);
+
             } catch (Exception e) {
 
             }
@@ -381,7 +368,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
                 } catch (Exception e) {
                     e.printStackTrace();
-//                    Toast.makeText(ActivitySeller.this, "Unsuccessful. Try Again", Toast.LENGTH_SHORT).show();
+//
                 }
 
                 try {
@@ -390,7 +377,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                     String namegetter[] = realPath1.split("/");
                     int finalElement = namegetter.length - 1;
                     Log.d("kateko name 1", "" + namegetter[finalElement]);
-//                    pdialog.show();
+//
                     try {
 
                         client2.connect(FTP_HOST, 21);

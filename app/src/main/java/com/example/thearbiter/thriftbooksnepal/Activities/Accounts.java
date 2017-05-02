@@ -68,7 +68,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-
+    Boolean passwordChecked = false;
     int okayTosend = 1;
     Toolbar toolbar;
     private int PICK_IMAGE_REQUEST = 1;
@@ -78,7 +78,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
     Bitmap bitmap;
     File f;
     CircleImageView profilePic;
-
+    SharedPreferences sharedpref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,85 +137,23 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
     }
 
     public void checkPassword() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        String oldPassSha1;
-        SharedPreferences sharedpref;
+        String passwordEntered, passwordUse;
+
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         sharedpref.edit();
-        FragmentCustomDiagLogin.password = sharedpref.getString("sharedPassword", "any");
-        sendFirstName = firstName.getText().toString();
-        sendLastName = lastName.getText().toString();
-        sendCollege = college.getText().toString();
-        sendPhoneNo = phoneNo.getText().toString();
-        sendEmail = email.getText().toString();
-        senduser = Login.username;
-        oldPassSha1 = SHA1(passwordOld.getText().toString());
+        passwordUse =sharedpref.getString("sharedPassword", "null");
+        if(passwordUse.equals("null")){
+            passwordUse = FragmentCustomDiagLogin.password;
+        }
+        passwordEntered=SHA1(passwordOld.getText().toString());
 
-        if (passwordOld.getText().toString().length() > 0) {
-            if (oldPassSha1.equals(FragmentCustomDiagLogin.password)) {
-
-
-                if (!passwordNew.getText().toString().equals("") || !passwordConfirm.getText().toString().equals("")) {
-
-
-                    if (passwordNew.getText().toString().equals(passwordConfirm.getText().toString())) {
-                        Toast.makeText(Accounts.this, "password changed", Toast.LENGTH_SHORT).show();
-                        sendPassword = passwordNew.getText().toString();
-                        okayTosend = 1;
-                    } else {
-                        okayTosend = 0;
-                        new AlertDialog.Builder(Accounts.this)
-                                .setTitle("Save")
-                                .setMessage("Password dont match")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(Accounts.this, "Password did not change" + sendPassword, Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                    }
-                } else {
-
-                    okayTosend = 0;
-                }
-
-
-            } else {
-                Toast.makeText(Accounts.this, "Invalid Old Password", Toast.LENGTH_SHORT).show();
-                okayTosend = 0;
-            }
-        } else {
-            Toast.makeText(Accounts.this, "Old password cannt be blank", Toast.LENGTH_SHORT).show();
-            sendPassword = Login.password;
-            // okayTosend =0;
+        if(passwordEntered.equals(passwordUse)){
+            passwordChecked = true;
+        }else
+        {
+            passwordChecked = false;
         }
 
-
-        if (okayTosend == 1) {
-            new AlertDialog.Builder(Accounts.this)
-                    .setTitle("Save")
-                    .setMessage("Are you sure you want to save the changes?")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(Accounts.this, "changed" + sendPassword, Toast.LENGTH_SHORT).show();
-
-                            new updateAccount().execute();
-                            new uploadImage().execute();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }
 
     }
     private static String convertToHex(byte[] data) {
@@ -270,6 +208,38 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
 
     public void updateaccount(View view) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         checkPassword();
+        if(passwordChecked){
+            if(realPath !=null){
+                new uploadImage().execute();
+                Toast.makeText(this, "Image only changed", Toast.LENGTH_SHORT).show();
+            }
+            senduser = sharedpref.getString("username", "null");
+            sendFirstName = firstName.getText().toString();
+            sendLastName = lastName.getText().toString();
+            sendCollege = college.getText().toString();
+            sendPhoneNo = phoneNo.getText().toString();
+            sendEmail = email.getText().toString();
+
+            if(senduser.equals("null")) {
+                senduser = Login.username;
+            }
+            if(passwordNew.getText().toString().length()<=0 && passwordConfirm.getText().toString().length()<=0){
+                sendPassword =sharedpref.getString("sharedPassword", "null");
+                if(sendPassword.equals("null")){
+                    sendPassword = FragmentCustomDiagLogin.password;
+                }
+                new updateAccount().execute();
+                Toast.makeText(this, "All changed except password", Toast.LENGTH_SHORT).show();
+            }
+            if(okayTosend ==10){
+                sendPassword = SHA1(passwordConfirm.getText().toString());
+                new updateAccount().execute();
+            }
+
+        }
+        else{
+            Toast.makeText(this, "Old password does not match with the given password", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -301,6 +271,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
                 errorTextConfirm.setTextColor(Color.parseColor("#67C100"));
                 errorTextPass.setText("Match");
                 errorTextPass.setTextColor(Color.parseColor("#67C100"));
+                okayTosend =10;
             } else {
 
 
