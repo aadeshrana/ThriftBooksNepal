@@ -48,6 +48,7 @@ public class FragmentMessager extends Fragment {
     ArrayList<String> sender1 = new ArrayList<>();
     ArrayList<String> message1 = new ArrayList<>();
     ArrayList<String> time1 = new ArrayList<>();
+    ArrayList<String> username1 = new ArrayList<>();
     private static final String SEND_MESSAGE_URL = "http://frame.ueuo.com/thriftbooks/postComment.php";
     JSONParser jsonParser = new JSONParser();
     public static String finalBuyersActivityNameOfBook;
@@ -62,6 +63,7 @@ public class FragmentMessager extends Fragment {
     ProgressDialog pdialog;
     String stringMessageToSend;
     public static String title[];
+    public static String usernameOfSender[];
     public static String nameOfSender[];
     public static String Notiftime[];
     public static String Notiftime2[];
@@ -289,6 +291,7 @@ public class FragmentMessager extends Fragment {
             Log.d("jjjjjj", "" + title[j]);
             current.sendersName = nameOfSender[j];
             changeToIndianTime();
+            current.sendersUsername = usernameOfSender[j];
             current.timeOfNotification = Notiftime2[j];
             data.add(current);
         }
@@ -306,10 +309,10 @@ public class FragmentMessager extends Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-            Log.d("thisis","beforeASy");
+            Log.d("thisis", "beforeASy");
             try {
 
-                Log.d("thisis2","insideasy");
+                Log.d("thisis2", "insideasy");
                 List<NameValuePair> param1 = new ArrayList<>();
 //                param1.add(new BasicNameValuePair("username", spUsername));
 
@@ -320,18 +323,21 @@ public class FragmentMessager extends Fragment {
                 sender1.clear();
                 message1.clear();
                 time1.clear();
+                username1.clear();
+
                 JSONObject json;
 
                 json = jsonParser.makeHttpRequest(PULL_ALL_MESSAGES_URL, "POST", param1);
                 //full json response
-                Log.d("thisis3","afterReq");
+                Log.d("thisis3", "afterReq");
 
                 try {
-                    Log.d("thisis",":"+json.length());
+                    Log.d("thisis", ":" + json.length());
                     for (int i = 0; i < json.length(); i++) {
                         sender1.add(json.getString("b" + i));
                         message1.add(json.getString("a" + i));
                         time1.add(json.getString("c" + i));
+                        username1.add(json.getString("d" + i));
                     }
 
                 } catch (Exception e) {
@@ -346,10 +352,13 @@ public class FragmentMessager extends Fragment {
             FinalBuyersActivity.senderArray = new String[sender1.size()];
             FinalBuyersActivity.messageArray = new String[message1.size()];
             FinalBuyersActivity.timeArray = new String[time1.size()];
+            FinalBuyersActivity.usernameArray = new String[username1.size()];
 
             FinalBuyersActivity.senderArray = sender1.toArray(new String[sender1.size()]);
             FinalBuyersActivity.messageArray = message1.toArray(new String[message1.size()]);
             FinalBuyersActivity.timeArray = time1.toArray(new String[time1.size()]);
+            FinalBuyersActivity.usernameArray = username1.toArray(new String[username1.size()]);
+
             try {
                 Log.d("REACH HERE", "" + sender1.get(0));
 
@@ -359,6 +368,8 @@ public class FragmentMessager extends Fragment {
             FragmentMessager.title = message1.toArray(new String[message1.size()]);
             FragmentMessager.nameOfSender = sender1.toArray(new String[sender1.size()]);
             FragmentMessager.Notiftime = time1.toArray(new String[time1.size()]);
+            FragmentMessager.usernameOfSender = username1.toArray(new String[username1.size()]);
+
             sender1 = null;
             return null;
         }

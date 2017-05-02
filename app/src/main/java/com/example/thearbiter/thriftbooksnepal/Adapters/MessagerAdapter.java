@@ -2,6 +2,7 @@ package com.example.thearbiter.thriftbooksnepal.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.thearbiter.thriftbooksnepal.Information.InformationMessageActivity;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,6 +49,9 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
         holder.text.setText(current.textMessage);
         holder.sendersName.setText(current.sendersName);
         holder.timeOfNotif.setText(current.timeOfNotification);
+        Log.d("user","Name"+current.sendersUsername);
+        Picasso.with(context).load("http://aadeshrana.esy.es/" +current.sendersUsername+ "ProfilePic.jpg").fit().centerCrop().placeholder(R.drawable.default_user).into(holder.messageImageProfilePicture);
+
         if (current.textMessage.equals("null")) {
             holder.text.setVisibility(View.INVISIBLE);
             holder.sendersName.setVisibility(View.INVISIBLE);

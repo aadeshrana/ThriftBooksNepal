@@ -6,6 +6,7 @@ package com.example.thearbiter.thriftbooksnepal.Information;
 
 public class InformationMessageActivity {
     public String textMessage;
+    public String sendersUsername;
     public String sendersName;
     public String timeOfNotification;
 }

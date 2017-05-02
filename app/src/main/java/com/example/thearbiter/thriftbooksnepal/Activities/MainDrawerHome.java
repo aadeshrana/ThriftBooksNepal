@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -55,7 +54,7 @@ import java.util.Map;
 
 public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     Toolbar toolbar;
-    int jsonLength=0;
+    int jsonLength = 0;
     TextView refresh, refreshMessage;
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
@@ -95,20 +94,25 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     private static final String FETCH_NUMBER_URL = "http://frame.ueuo.com/thriftbooks/fetchalldetails.php";
     JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
-    String loggedIn = "";
-    Button requestBooks;
+    String loggedIn;
+    TextView requestBooks;
     public static final String PENDING_OFFERS = "http://frame.ueuo.com/thriftbooks/pullPendingOffers.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer_home);
+
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
+        loggedIn = sharedpref.getString("loggedIn", "");
+
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         refresh = (TextView) findViewById(R.id.refreshAfterInternetConnectivity);
         refreshMessage = (TextView) findViewById(R.id.noInternetTextview);
         progressBar = (ProgressBar) findViewById(R.id.drawerProgress);
         progressBar.setVisibility(View.INVISIBLE);
-        requestBooks = (Button) findViewById(R.id.requestBooksButton);
+        requestBooks = (TextView) findViewById(R.id.requestBooksButton);
         boolean connected = false;
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
@@ -137,9 +141,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             new CheckPendingOffers().execute();
-            SharedPreferences sharedpref;
-            sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
-            loggedIn = sharedpref.getString("loggedIn", "noValue");
+
             getToken();
             requestBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -213,7 +215,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
                 e.printStackTrace();
             }
             try {
-                Log.d("offered","by"+offeredBy.get(0));
+                Log.d("offered", "by" + offeredBy.get(0));
                 jsonLength = json66.length();
             } catch (Exception e) {
 
@@ -226,10 +228,10 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (jsonLength > 5) {
-                Log.d("length", "json"+jsonLength);
+                Log.d("length", "json" + jsonLength);
                 dialogFinishPending(jsonLength);
             }
-            }
+        }
     }
 
     private void dialogFinishPending(int howMany) {
@@ -528,9 +530,14 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         MenuItem item2 = menu.findItem(R.id.log_out);
         MenuItem item1 = menu.findItem(R.id.action_settings);
         MenuItem item3 = menu.findItem(R.id.messager);
+        MenuItem item4 = menu.findItem(R.id.search);
         item3.setIcon(R.drawable.messages);
-        if (loggedIn.equals("noValue")) {
-            Log.d("logged", "in" + loggedIn);
+        item4.setIcon(R.drawable.search);
+
+        Log.d("valueOf", "LoggedIn" + loggedIn);
+
+        if (loggedIn.length() == 0) {
+
             item2.setVisible(false);
             item1.setVisible(true);
             item3.setVisible(false);
@@ -540,7 +547,6 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             item3.setVisible(true);
             item2.setIcon(R.drawable.logout);
             item1.setVisible(false);
-
         }
 
         return true;
@@ -648,7 +654,6 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
                 List<NameValuePair> params1 = new ArrayList<>();
 
                 params1.add(new BasicNameValuePair("course", "others"));
-
 
 
                 JSONObject json = jsonParser.makeHttpRequest(LOGIN_URL, "POST", params1);

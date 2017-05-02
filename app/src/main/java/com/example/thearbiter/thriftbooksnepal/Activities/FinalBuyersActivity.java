@@ -46,10 +46,11 @@ public class FinalBuyersActivity extends AppCompatActivity {
     ArrayList<String> sender = new ArrayList<>();
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     ArrayList<String> message = new ArrayList<>();
+    ArrayList<String> username = new ArrayList<>();
     public static String newRoomName;
 
     ArrayList<String> time = new ArrayList<>();
-    public static String senderArray[], messageArray[], timeArray[];
+    public static String senderArray[], messageArray[], timeArray[], usernameArray[];
     private static final String CREATE_ROOM_TABLE = "http://frame.ueuo.com/images/createRoomThrift.php";
 
     @Override
@@ -94,6 +95,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
                 sender.clear();
                 message.clear();
                 time.clear();
+                username.clear();
                 JSONObject json;
 
                 json = jsonParser.makeHttpRequest(PULL_ALL_MESSAGES_URL, "POST", param1);
@@ -101,11 +103,12 @@ public class FinalBuyersActivity extends AppCompatActivity {
 
 
                 try {
-                    Log.d("values",":"+json.length());
+                    Log.d("values", ":" + json.length());
                     for (int i = 0; i < json.length(); i++) {
                         sender.add(json.getString("b" + i));
                         message.add(json.getString("a" + i));
                         time.add(json.getString("c" + i));
+                        username.add(json.getString("d" + i));
 
                     }
 
@@ -121,10 +124,12 @@ public class FinalBuyersActivity extends AppCompatActivity {
             FinalBuyersActivity.senderArray = new String[sender.size()];
             FinalBuyersActivity.messageArray = new String[message.size()];
             FinalBuyersActivity.timeArray = new String[time.size()];
+            FinalBuyersActivity.usernameArray = new String[username.size()];
 
             FinalBuyersActivity.senderArray = sender.toArray(new String[sender.size()]);
             FinalBuyersActivity.messageArray = message.toArray(new String[message.size()]);
             FinalBuyersActivity.timeArray = time.toArray(new String[time.size()]);
+            FinalBuyersActivity.usernameArray = username.toArray(new String[username.size()]);
 
             try {
                 Log.d("REACH HERE", "" + sender.get(0));
@@ -136,6 +141,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
             }
             FragmentMessager.title = message.toArray(new String[message.size()]);
             FragmentMessager.nameOfSender = sender.toArray(new String[sender.size()]);
+            FragmentMessager.usernameOfSender = username.toArray(new String[username.size()]);
             FragmentMessager.Notiftime = time.toArray(new String[time.size()]);
             sender = null;
             return null;

@@ -8,6 +8,7 @@
         android:orderInCategory="100"
         android:title="search"
         app:showAsAction="always" />
+
     <item
         android:id="@+id/action_settings"
         android:title="Sign In"
@@ -21,8 +22,6 @@
         android:orderInCategory="100"
         android:title="Notification"
         app:showAsAction="always" />
-
-
 
 
 </menu>

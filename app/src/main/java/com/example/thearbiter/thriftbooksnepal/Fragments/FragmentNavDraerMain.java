@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,11 +66,6 @@ public class FragmentNavDraerMain extends Fragment {
 
 
     JSONParser jsonParser = new JSONParser();
-
-//    static public String title[]= {"belloooo","dellooo","mellooo","yellooo","asdfsdf"};
-//    static public String price[] = {"144", "554", "55543", "545", "5959"};
-//    static public String sellerName[] = {"gaurav","astja","rana","bob","pob"};
-//    public int img[] = {R.drawable.chemistrydemopicture, R.drawable.tomduncanphysicsdemopictures, R.drawable.mathsdemopictures, R.drawable.statisticsdemopictures, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture, R.drawable.chemistrydemopicture, R.drawable.economicsdemopicture, R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.generaldaperdemopicture, R.drawable.mathsdemopictures};
 
     @Nullable
     @Override

@@ -24,12 +24,12 @@
             android:visibility="gone" />
 
         <TextView
+            android:id="@+id/refreshAfterInternetConnectivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="REFRESH"
-            android:clickable="true"
-            android:id="@+id/refreshAfterInternetConnectivity"
             android:layout_below="@id/noInternetTextview"
+            android:clickable="true"
+            android:text="REFRESH"
             android:visibility="gone" />
 
     </RelativeLayout>
@@ -44,12 +44,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <Button
+            <TextView
+                android:id="@+id/requestBooksText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Cant find what you're looking for?" />
+
+            <TextView
                 android:id="@+id/requestBooksButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Request books" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/requestBooksText"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:text="Request any book from users"
+                android:textColor="#0000EE" />
 
             <RelativeLayout
                 android:id="@+id/mainFragmentNavHome"
@@ -59,6 +76,7 @@
                 android:background="#EEE">
 
                 <ProgressBar
+                    style="?android:attr/progressBarStyleSmall"
                     android:id="@+id/drawerProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,6 +85,8 @@
 
                     />
             </RelativeLayout>
+
+
         </RelativeLayout>
 
         <fragment
