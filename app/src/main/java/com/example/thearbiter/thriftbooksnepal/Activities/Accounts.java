@@ -132,7 +132,8 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -197,6 +198,12 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
         if (id == R.id.action_settings) {
             return true;
         }
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -207,6 +214,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
     }
 
     public void updateaccount(View view) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        Log.d("pressed","pressed");
         checkPassword();
         if(passwordChecked){
             if(realPath !=null){
@@ -231,6 +239,7 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
                 new updateAccount().execute();
                 Toast.makeText(this, "All changed except password", Toast.LENGTH_SHORT).show();
             }
+
             if(okayTosend ==10){
                 sendPassword = SHA1(passwordConfirm.getText().toString());
                 new updateAccount().execute();

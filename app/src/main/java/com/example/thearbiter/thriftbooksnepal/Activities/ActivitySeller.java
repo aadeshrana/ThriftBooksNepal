@@ -308,9 +308,21 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 param1.add(new BasicNameValuePair("price", ActivitySeller.price));
                 param1.add(new BasicNameValuePair("homeaddress", ActivitySeller.homeaddress));
                 param1.add(new BasicNameValuePair("school", spSchool));
-                param1.add(new BasicNameValuePair("image1name", spUsername + titleOfBook + "file1.jpg"));
-                param1.add(new BasicNameValuePair("image2name", spUsername + titleOfBook + "file2.jpg"));
-                param1.add(new BasicNameValuePair("image3name", spUsername + titleOfBook + "file3.jpg"));
+
+                    param1.add(new BasicNameValuePair("image1name", spUsername + titleOfBook + "file1.jpg"));
+
+                if(img2) {
+                    param1.add(new BasicNameValuePair("image2name", spUsername + titleOfBook + "file2.jpg"));
+                }else
+                {
+                    param1.add(new BasicNameValuePair("image2name", "null"));
+                }
+                if(img3) {
+                    param1.add(new BasicNameValuePair("image3name", spUsername + titleOfBook + "file3.jpg"));
+                }
+                else {
+                    param1.add(new BasicNameValuePair("image3name", "null"));
+                }
                 param1.add(new BasicNameValuePair("phonenumber", spPhoneNo));
                 param1.add(new BasicNameValuePair("emailaddress", spEmail));
 
@@ -698,7 +710,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     }
 
     void checkEmptyBoxes() {
-        if (editTitleOfBook.equals("") || editPriceOfBook.equals("") || editAuthorOfBook.equals("") || editHomeAddress.equals("")) {
+        if (!editTitleOfBook.getText().toString().equals("") && !editPriceOfBook.getText().toString().equals("") && !editAuthorOfBook.getText().toString().equals("") && !editHomeAddress.getText().toString().equals("")) {
             if (img1 || img2 || img3) {
                 checkAllBoxes = true;
             } else {

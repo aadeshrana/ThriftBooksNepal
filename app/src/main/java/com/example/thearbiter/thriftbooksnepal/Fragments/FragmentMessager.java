@@ -11,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,9 +28,12 @@ import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.FinalBuyersActivity;
 import com.example.thearbiter.thriftbooksnepal.Adapters.MessagerAdapter;
+import com.example.thearbiter.thriftbooksnepal.Adapters.SlideShowAdapter;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.InfinitePagerAdapter;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationMessageActivity;
 import com.example.thearbiter.thriftbooksnepal.R;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -58,6 +63,7 @@ public class FragmentMessager extends Fragment {
     public static String finalBuyersActivityNameOfSeller;
     public static String finalBuyersActivityImage1;
     public static String finalBuyersActivityImage2;
+
     public static int scrollToBot = 0;
     public static String finalBuyersActivityImage3;
     ProgressDialog pdialog;
@@ -77,7 +83,7 @@ public class FragmentMessager extends Fragment {
     ScrollView scrollView;
     MessagerAdapter adapter;
     String userLoggedIn;
-
+    String xyz[]={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpkdmF3JBCuvZuKscnzMVYTDZ_IOTRlQWXRvoKHrxM-XD8tRp6","R.drawable.tempbackground"};
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +96,44 @@ public class FragmentMessager extends Fragment {
         messageEditText = (EditText) view.findViewById(R.id.messageEditText);
         sentOrNotImage = (ImageView) view.findViewById(R.id.imageVieSentOrNot);
         scrollView = (ScrollView) view.findViewById(R.id.scrollVieFinalBuyer);
+        ImageView testImage =(ImageView)view.findViewById(R.id.testImage);
+        String sendImage1, sendImage2,sendImage3;
+        sendImage1 = "http://aadeshrana.esy.es/" + finalBuyersActivityImage1;
+        String[] gg;
+        Log.d("eta",":"+finalBuyersActivityImage2);
+        if(finalBuyersActivityImage2.equals("null")){
+            gg =new String[]{sendImage1};
+        }
+        else{
+            sendImage2 = "http://aadeshrana.esy.es/" +finalBuyersActivityImage2;
+            if(finalBuyersActivityImage3.equals("null")){
+                gg=new String[]{sendImage1,sendImage2};
+            }
+            else{
+                sendImage3 = "http://aadeshrana.esy.es/" + finalBuyersActivityImage3;
+                gg=new String[]{sendImage1,sendImage2,sendImage3};
+                Log.d("eta",":");
+            }
+        }
+
+
+
+        Log.d("length11",":"+gg.length);
+
+
+        ViewPager viewPagerSlideShow;
+        SlideShowAdapter adater;
+        viewPagerSlideShow =(ViewPager)view.findViewById(R.id.mainSlideShow);
+        adater = new SlideShowAdapter(getActivity(),gg);
+        PagerAdapter wrapperAdapter = new InfinitePagerAdapter(adater);
+        viewPagerSlideShow.setAdapter(wrapperAdapter);
+       // adater.setArray(xyz);
+
+
+        ///
+
+
+
         setValuesToTextVies();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerVieMessageActivity);
         recyclerView.setNestedScrollingEnabled(false);
