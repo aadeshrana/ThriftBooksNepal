@@ -53,9 +53,14 @@ import java.util.List;
 import java.util.Map;
 
 public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
+    private static final String CHECK_REJECTED_OFFERS = "http://frame.ueuo.com/thriftbooks/pullRejectedOffers.php";
     Toolbar toolbar;
     int jsonLength = 0;
+    int jsonLength2 = 0;
     TextView refresh, refreshMessage;
+    int wereThereOffers = 0;
+    static String rejectedBy, rejectedByName, rejectedByPrice, rejectedByBookName, rejectedByAuthror;
+
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
     ArrayList<String> lastName = new ArrayList<>();
@@ -70,6 +75,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     ArrayList<String> phoneNumber = new ArrayList<>();
     ArrayList<String> emailAddress = new ArrayList<>();
     JSONObject json66;
+    JSONObject json60;
     ArrayList<String> offeredBy = new ArrayList<>();
     ArrayList<String> offeredByNameOfUser = new ArrayList<>();
     ArrayList<String> bookName = new ArrayList<>();
@@ -97,6 +103,8 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     String loggedIn;
     TextView requestBooks;
     public static final String PENDING_OFFERS = "http://frame.ueuo.com/thriftbooks/pullPendingOffers.php";
+    public static final String DISMISS_REJECTED_OFFER = "http://frame.ueuo.com/thriftbooks/dismissRejectDialog.php";
+    public static final String REJECT_OFFER = "http://frame.ueuo.com/thriftbooks/rejectOffer.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +189,11 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         super.onDestroy();
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
         SharedPreferences.Editor edit = pref.edit();
-        edit.putString("loggedIn","noValue");
-        edit.apply();
+        String check = pref.getString("a", "");
+        if (check.equals("")) {
+            edit.putString("loggedIn", "noValue");
+            edit.apply();
+        }
     }
 
     public class CheckPendingOffers extends AsyncTask<String, String, String> {
@@ -238,6 +249,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (jsonLength > 5) {
+                wereThereOffers = 1;
                 Log.d("length", "json" + jsonLength);
                 dialogFinishPending(jsonLength);
             }
@@ -248,7 +260,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         Log.d("dialog", "check3" + howMany / 6);
 
         final Dialog dialog = new Dialog(MainDrawerHome.this);
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.setContentView(R.layout.accept_offer_dialog);
         dialog.show();
 
@@ -277,7 +289,30 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Toast.makeText(MainDrawerHome.this, "Offer cancelled. You can renegotiate by chatting with seller.", Toast.LENGTH_LONG).show();
+
+                final Dialog declineDialog = new Dialog(MainDrawerHome.this);
+                declineDialog.setContentView(R.layout.decline_offer_dialog);
+                declineDialog.setCancelable(false);
+                declineDialog.show();
+
+                CardView viewAgain = (CardView) declineDialog.findViewById(R.id.declineReturnToDialogButton);
+                CardView confirmDecline = (CardView) declineDialog.findViewById(R.id.confirmDecline);
+
+                viewAgain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        declineDialog.dismiss();
+                        dialog.show();
+                    }
+                });
+                confirmDecline.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        declineDialog.dismiss();
+                        new RejectOffer().execute();
+                        Toast.makeText(MainDrawerHome.this, "Successfully rejected offer.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -405,6 +440,40 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
 
     }
 
+    class RejectOffer extends AsyncTask<String, String, String> {
+
+        List<NameValuePair> params2 = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+            String tempSelfName = sharedPref.getString("a", "");
+
+            if (tempSelfName.equals("")) {
+                tempSelfName = FragmentCustomDiagLogin.username;
+            }
+
+            params2.add(new BasicNameValuePair("soldTo", tempSelfName));
+            params2.add(new BasicNameValuePair("soldBy", offeredBy.get(0)));
+            params2.add(new BasicNameValuePair("bookName", bookName.get(0)));
+
+            try {
+                jsonParser.makeHttpRequest(REJECT_OFFER, "POST", params2);
+            } catch (Exception e) {
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            new CheckRejectedOffers().execute();
+        }
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -485,15 +554,137 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             params2.add(new BasicNameValuePair("otherDetails", getEtOtherDetails));
             params2.add(new BasicNameValuePair("specialLandmarks", getEtSpecialLandmarks));
 
+            try {
+                jsonParser.makeHttpRequest(SEND_DELIVERY_REQUEST, "POST", params2);
+            } catch (Exception e) {
 
-            jsonParser.makeHttpRequest(SEND_DELIVERY_REQUEST, "POST", params2);
+            }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            new CheckRejectedOffers().execute();
+        }
+    }
 
+    public class CheckRejectedOffers extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+            String tempUsername = sharedPreferences.getString("a", "");
+            if (tempUsername.equals("")) {
+                try {
+                    tempUsername = FragmentCustomDiagLogin.username;
+                } catch (Exception e) {
+
+                }
+            }
+            Log.d("entered", "asyntask1");
+
+            List<NameValuePair> param = new ArrayList<>();
+            param.add(new BasicNameValuePair("username", tempUsername));
+
+            try {
+                Log.d("entered", "asyntask2");
+
+                jsonParser = new JSONParser();
+                json60 = jsonParser.makeHttpRequest(CHECK_REJECTED_OFFERS, "POST", param);
+
+                if (json60.length() > 0) {
+                    rejectedBy = json60.getString("c0");
+                    rejectedByName = json60.getString("b0");
+                    rejectedByBookName = json60.getString("d0");
+                    rejectedByAuthror = json60.getString("e0");
+                    rejectedByPrice = json60.getString("f0");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Log.d("entered", "asyntask3");
+
+            try {
+                jsonLength2 = json60.length();
+
+            } catch (Exception e) {
+
+            }
+            Log.d("entered", "lenghth" + jsonLength2);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("entered", "asyntask4");
+            if (jsonLength2 > 0) {
+                Log.d("length", "json" + jsonLength);
+                dialogSeeRejectedOffers(jsonLength);
+            }
+        }
+    }
+
+    private void dialogSeeRejectedOffers(int jsonLength) {
+
+        final Dialog seeRejected = new Dialog(MainDrawerHome.this);
+        seeRejected.setCancelable(false);
+        seeRejected.setContentView(R.layout.view_declined_offer_dialog);
+        seeRejected.show();
+        TextView declinedMessage = (TextView) seeRejected.findViewById(R.id.declinedOffersMessageText);
+        declinedMessage.setText("Your offer to " + rejectedBy + " (" + rejectedByName + ") for the book '" + rejectedByBookName + "' at the price of " + rejectedByPrice + " has been rejected.\nYou may renegotiate through the chat and place a new offer.");
+        CardView dismiss = (CardView) seeRejected.findViewById(R.id.declinedOffersExit);
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seeRejected.dismiss();
+                new DismissRejectedOffer().execute();
+                Intent in = new Intent(MainDrawerHome.this, MainDrawerHome.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(in);
+            }
+        });
+    }
+
+    class DismissRejectedOffer extends AsyncTask<String, String, String> {
+
+        List<NameValuePair> params2 = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+            String tempSelfName = sharedPref.getString("a", "");
+
+            if (tempSelfName.equals("")) {
+                tempSelfName = FragmentCustomDiagLogin.username;
+            }
+
+            Log.d("sold", "To" + tempSelfName);
+            Log.d("sold", "by" + rejectedBy);
+            Log.d("sold", "boooook" + rejectedByBookName);
+
+            params2.add(new BasicNameValuePair("soldTo", rejectedBy));
+            params2.add(new BasicNameValuePair("soldBy", tempSelfName));
+            params2.add(new BasicNameValuePair("bookName", rejectedByBookName));
+
+            try {
+                jsonParser.makeHttpRequest(DISMISS_REJECTED_OFFER, "POST", params2);
+            } catch (Exception e) {
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 
@@ -748,6 +939,10 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressBar.setVisibility(View.GONE);
+            if (wereThereOffers == 0) {
+                Log.d("entered", "if");
+                new CheckRejectedOffers().execute();
+            }
             FragmentNavDraerMain fragmentNavDraerMain = new FragmentNavDraerMain();
             FragmentManager manager3 = getFragmentManager();
             FragmentTransaction transaction1 = manager3.beginTransaction();
