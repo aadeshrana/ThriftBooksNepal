@@ -105,7 +105,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
 
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
-        loggedIn = sharedpref.getString("loggedIn", "");
+        loggedIn = sharedpref.getString("loggedIn", "noValue");
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         refresh = (TextView) findViewById(R.id.refreshAfterInternetConnectivity);
@@ -173,6 +173,16 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             Notifications.whereAreYou = 0;
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("loggedIn","noValue");
+        edit.apply();
     }
 
     public class CheckPendingOffers extends AsyncTask<String, String, String> {
@@ -534,9 +544,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         item3.setIcon(R.drawable.messages);
         item4.setIcon(R.drawable.search);
 
-        Log.d("valueOf", "LoggedIn" + loggedIn);
-
-        if (loggedIn.length() == 0) {
+        if (loggedIn.equals("noValue")) {
 
             item2.setVisible(false);
             item1.setVisible(true);
