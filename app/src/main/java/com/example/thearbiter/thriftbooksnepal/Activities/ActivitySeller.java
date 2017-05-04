@@ -17,6 +17,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,7 +53,7 @@ import it.sauronsoftware.ftp4j.FTPClient;
  * Created by Gaurav Jayasawal on 1/12/2017.
  */
 
-public class ActivitySeller extends AppCompatActivity implements View.OnClickListener {
+public class ActivitySeller extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     private static final String ADD_ITEM_URL = "http://frame.ueuo.com/thriftbooks/additemtostore.php";
     JSONParser jsonParser = new JSONParser();
@@ -69,10 +71,15 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     Bitmap bitmap;
     Bitmap bitmap2;
     Bitmap bitmap3;
+
+    TextView bookNameRequired, nameOfAuthorRequired, priceOfBookRequired, homeAddressRequired, allFieldsRequired;
+
     public static String choiseOfBoard;
     File f;
     File f2;
     File f3;
+
+    File file1, file2, file3;
     ProgressDialog pdialog, pdialog1;
     String realPath1, realPath2, realPath3;
     static final String FTP_HOST = "93.188.160.157";
@@ -93,6 +100,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     String spUsername, spfirstName, splastName, spEmail, spSchool, spPhoneNo;
     Spinner spinnerCourse;
     static String sendcourse;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,11 +110,17 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         imgUploadTwoProgress = (ProgressBar) findViewById(R.id.imageUploadTwoProgress);
         imgUploadThreeProgress = (ProgressBar) findViewById(R.id.imageUploadThreeProgress);
 
-        spinnerCourse =(Spinner)findViewById(R.id.spinnerCourse);
+        spinnerCourse = (Spinner) findViewById(R.id.spinnerCourse);
         spinnerCourse.setOnItemSelectedListener(new CustomOnItemSelectedListener());
         imgUploadOneProgress.setVisibility(View.GONE);
         imgUploadTwoProgress.setVisibility(View.GONE);
         imgUploadThreeProgress.setVisibility(View.GONE);
+
+        bookNameRequired = (TextView) findViewById(R.id.nameOfBookRequired);
+        nameOfAuthorRequired = (TextView) findViewById(R.id.nameOfAuthorRequired);
+        priceOfBookRequired = (TextView) findViewById(R.id.priceToBeMarkedRequired);
+        homeAddressRequired = (TextView) findViewById(R.id.homeAddressRequired);
+        allFieldsRequired = (TextView) findViewById(R.id.allFieldsRequired);
 
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -183,6 +197,11 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         sellerUpload2Button.setOnClickListener(this);
         sellerUpload3Button.setOnClickListener(this);
         sellerUploadAllButton.setOnClickListener(this);
+
+        editTitleOfBook.addTextChangedListener(this);
+        editAuthorOfBook.addTextChangedListener(this);
+        editPriceOfBook.addTextChangedListener(this);
+        editHomeAddress.addTextChangedListener(this);
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -201,40 +220,71 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (v == sellerSelectImage1) {
-            Log.d("CODE HERE", "");
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            selectedSelectImageButton = 1;
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-            imgUploadOneProgress.setVisibility(View.VISIBLE);
+        if (editTitleOfBook.getText().toString().equals("") || editAuthorOfBook.getText().toString().equals("")
+                || editPriceOfBook.getText().toString().equals("") || editHomeAddress.getText().toString().equals("")) {
+            allFieldsRequired.setVisibility(View.VISIBLE);
+            if (editTitleOfBook.getText().toString().equals("")) {
+                bookNameRequired.setVisibility(View.VISIBLE);
+            }
+            if (editAuthorOfBook.getText().toString().equals("")) {
+                nameOfAuthorRequired.setVisibility(View.VISIBLE);
+            }
+            if (editPriceOfBook.getText().toString().equals("")) {
+                priceOfBookRequired.setVisibility(View.VISIBLE);
+            }
+            if (editHomeAddress.getText().toString().equals("")) {
+                homeAddressRequired.setVisibility(View.VISIBLE);
+            }
+        }
 
+        if (v == sellerSelectImage1) {
+            if (allFieldsRequired.getVisibility() == View.GONE) {
+                Log.d("CODE HERE", "");
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                selectedSelectImageButton = 1;
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                imgUploadOneProgress.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(this, "Please enter all details first.", Toast.LENGTH_SHORT).show();
+            }
         }
         if (v == sellerSelectImage2) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            selectedSelectImageButton = 2;
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-            imgUploadTwoProgress.setVisibility(View.VISIBLE);
+            if (allFieldsRequired.getVisibility() == View.GONE) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                selectedSelectImageButton = 2;
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                imgUploadTwoProgress.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(this, "Please enter all details first.", Toast.LENGTH_SHORT).show();
+            }
         }
         if (v == sellerSelectImage3) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            selectedSelectImageButton = 3;
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-            imgUploadThreeProgress.setVisibility(View.VISIBLE);
+            if (allFieldsRequired.getVisibility() == View.GONE) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                selectedSelectImageButton = 3;
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                imgUploadThreeProgress.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(this, "Please enter all details first.", Toast.LENGTH_SHORT).show();
+            }
         }
 
         if (v == sellerUpload1Button) {
             try {
                 titleOfBook = editTitleOfBook.getText().toString();
-                File file1 = new File(filepath1.getLastPathSegment());
-                uploadFile1(file1);
+
+                    file1 = new File(filepath1.getLastPathSegment());
+                    uploadFile1(file1);
+
             } catch (Exception e) {
-                Toast.makeText(this, "Please select a file first", Toast.LENGTH_SHORT).show();
+                imageFilePath1.setHint("No image selected");
+                imageFilePath1.setHintTextColor(Color.RED);
             }
         }
 
@@ -242,10 +292,12 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
             try {
                 titleOfBook = editTitleOfBook.getText().toString();
-                File file2 = new File(filepath2.getLastPathSegment());
+                  file2 = new File(filepath2.getLastPathSegment());
                 uploadFile2(file2);
+
             } catch (Exception e) {
-                Toast.makeText(this, "Please select a file first", Toast.LENGTH_SHORT).show();
+                imageFilePath2.setHint("No image selected");
+                imageFilePath2.setHintTextColor(Color.RED);
             }
         }
 
@@ -253,33 +305,70 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
             try {
                 titleOfBook = editTitleOfBook.getText().toString();
-                File file3 = new File(filepath3.getLastPathSegment());
-                uploadFile3(file3);
+
+                    file3 = new File(filepath3.getLastPathSegment());
+                    uploadFile3(file3);
+
             } catch (Exception e) {
-                Toast.makeText(this, "Please select a file first", Toast.LENGTH_SHORT).show();
+                imageFilePath3.setHint("No image selected");
+                imageFilePath3.setHintTextColor(Color.RED);
             }
         }
 
         if (v == sellerUploadAllButton) {
             checkEmptyBoxes();
             try {
-                if(checkAllBoxes) {
+                if (checkAllBoxes) {
                     title = editTitleOfBook.getText().toString();
                     author = editAuthorOfBook.getText().toString();
                     price = editPriceOfBook.getText().toString();
                     homeaddress = editHomeAddress.getText().toString();
 
                     new AddItemToStore().execute();
-                }
-                else{
-                    Toast.makeText(this, "Please fill all details", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (allFieldsRequired.getVisibility() == View.GONE) {
+                        Toast.makeText(this, "Please upload at least 1 image.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please fill all details.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             } catch (Exception e) {
-                Toast.makeText(this, "Please fill all details with at least 1 image", Toast.LENGTH_SHORT).show();
             }
 
 
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (editTitleOfBook.getText().toString().length() > 0) {
+            bookNameRequired.setVisibility(View.INVISIBLE);
+        }
+        if (editAuthorOfBook.getText().toString().length() > 0) {
+            nameOfAuthorRequired.setVisibility(View.INVISIBLE);
+        }
+        if (editPriceOfBook.getText().toString().length() > 0) {
+            priceOfBookRequired.setVisibility(View.INVISIBLE);
+        }
+        if (editHomeAddress.getText().toString().length() > 0) {
+            homeAddressRequired.setVisibility(View.INVISIBLE);
+        }
+
+        if (editTitleOfBook.getText().toString().length() > 0 && editAuthorOfBook.getText().toString().length() > 0
+                && editPriceOfBook.getText().toString().length() > 0 && editHomeAddress.getText().toString().length() > 0) {
+            allFieldsRequired.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 
     public class AddItemToStore extends AsyncTask<String, String, String> {
@@ -309,25 +398,22 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
                 param1.add(new BasicNameValuePair("homeaddress", ActivitySeller.homeaddress));
                 param1.add(new BasicNameValuePair("school", spSchool));
 
-                    param1.add(new BasicNameValuePair("image1name", spUsername + titleOfBook + "file1.jpg"));
+                param1.add(new BasicNameValuePair("image1name", spUsername + titleOfBook + "file1.jpg"));
 
-                if(img2) {
+                if (img2) {
                     param1.add(new BasicNameValuePair("image2name", spUsername + titleOfBook + "file2.jpg"));
-                }else
-                {
+                } else {
                     param1.add(new BasicNameValuePair("image2name", "null"));
                 }
-                if(img3) {
+                if (img3) {
                     param1.add(new BasicNameValuePair("image3name", spUsername + titleOfBook + "file3.jpg"));
-                }
-                else {
+                } else {
                     param1.add(new BasicNameValuePair("image3name", "null"));
                 }
                 param1.add(new BasicNameValuePair("phonenumber", spPhoneNo));
                 param1.add(new BasicNameValuePair("emailaddress", spEmail));
 
                 param1.add(new BasicNameValuePair("course", sendcourse));
-
 
 
                 JSONObject json = jsonParser.makeHttpRequest(ADD_ITEM_URL, "POST", param1);
@@ -360,7 +446,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
             protected void onPreExecute() {
                 super.onPreExecute();
                 imgUploadOneProgress.setVisibility(View.VISIBLE);
-                sellerUpload1Button.setVisibility(View.GONE);
+                sellerUpload1Button.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -574,23 +660,25 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
     //////////////////////////////////THESE FUNCTIONS SET COLORS AND VALUES IF IMAGE IS SUCCESSFULLY UPLOADED//////////////////
 
     void value1Poster() {
-        imageFilePath1.setText("UPLOADED!!!");
-        imageFilePath1.setTextColor(Color.MAGENTA);
+        imageFilePath1.setText("");
+        imageFilePath1.setHint("UPLOADED!!!");
+        imageFilePath1.setHintTextColor(Color.MAGENTA);
         imgUploadOneProgress.setVisibility(View.GONE);
-
         sellerUpload1Button.setVisibility(View.VISIBLE);
     }
 
     void value2Poster() {
-        imageFilePath2.setText("UPLOADED!!!");
-        imageFilePath2.setTextColor(Color.MAGENTA);
+        imageFilePath2.setText("");
+        imageFilePath2.setHint("UPLOADED!!!");
+        imageFilePath2.setHintTextColor(Color.MAGENTA);
         imgUploadTwoProgress.setVisibility(View.GONE);
         sellerUpload2Button.setVisibility(View.VISIBLE);
     }
 
     void value3Poster() {
-        imageFilePath3.setText("UPLOADED!!!");
-        imageFilePath3.setTextColor(Color.MAGENTA);
+        imageFilePath3.setText("");
+        imageFilePath3.setHint("UPLOADED!!!");
+        imageFilePath3.setHintTextColor(Color.MAGENTA);
         imgUploadThreeProgress.setVisibility(View.GONE);
         sellerUpload3Button.setVisibility(View.VISIBLE);
     }
@@ -753,25 +841,25 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-            switch(pos){
+            switch (pos) {
                 case 0:
                     sendcourse = "alevel";
                     break;
                 case 1:
-                    sendcourse ="ib";
+                    sendcourse = "ib";
                     break;
                 case 2:
-                    sendcourse="plustwo";
+                    sendcourse = "plustwo";
                     break;
                 case 3:
-                    sendcourse="others";
+                    sendcourse = "others";
                     break;
                 default:
-                    sendcourse="nullValue";
+                    sendcourse = "nullValue";
                     break;
 
             }
-            Log.d("Value",":"+sendcourse);
+            Log.d("Value", ":" + sendcourse);
         }
 
         @Override

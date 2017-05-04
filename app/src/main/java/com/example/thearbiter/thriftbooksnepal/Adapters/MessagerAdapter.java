@@ -1,6 +1,7 @@
 package com.example.thearbiter.thriftbooksnepal.Adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,6 +57,7 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
             holder.text.setVisibility(View.INVISIBLE);
             holder.sendersName.setVisibility(View.INVISIBLE);
             holder.noNotifs.setText("BE THE FIRST ONE TO ENQUIRE");
+            holder.imageCard.setVisibility(View.INVISIBLE);
             holder.messageImageProfilePicture.setVisibility(View.INVISIBLE);
         }
     }
@@ -72,9 +74,11 @@ public class MessagerAdapter extends RecyclerView.Adapter<MessagerAdapter.MyView
         ImageView messageImageProfilePicture;
         TextView noNotifs;
         TextView timeOfNotif;
+        CardView imageCard;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            imageCard = (CardView)itemView.findViewById(R.id.messageUserPictureCard);
             timeOfNotif = (TextView) itemView.findViewById(R.id.timeOfNotif);
             noNotifs = (TextView) itemView.findViewById(R.id.noNotificationsText);
             sendersName = (TextView) itemView.findViewById(R.id.messageCustomLayoutNameOfSender);

@@ -1,6 +1,5 @@
 package com.example.thearbiter.thriftbooksnepal.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.thearbiter.thriftbooksnepal.Information.InformationImages;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +27,7 @@ public class SlideShowAdapter extends PagerAdapter {
 
         public  SlideShowAdapter(Context context,String[] a) {
             this.context = context;
-            x = new int[] {R.drawable.temp,R.drawable.tempbackground};
+            x = new int[] {R.drawable.temp,R.drawable.background};
             xyz = new String[a.length];
             for(int i =0;i<a.length;i++){
                 xyz[i]=a[i];

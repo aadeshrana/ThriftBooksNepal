@@ -31,8 +31,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff"
-            >
+            android:background="#fff">
 
             <TextView
                 android:id="@+id/headingText"
@@ -40,17 +39,46 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="SELL YOUR BOOK" />
+                android:text="SELL YOUR BOOK"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/allFieldsRequired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/headingText"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:text="*Please fill required fields and upload at least 1 image."
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="10sp"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/sellerClassNameOfBook"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/headingText"
+                android:layout_below="@id/allFieldsRequired"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:hint="Enter Name of Book"
                 android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/nameOfBookRequired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/allFieldsRequired"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="18dp"
+                android:text="*required"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="10sp"
+                android:visibility="invisible" />
 
             <EditText
                 android:id="@+id/sellerClassAuthorOfBook"
@@ -61,6 +89,20 @@
                 android:hint="Enter the Name of Author"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/nameOfAuthorRequired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/sellerClassNameOfBook"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:text="*required"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="10sp"
+                android:visibility="invisible" />
+
             <EditText
                 android:id="@+id/sellerClassPriceOfBook"
                 android:layout_width="350dp"
@@ -70,6 +112,20 @@
                 android:hint="Enter the Price to be Marked"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/priceToBeMarkedRequired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/sellerClassAuthorOfBook"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:text="*required"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="10sp"
+                android:visibility="invisible" />
+
             <EditText
                 android:id="@+id/sellerClassAddressOfHome"
                 android:layout_width="350dp"
@@ -78,23 +134,38 @@
                 android:layout_centerHorizontal="true"
                 android:hint="Enter your Home Address"
                 android:textSize="14sp" />
-<TextView
-    android:id="@+id/choseBoardText"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/sellerClassAddressOfHome"
-    android:text="Choose Type of Book"
-    android:layout_marginLeft="8dp"
-    android:layout_marginTop="4dp"
-    />
+
+            <TextView
+                android:id="@+id/homeAddressRequired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/sellerClassPriceOfBook"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:text="*required"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="10sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/choseBoardText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sellerClassAddressOfHome"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Choose Type of Book" />
+
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/spinnerCourse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/country_arrays"
-                android:prompt="@string/country_prompt"
                 android:layout_below="@id/sellerClassAddressOfHome"
                 android:layout_toRightOf="@id/choseBoardText"
+                android:entries="@array/country_arrays"
+                android:prompt="@string/country_prompt"
 
                 />
 
@@ -103,10 +174,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
                 android:layout_below="@id/choseBoardText"
-                card_view:cardBackgroundColor="#37474F"
-                card_view:cardElevation="1dp"
                 android:layout_marginTop="5dp"
-                >
+                card_view:cardBackgroundColor="#37474F"
+                card_view:cardElevation="1dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -125,19 +195,20 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/sellerTextVieCv">
+                android:layout_below="@id/sellerTextVieCv"
+                android:weightSum="90">
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/firstcvv"
-                    android:layout_width="120dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_weight="30"
                     android:padding="5dp"
                     card_view:cardBackgroundColor="#f9f9f9"
                     card_view:cardElevation="2dp"
@@ -150,39 +221,40 @@
                         <Button
                             android:id="@+id/sellerSelectImageOneButton"
                             style="@style/Base.TextAppearance.AppCompat.Widget.Button"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
                             android:text="Select Image 1"
                             android:textColor="@android:color/holo_blue_light"
                             android:textSize="10dp" />
 
                         <TextView
                             android:id="@+id/sellerImageFileName1"
-                            android:layout_width="100dp"
+                            android:layout_width="match_parent"
                             android:layout_height="120dp"
-                            android:layout_alignLeft="@id/sellerSelectImageOneButton"
-                            android:layout_below="@id/sellerSelectImageOneButton"
+                            android:layout_marginStart="5dp"
                             android:layout_marginLeft="5dp"
-                            android:hint="fileName1"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/sellerSelectImageOneButton"
+                            android:hint="File Name 1"
                             android:textAlignment="center" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="45dp"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_below="@id/sellerImageFileName1">
 
                             <Button
                                 android:id="@+id/sellerUpload1Button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:text="Upload Image"
-                                android:textSize="11sp"
-
-                                />
+                                android:textSize="11sp" />
 
                             <ProgressBar
                                 android:id="@+id/imageUploadOneProgress"
@@ -194,15 +266,17 @@
 
 
                         </RelativeLayout>
+
+
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/secondcvv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
+                    android:layout_weight="30"
                     android:padding="5dp"
                     card_view:cardBackgroundColor="#f9f9f9"
                     card_view:cardElevation="2dp"
@@ -215,7 +289,7 @@
                         <Button
                             android:id="@+id/sellerSelectImageTwoButton"
                             style="@style/Base.TextAppearance.AppCompat.Widget.Button"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:text="Select Image 2"
@@ -224,46 +298,49 @@
 
                         <TextView
                             android:id="@+id/sellerImageFileName2"
-                            android:layout_width="100dp"
+                            android:layout_width="match_parent"
                             android:layout_height="120dp"
-                            android:layout_alignLeft="@id/sellerSelectImageTwoButton"
                             android:layout_below="@id/sellerSelectImageTwoButton"
                             android:layout_marginLeft="5dp"
-                            android:hint="fileName2"
+                            android:layout_marginStart="5dp"
+                            android:hint="File Name 2"
                             android:textAlignment="center" />
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_below="@id/sellerImageFileName2"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true">
-                        <Button
-                            android:id="@+id/sellerUpload2Button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:text="Upload Image"
-                            android:textSize="11sp" />
 
-                        <ProgressBar
-                            android:id="@+id/imageUploadTwoProgress"
-                            style="?android:attr/progressBarStyleSmall"
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_centerInParent="true"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true" />
-                    </RelativeLayout>
+                            android:layout_below="@id/sellerImageFileName2"
+                            android:layout_centerHorizontal="true">
+
+                            <Button
+                                android:id="@+id/sellerUpload2Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="Upload Image"
+                                android:textSize="11sp" />
+
+                            <ProgressBar
+                                android:id="@+id/imageUploadTwoProgress"
+                                style="?android:attr/progressBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerInParent="true"
+                                android:layout_centerVertical="true" />
+                        </RelativeLayout>
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/thirdcvv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_weight="30"
+                    android:padding="5dp"
                     card_view:cardBackgroundColor="#f9f9f9"
                     card_view:cardElevation="2dp"
                     card_view:cardUseCompatPadding="true">
@@ -275,44 +352,51 @@
                         <Button
                             android:id="@+id/sellerSelectImageThreeButton"
                             style="@style/Base.TextAppearance.AppCompat.Widget.Button"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
                             android:text="Select Image 3"
                             android:textColor="@android:color/holo_blue_light"
                             android:textSize="10dp" />
 
                         <TextView
                             android:id="@+id/sellerImageFileName3"
-                            android:layout_width="100dp"
+                            android:layout_width="match_parent"
                             android:layout_height="120dp"
-                            android:layout_alignLeft="@id/sellerSelectImageThreeButton"
                             android:layout_below="@id/sellerSelectImageThreeButton"
                             android:layout_marginLeft="5dp"
-                            android:hint="fileName3"
+                            android:layout_marginStart="5dp"
+                            android:hint="File Name 3"
                             android:textAlignment="center" />
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
 
-                        android:layout_below="@id/sellerImageFileName3"
-                        android:layout_height="wrap_content">
-                        <Button
-                            android:id="@+id/sellerUpload3Button"
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload Image"
-                            android:textSize="11sp" />
-                        <ProgressBar
-                            android:id="@+id/imageUploadThreeProgress"
-                            style="?android:attr/progressBarStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true" />
+                            android:layout_below="@id/sellerImageFileName3">
+
+                            <Button
+                                android:id="@+id/sellerUpload3Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Upload Image"
+                                android:textSize="11sp" />
+
+                            <ProgressBar
+                                android:id="@+id/imageUploadThreeProgress"
+                                style="?android:attr/progressBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerInParent="true"
+                                android:layout_centerVertical="true" />
                         </RelativeLayout>
+
+
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
-            </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
 

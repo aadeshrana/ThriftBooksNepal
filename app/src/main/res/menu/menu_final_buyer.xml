@@ -6,5 +6,5 @@
         android:id="@+id/leaveAMessage"
         android:orderInCategory="100"
         android:title="Leave a Message"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>

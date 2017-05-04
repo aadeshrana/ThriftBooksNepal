@@ -70,6 +70,7 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
                 FragmentMessager.finalBuyersActivityUsernameOfSeller = FragmentNavDraerMain.arrayUserName[position];
                 Intent in = new Intent(context, FinalBuyersActivity.class);
                 context.startActivity(in);
+
             }
         });
 

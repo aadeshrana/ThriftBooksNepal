@@ -162,6 +162,8 @@ public class FinalBuyersActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_final_buyer, menu);
+        MenuItem item2 = menu.findItem(R.id.leaveAMessage);
+        item2.setIcon(R.drawable.chat);
         return true;
     }
 
