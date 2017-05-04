@@ -1,26 +1,33 @@
 package com.example.thearbiter.thriftbooksnepal.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.Accounts;
 import com.example.thearbiter.thriftbooksnepal.Activities.ActivitySeller;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainALevelBuyer;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainIbBuyer;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainPlusTwoBuyer;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationNavMenu;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Aadesh Rana on 11-01-17.
@@ -30,7 +37,7 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
     Context context;
     LayoutInflater inflater;
     List<InformationNavMenu> data = Collections.emptyList();
-
+ String checklog;
     public AdapterNavMenu(Context context, List<InformationNavMenu> data) {
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -64,6 +71,7 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                         break;
 
                     case 1:
+
                         intent = new Intent(context, MainIbBuyer.class);
                         ActivitySeller.choiseOfBoard = "ib";
                         intent.putExtra("chosenValueBoard", "ib");
@@ -76,10 +84,32 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                         context.startActivity(intent);
                         break;
                     case 3:
-                        ActivitySeller.choiseOfBoard = "ib";
-                        intent = new Intent(context, ActivitySeller.class);
-                        intent.putExtra("chosenValueBoard", "ib");
-                        context.startActivity(intent);
+
+                        SharedPreferences sharedpref;
+                        sharedpref = PreferenceManager.getDefaultSharedPreferences(context);
+                        checklog =sharedpref.getString("username", "");
+
+                        if(checklog.equals("")){
+                           try                               {
+                                   checklog = FragmentCustomDiagLogin.username;
+
+                           }catch (Exception e){
+
+                           }
+                            if(checklog==null){
+                                checklog ="";
+                            }
+                        }
+                        Log.d("valueof2",":"+checklog);
+                        if(checklog.equals("")){
+                            FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+                            fragmentCustomDiagLogin.show(((Activity) context).getFragmentManager(), "cde");
+                        }
+                        else {
+                            intent = new Intent(context, ActivitySeller.class);
+                            intent.putExtra("chosenValueBoard", "ib");
+                            context.startActivity(intent);
+                        }
                         break;
                     case 4:
                         intent = new Intent(context, Accounts.class);

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.thearbiter.thriftbooksnepal.Activities.FinalBuyersActivity;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentMessager;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentNavDraerMain;
+import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentPlusTwoBuy;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.squareup.picasso.Picasso;
@@ -59,11 +60,11 @@ public class PlusTwoAdapterBuy extends RecyclerView.Adapter<PlusTwoAdapterBuy.My
                 FragmentMessager.finalBuyersActivityNameOfBook = current.title;
                 FragmentMessager.finalBuyersActivityPriceOfBook = current.priceOfBook;
                 FragmentMessager.finalBuyersActivityNameOfSeller = current.sellerName;
-                FragmentMessager.finalBuyersActivityNameOfAuthor = FragmentNavDraerMain.arrayNameOfAuthor[position];
-                FragmentMessager.finalBuyersActivityImage1 = FragmentNavDraerMain.arrayImage1Name[position];
-                FragmentMessager.finalBuyersActivityImage2 = FragmentNavDraerMain.arrayImage2Name[position];
-                FragmentMessager.finalBuyersActivityImage3 = FragmentNavDraerMain.arrayImage3Name[position];
-                FragmentMessager.finalBuyersActivityUsernameOfSeller = FragmentNavDraerMain.arrayUserName[position];
+                FragmentMessager.finalBuyersActivityNameOfAuthor = FragmentPlusTwoBuy.arrayNameOfAuthor[position];
+                FragmentMessager.finalBuyersActivityImage1 = FragmentPlusTwoBuy.arrayImage1Name[position];
+                FragmentMessager.finalBuyersActivityImage2 = FragmentPlusTwoBuy.arrayImage2Name[position];
+                FragmentMessager.finalBuyersActivityImage3 = FragmentPlusTwoBuy.arrayImage3Name[position];
+                FragmentMessager.finalBuyersActivityUsernameOfSeller = FragmentPlusTwoBuy.arrayUserName[position];
                 Intent in = new Intent(context, FinalBuyersActivity.class);
                 context.startActivity(in);
             }

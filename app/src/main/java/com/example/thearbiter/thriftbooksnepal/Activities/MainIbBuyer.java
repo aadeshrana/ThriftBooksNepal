@@ -99,7 +99,7 @@ public class MainIbBuyer extends AppCompatActivity {
                 params1.add(new BasicNameValuePair("course", "ib"));
 
 
-
+                JSONParser jsonParser = new JSONParser();
                 JSONObject json = jsonParser.makeHttpRequest(PULL_ITEMS_URL, "POST", params1);
 
                 userName.clear();
@@ -124,6 +124,7 @@ public class MainIbBuyer extends AppCompatActivity {
                         Log.d("thisone2",""+ json.getString("c" + i));
                         nameofBook.add(json.getString("d" + i));
                         nameofAuthor.add(json.getString("e" + i));
+
                         priceOfBook.add(json.getString("f" + i));
                         homeAddress.add(json.getString("g" + i));
                         school.add(json.getString("h" + i));
@@ -157,6 +158,7 @@ public class MainIbBuyer extends AppCompatActivity {
                 FragmentIbBuy.arrayLastName = lastName.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayNameOfBook = nameofBook.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayNameOfAuthor = nameofAuthor.toArray(new String[firstName.size()]);
+                Log.d("auth",":"+FragmentIbBuy.arrayNameOfAuthor[1]);
                 FragmentIbBuy.arrayPriceOfBook = priceOfBook.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayHomeAddress = homeAddress.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arraySchool = school.toArray(new String[firstName.size()]);

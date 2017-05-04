@@ -82,6 +82,7 @@ public class FragmentIbBuy extends Fragment {
                 current.sellerName = sellerName[j];
                 current.firstBookList = arrayImage1Name[j];
                 current.authName= arrayNameOfAuthor[j];
+                Log.d("auth1",":"+current.authName);
                 data.add(current);
 
             }

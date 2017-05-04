@@ -5,21 +5,25 @@
 
     <item
         android:id="@+id/search"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"
         android:title="Sign In"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always"
+        android:orderInCategory="3"
+        />
     <item
         android:id="@+id/log_out"
         android:title="@string/log_out"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always"
+        android:orderInCategory="3"
+        />
     <item
         android:id="@+id/messager"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:title="Notification"
         app:showAsAction="always" />
 

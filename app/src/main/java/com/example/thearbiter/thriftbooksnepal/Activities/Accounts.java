@@ -113,21 +113,34 @@ public class Accounts extends AppCompatActivity implements TextWatcher {
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedpref.edit();
-        String sharedFirstName = sharedpref.getString("firstNameSharePref1", "User");
-        String sharedEmail = sharedpref.getString("emailSharePref", "email");
-        String sharedLastName = sharedpref.getString("lastNameSharePref", "last");
-        String sharedPhoneNo = sharedpref.getString("phoneSharePref", "last");
-        String sharedSchool = sharedpref.getString("schoolSharePref", "last");
+        String sharedFirstName = sharedpref.getString("firstNameSharePref1", "");
+        String sharedEmail = sharedpref.getString("emailSharePref", "");
+        String sharedLastName = sharedpref.getString("lastNameSharePref", "");
+        String sharedPhoneNo = sharedpref.getString("phoneSharePref", "");
+        String sharedSchool = sharedpref.getString("schoolSharePref", "");
         shareUserName = sharedpref.getString("username", "username");
         CircleImageView circleImageView = (CircleImageView) findViewById(R.id.profile_image_accounts);
+
+        if(sharedFirstName.equals("")){
+            sharedFirstName = FragmentCustomDiagLogin.firstName;
+            sharedEmail = FragmentCustomDiagLogin.emailAddress;
+            sharedLastName = FragmentCustomDiagLogin.lastName;
+            sharedPhoneNo = FragmentCustomDiagLogin.phoneNumber;
+            sharedSchool = FragmentCustomDiagLogin.school;
+            shareUserName = FragmentCustomDiagLogin.username;
+        }
         Picasso.with(this).load("http://aadeshrana.esy.es/" + shareUserName + "ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
-        dispFirst = sharedFirstName.substring(0, 1).toUpperCase() + sharedFirstName.substring(1);
-        dispSecond = sharedLastName.substring(0, 1).toUpperCase() + sharedLastName.substring(1);
-        firstName.setText(dispFirst);
-        lastName.setText(dispSecond);
-        email.setText(sharedEmail);
-        phoneNo.setText(sharedPhoneNo);
-        college.setText(sharedSchool);
+try {
+    dispFirst = sharedFirstName.substring(0, 1).toUpperCase() + sharedFirstName.substring(1);
+    dispSecond = sharedLastName.substring(0, 1).toUpperCase() + sharedLastName.substring(1);
+    firstName.setText(dispFirst);
+    lastName.setText(dispSecond);
+    email.setText(sharedEmail);
+    phoneNo.setText(sharedPhoneNo);
+    college.setText(sharedSchool);
+}catch (Exception e){
+
+}
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
