@@ -73,14 +73,15 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Activities.MyOrders">
-            <intent-filter>
-                <action android:name="com.example.thearbiter.thriftbooksnepal_TARGET_NOTIFICATION" />
+        <activity android:name=".Activities.MyOrders"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+        <activity android:name=".Activities.Notifications">
+        <intent-filter>
+            <action android:name="com.example.thearbiter.thriftbooksnepal_TARGET_NOTIFICATION" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
         </activity>
-        <activity android:name=".Activities.Notifications" />
+
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.

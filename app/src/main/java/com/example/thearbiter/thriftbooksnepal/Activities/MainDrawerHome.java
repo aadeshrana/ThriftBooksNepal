@@ -87,6 +87,8 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             otherDetailsRequired, specialLandmarksRequired;
     private EditText etFullName, etPhoneNumber, etBookName, etBookAuthorName, etBookFinalPrice, etHouseNumber, etStreetAddress, etOtherDetails, etSpecialLandmarks;
 
+    TextView requestText;
+
 
     public String getEtFullName, getEtPhoneNumber, getEtBookName, getEtBookAuthorName, getEtBookFinalPrice, getEtHouseNumber,
             getEtStreetAddress, getEtOtherDetails, getEtSpecialLandmarks;
@@ -110,7 +112,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer_home);
-
+        requestText = (TextView)findViewById(R.id.requestBooksText);
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         loggedIn = sharedpref.getString("loggedIn", "noValue");
@@ -132,6 +134,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
 
         if (!connected) {
             Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+            requestText.setVisibility(View.GONE);
             refreshMessage.setVisibility(View.VISIBLE);
             refresh.setVisibility(View.VISIBLE);
             requestBooks.setVisibility(View.GONE);

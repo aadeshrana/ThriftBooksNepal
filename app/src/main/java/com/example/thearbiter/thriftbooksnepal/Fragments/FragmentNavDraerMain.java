@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +77,8 @@ public class FragmentNavDraerMain extends Fragment {
         AdapterFirstPage adapterFirstPage = new AdapterFirstPage(getActivity(), getData());
         recyclerView.setAdapter(adapterFirstPage);
         GridLayoutManager glm = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(glm);
+        StaggeredGridLayoutManager sGLM = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(sGLM);
 
         return layout;
     }
