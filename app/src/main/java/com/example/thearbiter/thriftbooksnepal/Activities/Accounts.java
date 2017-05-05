@@ -147,7 +147,7 @@ try {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     public void checkPassword() throws UnsupportedEncodingException, NoSuchAlgorithmException {

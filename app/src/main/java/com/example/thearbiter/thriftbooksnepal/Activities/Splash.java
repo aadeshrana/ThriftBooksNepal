@@ -43,48 +43,8 @@ public class Splash extends AppCompatActivity {
 
             String checked = sharedpref.getString("c", "notchecked");
 
-           /* if (checked.equals("checked") && !Objects.equals(Login.strLoginUsername, "aa") && !Objects.equals(Login.username, "")) {
-
-                /////FETCHING DETAILS OF SAVED USER FROM THE SERVER
-                Login login = new Login();
-                //    login.sharedInfoPuller(this);
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        Intent in = new Intent(getApplication(), MainDrawerHome.class);
-                        startActivity(in);
-                        finish();
-
-                    }
-                });
-                thread.start();
 
 
-            } else {
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(2000);
-                            Intent in = new Intent(getApplication(), Login.class);
-                            startActivity(in);
-                            finish();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                });
-                thread.start();*/
-
-
-            //}
             Intent intent = new Intent(getApplication(),MainDrawerHome.class);
             startActivity(intent);
             finish();
