@@ -58,7 +58,7 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
     static EditText firstName, lastName, userName, password, confirmPass, phoneNo, email;
     static EditText school;
     static TextView filePath, checkTextPass, checkTestConf,passStrength,validEmail;
-    TextView requireFirst,requiredLast,requireUser,requireEmail,requireNumber;
+    TextView requireFirst,requiredLast,requireUser,requireEmail,requireNumber,requirePassword,requireconfPassword,requireSchool;
 
     static ImageView profileImg, checkImgPass, checkImgConf,checkEmail;
     View strengthMeter;
@@ -112,6 +112,16 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
         customDiagFindSchool.findAllSchool();
         school.setEnabled(false);
+
+        requireFirst =(TextView)findViewById(R.id.firstnameRequre);
+        requiredLast =(TextView)findViewById(R.id.firstlastRequre);
+        requireUser =(TextView)findViewById(R.id.usernameRequre);
+        requireEmail=(TextView)findViewById(R.id.emailnameRequre);
+        requirePassword=(TextView)findViewById(R.id.passwordRequre);
+        requireconfPassword=(TextView)findViewById(R.id.passConfRequre);
+        requireNumber = (TextView)findViewById(R.id.numberRequre);
+        requireSchool = (TextView)findViewById(R.id.schoolnameRequre);
+
         confirmPass.addTextChangedListener(this);
         password.addTextChangedListener(this);
         email.addTextChangedListener(this);
@@ -210,8 +220,39 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
 
     public void signUpButton(View view) {
         if(firstName.getText().toString().length()<=0){
-
+            requireFirst.setVisibility(View.VISIBLE);
+            requestToSend=0;
         }
+        if(lastName.getText().toString().length()<=0){
+            requiredLast.setVisibility(View.VISIBLE);
+            requestToSend=0;
+        }
+        if(userName.getText().toString().length()<=0){
+            requireUser.setVisibility(View.VISIBLE);
+            requestToSend=0;
+        }
+        if(email.getText().toString().length()<=0){
+            requestToSend=0;
+            requireEmail.setVisibility(View.VISIBLE);
+        }
+        if(phoneNo.getText().toString().length()<=0){
+            requestToSend=0;
+            requireNumber.setVisibility(View.VISIBLE);
+        }
+        if(password.getText().toString().length()<=0){
+            requestToSend=0;
+            requirePassword.setVisibility(View.VISIBLE);
+        }
+        if(confirmPass.getText().toString().length()<=0){
+            requestToSend=0;
+            requireconfPassword.setVisibility(View.VISIBLE);
+        }
+        if(school.getText().toString().length()<=0){
+            requestToSend=0;
+            requireSchool.setVisibility(View.VISIBLE);
+        }
+
+
 
         strFirstName = firstName.getText().toString();
         strLastName = lastName.getText().toString();
@@ -237,7 +278,7 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
             new CreateUser().execute();
             new uploadImage().execute();
         } else {
-            Toast.makeText(this, "Cant Create ", Toast.LENGTH_SHORT).show();
+            createDiag("Please fill all details");
 
         }
 
@@ -252,6 +293,39 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(firstName.getText().toString().length()>0){
+            requireFirst.setVisibility(View.INVISIBLE);
+            requestToSend=1;
+        }
+        if(lastName.getText().toString().length()>0){
+            requiredLast.setVisibility(View.INVISIBLE);
+            requestToSend=1;
+        }
+        if(userName.getText().toString().length()>0){
+            requireUser.setVisibility(View.INVISIBLE);
+            requestToSend=1;
+        }
+        if(email.getText().toString().length()>0){
+            requestToSend=1;
+            requireEmail.setVisibility(View.INVISIBLE);
+        }
+        if(phoneNo.getText().toString().length()>0){
+            requestToSend=1;
+            requireNumber.setVisibility(View.INVISIBLE);
+        }
+        if(password.getText().toString().length()>0){
+            requestToSend=1;
+            requirePassword.setVisibility(View.INVISIBLE);
+        }
+        if(confirmPass.getText().toString().length()>0){
+            requestToSend=1;
+            requireconfPassword.setVisibility(View.INVISIBLE);
+        }
+        if(school.getText().toString().length()>0){
+            requestToSend=1;
+            requireSchool.setVisibility(View.INVISIBLE);
+        }
+
         if(email.length()<=0){
             checkEmail.setVisibility(View.GONE);
             validEmail.setVisibility(View.GONE);
@@ -271,7 +345,7 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
             checkEmail.setImageResource(R.drawable.errorpass);
             validEmail.setText("Not a Valid Email");
             validEmail.setTextColor(Color.parseColor("#D72828"));
-            requestToSend=1;
+            requestToSend=2;
         }
 
 
@@ -279,10 +353,12 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         if(password.length()<=0){
             passStrength.setVisibility(View.GONE);
             strengthMeter.setVisibility(View.GONE);
-            requestToSend =1;
+
+            requestToSend =0;
         }
         else if (password.length()<7){
             requestToSend = 0;
+
            passStrength.setVisibility(View.VISIBLE);
             strengthMeter.setVisibility(View.VISIBLE);
             strengthMeter.getLayoutParams().width=100;
@@ -559,6 +635,19 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
             return null;
         }
 
+    }
+
+    public void createDiag(String okay){
+        new AlertDialog.Builder(SignUp.this)
+                .setTitle("Unsuccessful")
+                .setMessage(okay)
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }
 

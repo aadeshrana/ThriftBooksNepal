@@ -42,15 +42,15 @@
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cardFinalBuyerTextHeading"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                android:layout_below="@id/mainSlideShow"
                 android:layout_marginTop="10dp"
                 app:cardUseCompatPadding="true"
-                card_view:cardBackgroundColor="#FFFFFF"
+                card_view:cardBackgroundColor="#37474F"
                 card_view:cardCornerRadius="2dp"
                 card_view:cardElevation="2dp"
                 card_view:cardUseCompatPadding="true"
-                card_view:contentPadding="10dp"
+
 
                 >
 
@@ -58,7 +58,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Information on Selected Item" />
+                    android:text="Information on Selected Item"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#ffffff"
+
+                    />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
