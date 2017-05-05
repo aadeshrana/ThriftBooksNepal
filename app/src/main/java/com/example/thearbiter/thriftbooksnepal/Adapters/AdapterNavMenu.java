@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.thearbiter.thriftbooksnepal.Activities.AboutUs;
 import com.example.thearbiter.thriftbooksnepal.Activities.Accounts;
 import com.example.thearbiter.thriftbooksnepal.Activities.ActivitySeller;
 import com.example.thearbiter.thriftbooksnepal.Activities.MainALevelBuyer;
@@ -117,6 +118,8 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
                         break;
 
                     case 5:
+                        intent = new Intent(context, AboutUs.class);
+                        context.startActivity(intent);
                     break;
 
 

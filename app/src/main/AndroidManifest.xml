@@ -14,6 +14,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:windowSoftInputMode="stateAlwaysHidden"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -73,13 +74,13 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Activities.MyOrders"/>
-
+        <activity android:name=".Activities.MyOrders" />
         <activity android:name=".Activities.Notifications">
-        <intent-filter>
-            <action android:name="com.example.thearbiter.thriftbooksnepal_TARGET_NOTIFICATION" />
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="com.example.thearbiter.thriftbooksnepal_TARGET_NOTIFICATION" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <!--
@@ -94,7 +95,10 @@
             android:name=".Activities.searchAllData"
             android:label="@string/title_activity_search_all_data"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.SearchAllData"></activity>
+        <activity android:name=".Activities.SearchAllData" />
+        <activity android:name=".Activities.AboutUs"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
     </application>
 
 </manifest>
