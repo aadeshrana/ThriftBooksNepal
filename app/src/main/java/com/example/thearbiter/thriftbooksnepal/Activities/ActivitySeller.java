@@ -154,7 +154,7 @@ public class ActivitySeller extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+
         verifyStoragePermissions(this);
 
 

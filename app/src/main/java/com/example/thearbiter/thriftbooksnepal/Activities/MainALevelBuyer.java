@@ -2,8 +2,11 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentALevelBuy;
@@ -30,6 +34,7 @@ import java.util.List;
 public class MainALevelBuyer extends AppCompatActivity {
     private static final String PULL_ITEMS_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
     Toolbar toolbar;
+    String loggedIn;
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
     ArrayList<String> lastName = new ArrayList<>();
@@ -58,11 +63,28 @@ public class MainALevelBuyer extends AppCompatActivity {
         progressBarAlevel = (ProgressBar)findViewById(R.id.alevelBuyProgress);
         progressBarAlevel.setVisibility(View.VISIBLE);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        SharedPreferences sharedpref;
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
+        loggedIn = sharedpref.getString("loggedIn", "noValue");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_ib_options, menu);
+        getMenuInflater().inflate(R.menu.menu_commonone, menu);
+        MenuItem item3 = menu.findItem(R.id.messager);
+        MenuItem item4 = menu.findItem(R.id.search);
+        item3.setIcon(R.drawable.openmessage);
+        item4.setIcon(R.drawable.search);
+        if (loggedIn.equals("noValue")) {
+
+
+            item3.setVisible(false);
+
+        } else {
+
+            item3.setVisible(true);
+
+        }
         return true;
     }
     @Override
@@ -71,7 +93,21 @@ public class MainALevelBuyer extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == R.id.messager) {
 
+            if (loggedIn.equals("noValue")) {
+                Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
+            } else {
+                Notifications not = new Notifications();
+                Log.d("value","bookname1");
+                Intent in = new Intent(getBaseContext(), Notifications.class);
+                startActivity(in);
+            }
+        }
+        if (id == R.id.search) {
+            Intent intent = new Intent(this, SearchAllData.class);
+            startActivity(intent);
+        }
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
