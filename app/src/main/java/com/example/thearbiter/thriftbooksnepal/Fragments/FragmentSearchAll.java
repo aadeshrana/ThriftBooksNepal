@@ -92,6 +92,11 @@ public class FragmentSearchAll  extends Fragment implements SearchView.OnQueryTe
                 current.priceOfBook = price[j];
                 current.sellerName = sellerName[j];
                 current.firstBookList = arrayImage1Name[j];
+                current.authors =arrayNameOfAuthor[j];
+                current.image1=arrayImage1Name[j];
+                current.image2=arrayImage2Name[j];
+                current.image3=arrayImage3Name[j];
+                current.username= arrayUserName[j];
                 data.add(current);
 
             }
