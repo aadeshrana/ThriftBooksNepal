@@ -3,6 +3,7 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -22,9 +23,12 @@ import android.widget.TextView;
 
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyChats;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyOrder;
+import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyRequests;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.SlidingTabLayout;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationCheckChats;
+import com.example.thearbiter.thriftbooksnepal.Information.InformationCheckRequests;
 import com.example.thearbiter.thriftbooksnepal.Information.infotest;
 import com.example.thearbiter.thriftbooksnepal.R;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +36,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -45,6 +53,14 @@ public class Notifications extends AppCompatActivity {
     final ArrayList<String> refinedData = new ArrayList<>();
     final ArrayList<String> refinedRoomNames = new ArrayList<>();
 
+    public static String[] requestUsername;
+    public static String[] requestBookName;
+    public static String[] requestAuthorName;
+    public static String[] requestImageName;
+
+    ArrayList<String> requestUsernameAl = new ArrayList<>(), requestBooknameAl = new ArrayList<>(), requestAuthornameAl = new ArrayList<>(),
+            requestImageNameAl = new ArrayList<>();
+
     DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     ViewPager viewPager;
     Toolbar toolbar;
@@ -52,28 +68,33 @@ public class Notifications extends AppCompatActivity {
     public static String[] allChats;
     public static String[] allRooms;
 
+    ProgressDialog progressDialog;
     //Used to differentiate between different versions of onDataChange since it gets called everytime there is a change in Database.
     public static int whereAreYou = 0;
 
     public static int positionOfView;
+    public static final String PULL_ALL_REQUESTED_BOOKS = "http://frame.ueuo.com/thriftbooks/fetchallrequests.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+        progressDialog = new ProgressDialog(Notifications.this);
+        progressDialog.setMessage("Loading messages..");
+        progressDialog.show();
         whereAreYou = 1;
         allChats = new String[0];
         allRooms = new String[0];
         messageFunction();
 
-
-
     }
 
-    public void messageFunction(){
-        final ProgressDialog progressDialog = new ProgressDialog(Notifications.this);
-        progressDialog.setMessage("Loading messages..");
-        progressDialog.show();
+    public void pullRequestFunc() {
+        new PullAllRequests().execute();
+    }
+
+    public void messageFunction() {
+
         //To pull the data from firebase for chat
         root.addValueEventListener(new ValueEventListener() {
             @Override
@@ -110,7 +131,7 @@ public class Notifications extends AppCompatActivity {
 
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Notifications.this);
                 String nameSelf = sharedPreferences.getString("a", "");
-                if(nameSelf.equals("")){
+                if (nameSelf.equals("")) {
                     nameSelf = FragmentCustomDiagLogin.username;
                 }
 
@@ -124,7 +145,7 @@ public class Notifications extends AppCompatActivity {
                             refinedRoomNames.add(allData.get(j));
                             String[] finalNameSplit = firstRoundSplitter[1].split("---");
                             String firstNameFromSharedPref = sharedPreferences.getString("firstNameSharePref1", "");
-                            if(firstNameFromSharedPref.equals("")){
+                            if (firstNameFromSharedPref.equals("")) {
                                 firstNameFromSharedPref = FragmentCustomDiagLogin.firstName;
                             }
 
@@ -146,22 +167,14 @@ public class Notifications extends AppCompatActivity {
                     allChats = refinedData.toArray(new String[refinedData.size()]);
                     allRooms = new String[refinedRoomNames.size()];
                     allRooms = refinedRoomNames.toArray(new String[refinedRoomNames.size()]);
+                    pullRequestFunc();
                 } catch (Exception e) {
 
                 }
+                viewPager = (ViewPager) findViewById(R.id.pager);
                 try {
 
-
                     if (whereAreYou == 1) {
-                        viewPager = (ViewPager) findViewById(R.id.pager);
-                        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-                        progressDialog.dismiss();
-                        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-                        tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
-                        viewPager.setCurrentItem(2);
-                        tabs.setSmoothScrollingEnabled(true);
-                        tabs.setDistributeEvenly(true);
-                        tabs.setViewPager(viewPager);
 
                         whereAreYou = 84;
                     }
@@ -176,7 +189,6 @@ public class Notifications extends AppCompatActivity {
         });
 
     }
-
 
 
     class MyPagerAdapter extends FragmentStatePagerAdapter {
@@ -261,7 +273,9 @@ public class Notifications extends AppCompatActivity {
                     Notifications.positionOfView = 1;
                     layout = inflater.inflate(R.layout.fragment_requests, container, false);
                     RecyclerView recyclerView1 = (RecyclerView) layout.findViewById(R.id.recycleviewRequest);
-                    AdapterMyOrder adapter1 = new AdapterMyOrder(getActivity(), getdata());
+                    Log.d("value", "bookname18");
+
+                    AdapterMyRequests adapter1 = new AdapterMyRequests(getActivity(), getdata1());
                     recyclerView1.setAdapter(adapter1);
                     LinearLayoutManager lin1 = new LinearLayoutManager(getActivity());
                     recyclerView1.setLayoutManager(lin1);
@@ -271,7 +285,7 @@ public class Notifications extends AppCompatActivity {
                     Notifications.positionOfView = 2;
                     layout = inflater.inflate(R.layout.fragment_message, container, false);
                     RecyclerView recyclerView2 = (RecyclerView) layout.findViewById(R.id.recyclerviewMyMessage);
-                    final AdapterMyChats adapter2 = new AdapterMyChats(getActivity(), getdata1());
+                    final AdapterMyChats adapter2 = new AdapterMyChats(getActivity(), getdata2());
                     recyclerView2.setAdapter(adapter2);
                     LinearLayoutManager lin2 = new LinearLayoutManager(getActivity());
                     recyclerView2.setLayoutManager(lin2);
@@ -302,8 +316,25 @@ public class Notifications extends AppCompatActivity {
             //
         }
 
+        public List<InformationCheckRequests> getdata1() {
+            List<InformationCheckRequests> data = new ArrayList<>();
+            Log.d("value", "bookname19");
 
-        public List<InformationCheckChats> getdata1() {
+            for (int j = 0; j < requestUsername.length; j++) {
+                InformationCheckRequests current = new InformationCheckRequests();
+                current.infoUsername = requestUsername[j];
+                current.infoBookname = requestBookName[j];
+                current.infoAuthorname = requestAuthorName[j];
+//                    current.infoImageName = requestImageName[j];
+
+                data.add(current);
+
+            }
+            return data;
+
+        }
+
+        public List<InformationCheckChats> getdata2() {
             List<InformationCheckChats> data = new ArrayList<>();
             try {
                 for (int j = 0; j < allRooms.length; j++) {
@@ -320,6 +351,73 @@ public class Notifications extends AppCompatActivity {
         }
 
 
+    }
+
+
+    public class PullAllRequests extends AsyncTask<String, String, String> {
+        private JSONParser jsonParser1 = new JSONParser();
+        JSONObject json1 = null;
+
+        @Override
+        protected String doInBackground(String... args) {
+
+            try {
+
+                List<NameValuePair> params4 = new ArrayList<>();
+                params4.add(new BasicNameValuePair("anything", "anything"));
+
+                json1 = jsonParser1.makeHttpRequest(PULL_ALL_REQUESTED_BOOKS, "POST", params4);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            requestUsernameAl.clear();
+            requestBooknameAl.clear();
+            requestAuthornameAl.clear();
+            requestImageNameAl.clear();
+
+            try{
+                for (int i = 0; i < json1.length(); i++) {
+                    requestUsernameAl.add(json1.getString("a" + i));
+                    requestBooknameAl.add(json1.getString("b" + i));
+                    requestAuthornameAl.add(json1.getString("c" + i));
+//                    requestImageNameAl.add(json1.getString("a" + i));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Log.d("json1",":"+requestUsernameAl.get(3));
+
+
+
+            Notifications.requestUsername = new String[requestUsernameAl.size()];
+            Notifications.requestBookName = new String[requestBooknameAl.size()];
+            Notifications.requestAuthorName = new String[requestAuthornameAl.size()];
+            Notifications.requestImageName = new String[requestUsernameAl.size()];
+
+            Notifications.requestUsername = requestUsernameAl.toArray(new String[requestUsernameAl.size()]);
+            Notifications.requestBookName = requestBooknameAl.toArray(new String[requestBooknameAl.size()]);
+            Notifications.requestAuthorName = requestAuthornameAl.toArray(new String[requestAuthornameAl.size()]);
+            Notifications.requestImageName = requestImageNameAl.toArray(new String[requestImageNameAl.size()]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+            tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+            tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
+            viewPager.setCurrentItem(2);
+            tabs.setSmoothScrollingEnabled(true);
+            tabs.setDistributeEvenly(true);
+            tabs.setViewPager(viewPager);
+            progressDialog.dismiss();
+
+        }
     }
 
 }

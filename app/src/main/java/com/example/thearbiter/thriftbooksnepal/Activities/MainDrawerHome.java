@@ -112,7 +112,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer_home);
-        requestText = (TextView)findViewById(R.id.requestBooksText);
+        requestText = (TextView) findViewById(R.id.requestBooksText);
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         loggedIn = sharedpref.getString("loggedIn", "noValue");
@@ -735,7 +735,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         MenuItem item1 = menu.findItem(R.id.action_settings);
         MenuItem item3 = menu.findItem(R.id.messager);
         MenuItem item4 = menu.findItem(R.id.search);
-        item3.setIcon(R.drawable.messages);
+        item3.setIcon(R.drawable.openmessage);
         item4.setIcon(R.drawable.search);
 
         if (loggedIn.equals("noValue")) {
@@ -776,6 +776,8 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             if (loggedIn.equals("noValue")) {
                 Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
             } else {
+                Notifications not = new Notifications();
+                Log.d("value","bookname1");
                 Intent in = new Intent(getBaseContext(), Notifications.class);
                 startActivity(in);
             }
@@ -940,7 +942,6 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
             progressBar.setVisibility(View.GONE);
             if (wereThereOffers == 0) {
                 Log.d("entered", "if");

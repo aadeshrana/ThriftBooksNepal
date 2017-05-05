@@ -168,29 +168,29 @@ public class FinalBuyersActivity extends AppCompatActivity {
     }
 
     //CREATES ROOM IN REALTIME DATABASE AND PhpMySql DATABASE
-    class CreateRoom extends AsyncTask<String, String, String> {
-        List<NameValuePair> params1 = new ArrayList<>();
-
-        @Override
-        protected String doInBackground(String... params) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
-            String userNameOfUser = preferences.getString("a", "");
-            if (userNameOfUser.equals("")) {
-                userNameOfUser = FragmentCustomDiagLogin.username;
-            }
-
-            String new2RoomName = userNameOfUser + "nameSeparatorHere" + FragmentMessager.finalBuyersActivityUsernameOfSeller;
-            params1.add(new BasicNameValuePair("roomName", new2RoomName));
-
-            try {
-                jsonParser.makeHttpRequest(CREATE_ROOM_TABLE, "POST", params1);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
+//    class CreateRoom extends AsyncTask<String, String, String> {
+//        List<NameValuePair> params1 = new ArrayList<>();
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
+//            String userNameOfUser = preferences.getString("a", "");
+//            if (userNameOfUser.equals("")) {
+//                userNameOfUser = FragmentCustomDiagLogin.username;
+//            }
+//
+//            String new2RoomName = userNameOfUser + "nameSeparatorHere" + FragmentMessager.finalBuyersActivityUsernameOfSeller;
+//            params1.add(new BasicNameValuePair("roomName", new2RoomName));
+//
+//            try {
+//                jsonParser.makeHttpRequest(CREATE_ROOM_TABLE, "POST", params1);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -244,7 +244,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
                             Toast.makeText(FinalBuyersActivity.this, "Already there", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(FinalBuyersActivity.this, "Not present NEWW", Toast.LENGTH_SHORT).show();
-                            new CreateRoom().execute();
+//                            new CreateRoom().execute();
                             root.updateChildren(map);
                         }
                     }

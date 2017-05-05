@@ -229,7 +229,7 @@ public class FragmentChat extends Fragment {
             Log.d("nameTo", "Send" + nameToSendNotificationTo);
 
             params2.add(new BasicNameValuePair("user", nameToSendNotificationTo));
-            params2.add(new BasicNameValuePair("title", "Book Sansar new message"));
+            params2.add(new BasicNameValuePair("title", "Book Sansar"));
             params2.add(new BasicNameValuePair("message", selfUsername + ": " + messageForNotif));
 
             jsonParser.makeHttpRequest(SEND_NOTIFICATION_TO_PARTICIPANTS, "POST", params2);

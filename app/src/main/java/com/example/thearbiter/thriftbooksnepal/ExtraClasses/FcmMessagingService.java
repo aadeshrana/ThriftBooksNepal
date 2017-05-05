@@ -61,7 +61,6 @@ package com.example.thearbiter.thriftbooksnepal.ExtraClasses;
 //    }
 //}
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -79,9 +78,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class FcmMessagingService extends FirebaseMessagingService {
-
+    boolean isFirstTime = true;
     private static final String TAG = "FCMMessagingService";
     private static AtomicInteger notificationCounter;
+    int i = 0;
+    static final String GROUP_IDD = "group";
     /**
      * Called when message is received.
      *
@@ -99,7 +100,7 @@ public class FcmMessagingService extends FirebaseMessagingService {
     }
 
     private void handleMessage(RemoteMessage remoteMessage) {
-        sendNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody(),remoteMessage.getNotification().getClickAction());
+        sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getClickAction());
     }
 
 
@@ -109,32 +110,24 @@ public class FcmMessagingService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
     private void sendNotification(String title, String messageBody, String click_act) {
-
         Intent intent = new Intent(click_act);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-//
-        Notification notification = null;
 
-        int notificationNumber = notificationCounter.incrementAndGet();
-        //
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(title)
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent)
-                .setNumber(notificationNumber)
-                .setTicker("ok");
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationCompat.Builder notificationBuilder2 = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title).setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
+                    .setContentText(messageBody).setSound(defaultSoundUri)
+                    .setGroup(GROUP_IDD).setGroupSummary(true)
+                    .setContentIntent(pendingIntent);
 
-        notificationManager.cancel(notificationNumber - 1);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(2, notificationBuilder2.build());
 
-        notificationManager.notify(notificationNumber, notificationBuilder.build());
+        }
+
+
     }
-}
