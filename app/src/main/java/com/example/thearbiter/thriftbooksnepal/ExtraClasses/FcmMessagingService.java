@@ -61,7 +61,6 @@ package com.example.thearbiter.thriftbooksnepal.ExtraClasses;
 //    }
 //}
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -69,7 +68,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -78,8 +76,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static android.R.id.content;
 
 
 public class FcmMessagingService extends FirebaseMessagingService {
@@ -134,33 +130,11 @@ public class FcmMessagingService extends FirebaseMessagingService {
                 .setNumber(notificationNumber)
                 .setTicker("ok");
 
-
-
-
-        //
-
-
-        if (Build.VERSION.SDK_INT > 15) {
-            notification = buildForJellyBean(notificationBuilder);
-        } else {
-            notification = notificationBuilder.getNotification();
-        }
-
-
-        //
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.cancel(notificationNumber - 1);
 
-        notificationManager.notify(notificationNumber, notification);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private Notification buildForJellyBean(NotificationCompat.Builder builder) {
-        // for some reason Notification.PRIORITY_DEFAULT doesn't show the counter
-        builder.setPriority(Notification.PRIORITY_HIGH);
-        return builder.build();
+        notificationManager.notify(notificationNumber, notificationBuilder.build());
     }
 }
