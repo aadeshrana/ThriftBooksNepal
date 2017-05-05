@@ -57,7 +57,7 @@ public class MainALevelBuyer extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         progressBarAlevel = (ProgressBar)findViewById(R.id.alevelBuyProgress);
         progressBarAlevel.setVisibility(View.VISIBLE);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

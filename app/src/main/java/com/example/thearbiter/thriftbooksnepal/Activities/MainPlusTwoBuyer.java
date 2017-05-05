@@ -56,7 +56,7 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         new PullAllAlevelItems().execute();
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
     @Override

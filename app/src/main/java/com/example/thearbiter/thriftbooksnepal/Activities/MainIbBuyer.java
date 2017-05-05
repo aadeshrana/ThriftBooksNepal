@@ -56,7 +56,7 @@ public class MainIbBuyer extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         progressBar = (ProgressBar)findViewById(R.id.alevelBuyProgress);
         new PullAllIBItems().execute();
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
     @Override

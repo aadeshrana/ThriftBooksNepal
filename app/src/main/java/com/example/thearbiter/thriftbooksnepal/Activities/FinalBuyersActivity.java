@@ -63,7 +63,7 @@ public class FinalBuyersActivity extends AppCompatActivity {
         Notifications.whereAreYou = 0;
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         new LoadAllMessages().execute();
 
 

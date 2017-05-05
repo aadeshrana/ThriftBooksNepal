@@ -85,7 +85,22 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="80dp"
                     card_view:cardBackgroundColor="@android:color/transparent">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/nameRequired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/personalInformationTv"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:text="*required"
+        android:textSize="10sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="invisible" />
                     <EditText
                         android:id="@+id/signUpFirstName"
                         android:layout_width="match_parent"
@@ -100,7 +115,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="#000000"
                         android:textColorHint="#7b7b7b" />
-
+</RelativeLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -113,7 +128,22 @@
                     android:layout_marginTop="10dp"
                     android:background="#FFBB88FF"
                     card_view:cardBackgroundColor="@android:color/transparent">
-
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/lastnameRequired"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/personalInformationTv"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="*required"
+                        android:textSize="10sp"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
                     <EditText
                         android:id="@+id/signUpLastName"
                         android:layout_width="match_parent"
@@ -130,6 +160,7 @@
 
 
                         />
+                    </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -223,7 +254,22 @@
                     android:layout_marginTop="10dp"
                     android:background="#FFBB88FF"
                     card_view:cardBackgroundColor="@android:color/transparent">
-
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/usernameRequired"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/personalInformationTv"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="*required"
+                        android:textSize="10sp"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
                     <EditText
                         android:id="@+id/signUpUserName"
                         android:layout_width="match_parent"
@@ -240,7 +286,7 @@
 
 
                         />
-
+</RelativeLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -387,7 +433,22 @@
                     android:layout_marginTop="10dp"
                     android:background="#FFBB88FF"
                     card_view:cardBackgroundColor="@android:color/transparent">
-
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/phoneNumberRequired"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/personalInformationTv"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="*required"
+                        android:textSize="10sp"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
                     <EditText
                         android:id="@+id/signUpPhoneNumber"
                         android:layout_width="match_parent"
@@ -404,6 +465,7 @@
                         android:textColorHint="#7b7b7b"
 
                         />
+                    </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -484,7 +546,22 @@
                         android:layout_weight="30"
                         android:background="#FFBB88FF"
                         card_view:cardBackgroundColor="@android:color/transparent">
-
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/emailRequired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/personalInformationTv"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="*required"
+                            android:textSize="10sp"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:visibility="invisible" />
                         <EditText
                             android:id="@+id/signUpSchool"
                             android:layout_width="match_parent"
@@ -501,7 +578,7 @@
 
 
                             />
-
+</RelativeLayout>
                     </android.support.v7.widget.CardView>
 
                     <Button

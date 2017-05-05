@@ -58,6 +58,8 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
     static EditText firstName, lastName, userName, password, confirmPass, phoneNo, email;
     static EditText school;
     static TextView filePath, checkTextPass, checkTestConf,passStrength,validEmail;
+    TextView requireFirst,requiredLast,requireUser,requireEmail,requireNumber;
+
     static ImageView profileImg, checkImgPass, checkImgConf,checkEmail;
     View strengthMeter;
     Button sendButton, choseButton;
@@ -113,6 +115,11 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         confirmPass.addTextChangedListener(this);
         password.addTextChangedListener(this);
         email.addTextChangedListener(this);
+        firstName.addTextChangedListener(this);
+        lastName.addTextChangedListener(this);
+        phoneNo.addTextChangedListener(this);
+        school.addTextChangedListener(this);
+
         checkImgConf = (ImageView) findViewById(R.id.imageCheckConfirm);
         checkImgPass = (ImageView) findViewById(R.id.imageCheckAccount);
         checkTestConf = (TextView) findViewById(R.id.errorTextConfirmPass);
@@ -137,6 +144,7 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
             phoneNo.setText(phoneNum);
             email.setText(emailer);
             school.setText(schoolName);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,6 +209,9 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
     }
 
     public void signUpButton(View view) {
+        if(firstName.getText().toString().length()<=0){
+
+        }
 
         strFirstName = firstName.getText().toString();
         strLastName = lastName.getText().toString();

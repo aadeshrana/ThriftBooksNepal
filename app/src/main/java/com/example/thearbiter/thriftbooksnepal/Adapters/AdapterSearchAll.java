@@ -57,7 +57,7 @@ public class AdapterSearchAll extends RecyclerView.Adapter<AdapterSearchAll.MyVi
         holder.priceOfBook.setText(current.priceOfBook);
         holder.sellerName.setText(current.sellerName);
         holder.title.setText(current.title);
-      //  Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
+       Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);
     }
 
 
