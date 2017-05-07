@@ -583,6 +583,7 @@ public class FinalBuyersActivity extends AppCompatActivity implements TextWatche
                 intent.putExtra("price_of_book", FragmentMessager.finalBuyersActivityPriceOfBook);
 
                 startActivity(intent);
+            finish();
             }
 
         }

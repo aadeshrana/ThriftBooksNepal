@@ -54,6 +54,7 @@ import java.util.Map;
 
 public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     private static final String CHECK_REJECTED_OFFERS = "http://frame.ueuo.com/thriftbooks/pullRejectedOffers.php";
+    private static final String EMPTY_TOKEN = "http://frame.ueuo.com/thriftbooks/emptyToken.php";
     Toolbar toolbar;
     int jsonLength = 0;
     int jsonLength2 = 0;
@@ -105,12 +106,13 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
     String loggedIn;
-    int resumeOrNot=0;
+    int resumeOrNot = 0;
     TextView requestBooks;
     public static final String PENDING_OFFERS = "http://frame.ueuo.com/thriftbooks/pullPendingOffers.php";
     public static final String DISMISS_REJECTED_OFFER = "http://frame.ueuo.com/thriftbooks/dismissRejectDialog.php";
     public static final String REJECT_OFFER = "http://frame.ueuo.com/thriftbooks/rejectOffer.php";
     public static final String SEND_NOTIFICATION_OF_REJECTION = "http://frame.ueuo.com/images/send_notification_alerts.php";
+    private PullAllAlevelItems obj2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +122,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         loggedIn = sharedpref.getString("loggedIn", "noValue");
-        resumeOrNot =0;
+        resumeOrNot = 0;
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         refresh = (TextView) findViewById(R.id.refreshAfterInternetConnectivity);
         refreshMessage = (TextView) findViewById(R.id.noInternetTextview);
@@ -165,10 +167,10 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
                     if (loggedIn.equals("noValue")) {
                         FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
                         fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
-                    }
-                    else{
+                    } else {
                         FragmentCustomReqBooks fragmentCustomReqBooks = new FragmentCustomReqBooks();
                         fragmentCustomReqBooks.show(getFragmentManager(), "cde");
+                        resumeOrNot = 1;
 
                     }
 
@@ -212,6 +214,8 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     protected void onDestroy() {
 
         super.onDestroy();
+        Log.d("destroyed", "act");
+
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
         SharedPreferences.Editor edit = pref.edit();
         String check = pref.getString("a", "");
@@ -219,17 +223,41 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             edit.putString("loggedIn", "noValue");
             edit.apply();
         }
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onPostResume();
-        if(resumeOrNot==1) {
-            obj1.execute();
+    class TokenClear extends AsyncTask<String, String, String> {
+
+        List<NameValuePair> params2 = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainDrawerHome.this);
+            String tempSelfName = sharedPref.getString("a", "");
+
+            if (tempSelfName.equals("")) {
+                tempSelfName = FragmentCustomDiagLogin.username;
+            }
+
+            params2.add(new BasicNameValuePair("username", tempSelfName));
+
+            try {
+                jsonParser.makeHttpRequest(EMPTY_TOKEN, "POST", params2);
+            } catch (Exception e) {
+
+            }
+
+            return null;
         }
 
-
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
+
+//   d
 
     public class CheckPendingOffers extends AsyncTask<String, String, String> {
 
@@ -828,6 +856,16 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (resumeOrNot == 1) {
+          /*  obj2 = new PullAllAlevelItems();
+            obj2.execute();*/
+            obj1.execute();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -885,7 +923,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     protected void onPause() {
         Log.d("this", "ran");
         obj1.cancel(true);
-        resumeOrNot=1;
+
         super.onPause();
     }
 
