@@ -32,8 +32,6 @@ import java.util.List;
 public class MainIbBuyer extends AppCompatActivity {
     private static final String PULL_ITEMS_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
     Toolbar toolbar;
-    public static int didEverythingLoad = 0;
-    int timesBackPressed;
     String loggedIn;
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
@@ -51,6 +49,7 @@ public class MainIbBuyer extends AppCompatActivity {
     private JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
     android.support.v7.app.ActionBar actionBar;
+    PullAllIBItems obj1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +60,11 @@ public class MainIbBuyer extends AppCompatActivity {
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         progressBar = (ProgressBar) findViewById(R.id.alevelBuyProgress);
-        new PullAllIBItems().execute();
+        obj1 = new PullAllIBItems();
+        obj1.execute();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
     }
 
@@ -75,6 +76,7 @@ public class MainIbBuyer extends AppCompatActivity {
         MenuItem item4 = menu.findItem(R.id.search);
         item3.setIcon(R.drawable.openmessage);
         item4.setIcon(R.drawable.search);
+        try{
         if (loggedIn.equals("noValue")) {
 
 
@@ -84,17 +86,18 @@ public class MainIbBuyer extends AppCompatActivity {
 
             item3.setVisible(true);
 
+        }}
+        catch (Exception e){
+
         }
         return true;
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        timesBackPressed++;
-        if (timesBackPressed == 2) {
-            finish();
-        }
+    protected void onPause() {
+        Log.d("this", "ran");
+        obj1.cancel(true);
+        super.onPause();
     }
 
     @Override
@@ -103,7 +106,6 @@ public class MainIbBuyer extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (didEverythingLoad == 1) {
             //noinspection SimplifiableIfStatement
             if (id == R.id.action_settings) {
                 return true;
@@ -129,7 +131,7 @@ public class MainIbBuyer extends AppCompatActivity {
                 Intent intent = new Intent(this, SearchAllData.class);
                 startActivity(intent);
             }
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -234,9 +236,7 @@ public class MainIbBuyer extends AppCompatActivity {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.relativePaster, fragmentSellerClass, "asdf");
             transaction.commit();
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-            didEverythingLoad = 1;
+
         }
 
 

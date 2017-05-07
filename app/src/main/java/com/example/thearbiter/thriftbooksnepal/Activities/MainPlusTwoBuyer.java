@@ -35,8 +35,9 @@ import java.util.List;
 public class MainPlusTwoBuyer extends AppCompatActivity {
     Toolbar toolbar;
     String loggedIn;
-    public static int didEverythingLoad = 0;
-    int timesBackPressed = 0;
+
+    PullAllAlevelItems obj1;
+
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
     ArrayList<String> lastName = new ArrayList<>();
@@ -65,7 +66,11 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        new PullAllAlevelItems().execute();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
+        obj1 = new PullAllAlevelItems();
+        obj1.execute();
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         loggedIn = sharedpref.getString("loggedIn", "noValue");
@@ -80,6 +85,7 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
         MenuItem item4 = menu.findItem(R.id.search);
         item3.setIcon(R.drawable.openmessage);
         item4.setIcon(R.drawable.search);
+        try{
         if (loggedIn.equals("noValue")) {
 
 
@@ -88,6 +94,9 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
         } else {
 
             item3.setVisible(true);
+
+        }}
+        catch (Exception e){
 
         }
         return true;
@@ -99,7 +108,6 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (didEverythingLoad == 1) {
             if (id == R.id.messager) {
 
                 if (loggedIn.equals("noValue")) {
@@ -125,19 +133,15 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
                     return true;
 
             }
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        timesBackPressed++;
-        if (didEverythingLoad == 1) {
-            if (timesBackPressed == 2) {
-                finish();
-            }
-        }
+    protected void onPause() {
+        Log.d("this", "ran");
+        obj1.cancel(true);
+        super.onPause();
     }
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {
@@ -241,10 +245,7 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.relativePaster, fragmentSellerClass, "asdf");
             transaction.commit();
-            didEverythingLoad = 1;
 
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
         }
     }
 }

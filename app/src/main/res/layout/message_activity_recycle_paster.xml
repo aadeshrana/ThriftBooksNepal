@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/tools"
@@ -11,24 +11,35 @@
 
     <RelativeLayout
         android:id="@+id/recyclerPasterId"
+        android:layout_below="@id/app_bar"
         android:layout_width="match_parent"
+        android:layout_above="@id/adapterFirstPageCardViewMain"
         android:layout_height="match_parent"
         android:background="#FFFFFF" >
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adapterFirstPageCardViewMain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            app:cardUseCompatPadding="true"
-            card_view:cardBackgroundColor="#37474F"
-            card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="2dp"
-            card_view:cardUseCompatPadding="true"
-            android:alpha="0.8"
-            >
+
+
+    </RelativeLayout>
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adapterFirstPageCardViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:cardUseCompatPadding="true"
+        card_view:cardBackgroundColor="#37474F"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="2dp"
+
+        card_view:cardUseCompatPadding="true"
+        android:alpha="0.8"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <Button
+            android:layout_centerHorizontal="true"
             android:text="Make an Offer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +48,7 @@
             android:id="@+id/button6"
             android:padding="5dp"
             />
-        </android.support.v7.widget.CardView>
-    </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
-</LinearLayout>
+</RelativeLayout>

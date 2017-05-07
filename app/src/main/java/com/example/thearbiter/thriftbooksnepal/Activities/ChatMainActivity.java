@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentChat;
@@ -196,11 +195,9 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chat, menu);
-        MenuItem item2 = menu.findItem(R.id.attach);
         MenuItem item1 = menu.findItem(R.id.deliverRequest);
 
         item1.setIcon(R.drawable.deliver);
-        item2.setIcon(R.drawable.attach);
         return true;
     }
 
@@ -214,10 +211,6 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
 
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.attach) {
-            Toast.makeText(this, "attach coming soon", Toast.LENGTH_SHORT).show();
-
-        }
 
         if (id == R.id.deliverRequest) {
             dialogCreate();

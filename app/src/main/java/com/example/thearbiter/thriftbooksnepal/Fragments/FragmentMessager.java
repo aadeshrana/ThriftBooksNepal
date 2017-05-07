@@ -33,7 +33,6 @@ import com.example.thearbiter.thriftbooksnepal.ExtraClasses.InfinitePagerAdapter
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationMessageActivity;
 import com.example.thearbiter.thriftbooksnepal.R;
-import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -94,7 +93,6 @@ public class FragmentMessager extends Fragment {
         finalBuyersActivityTextVieNameOfSeller = (TextView) view.findViewById(R.id.finalBuyerCardInfoNameOfSellerValue);
         sendFinalMessage = (Button) view.findViewById(R.id.sendMessageButton);
         messageEditText = (EditText) view.findViewById(R.id.messageEditText);
-        sentOrNotImage = (ImageView) view.findViewById(R.id.imageVieSentOrNot);
         scrollView = (ScrollView) view.findViewById(R.id.scrollVieFinalBuyer);
         ImageView testImage =(ImageView)view.findViewById(R.id.testImage);
         String sendImage1, sendImage2,sendImage3;

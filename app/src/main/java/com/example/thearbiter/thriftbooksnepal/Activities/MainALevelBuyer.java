@@ -35,8 +35,6 @@ public class MainALevelBuyer extends AppCompatActivity {
     private static final String PULL_ITEMS_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
     Toolbar toolbar;
     String loggedIn;
-    int timesBackPressed = 0;
-    public static int didEverythingLoad = 1;
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
     ArrayList<String> lastName = new ArrayList<>();
@@ -53,15 +51,20 @@ public class MainALevelBuyer extends AppCompatActivity {
     JSONParser jsonParser = new JSONParser();
     ProgressBar progressBarAlevel;
     android.support.v7.app.ActionBar actionBar;
+     PullAllAlevelItems obj1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paster_layout_recycle);
-        new PullAllAlevelItems().execute();
+        obj1 = new PullAllAlevelItems();
+        obj1.execute();
+
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         progressBarAlevel = (ProgressBar) findViewById(R.id.alevelBuyProgress);
@@ -80,17 +83,21 @@ public class MainALevelBuyer extends AppCompatActivity {
         MenuItem item4 = menu.findItem(R.id.search);
         item3.setIcon(R.drawable.openmessage);
         item4.setIcon(R.drawable.search);
-        if (loggedIn.equals("noValue")) {
+        try {
+            if (loggedIn.equals("noValue")) {
 
 
-            item3.setVisible(false);
+                item3.setVisible(false);
 
-        } else {
+            } else {
 
-            item3.setVisible(true);
+                item3.setVisible(true);
 
+            }
+        }catch (Exception e){
         }
         return true;
+
     }
 
     @Override
@@ -99,7 +106,6 @@ public class MainALevelBuyer extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (didEverythingLoad == 1) {
             if (id == R.id.messager) {
 
                 if (loggedIn.equals("noValue")) {
@@ -126,7 +132,7 @@ public class MainALevelBuyer extends AppCompatActivity {
                     onBackPressed();
                     return true;
 
-            }
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -136,14 +142,10 @@ public class MainALevelBuyer extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        timesBackPressed++;
-        if (didEverythingLoad == 1) {
-            if (timesBackPressed == 2) {
-                finish();
-            }
-        }
+    protected void onPause() {
+        Log.d("this", "ran");
+        obj1.cancel(true);
+        super.onPause();
     }
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {
@@ -249,10 +251,7 @@ public class MainALevelBuyer extends AppCompatActivity {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.relativePaster, fragmentSellerClass, "asdf");
             transaction.commit();
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
 
-            MainALevelBuyer.didEverythingLoad = 1;
         }
     }
 }
