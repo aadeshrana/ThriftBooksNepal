@@ -34,6 +34,8 @@ import java.util.List;
 public class MainIbBuyer extends AppCompatActivity {
     private static final String PULL_ITEMS_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
     Toolbar toolbar;
+    public static int didEverythingLoad = 0;
+    int timesBackPressed;
     String loggedIn;
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
@@ -48,8 +50,10 @@ public class MainIbBuyer extends AppCompatActivity {
     ArrayList<String> image3name = new ArrayList<>();
     ArrayList<String> phoneNumber = new ArrayList<>();
     ArrayList<String> emailAddress = new ArrayList<>();
-    private  JSONParser jsonParser = new JSONParser();
+    private JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
+    android.support.v7.app.ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +61,8 @@ public class MainIbBuyer extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        progressBar = (ProgressBar)findViewById(R.id.alevelBuyProgress);
+        actionBar = getSupportActionBar();
+        progressBar = (ProgressBar) findViewById(R.id.alevelBuyProgress);
         new PullAllIBItems().execute();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         SharedPreferences sharedpref;
@@ -67,6 +70,7 @@ public class MainIbBuyer extends AppCompatActivity {
         loggedIn = sharedpref.getString("loggedIn", "noValue");
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -87,39 +91,49 @@ public class MainIbBuyer extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        timesBackPressed++;
+        if (timesBackPressed == 2) {
+            finish();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
+        if (didEverythingLoad == 1) {
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_settings) {
                 return true;
+            }
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    onBackPressed();
+                    return true;
 
-        }
-        if (id == R.id.messager) {
+            }
+            if (id == R.id.messager) {
 
-            if (loggedIn.equals("noValue")) {
-                Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
-            } else {
-                Notifications not = new Notifications();
-                Log.d("value","bookname1");
-                Intent in = new Intent(getBaseContext(), Notifications.class);
-                startActivity(in);
+                if (loggedIn.equals("noValue")) {
+                    Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Notifications not = new Notifications();
+                    Log.d("value", "bookname1");
+                    Intent in = new Intent(getBaseContext(), Notifications.class);
+                    startActivity(in);
+                }
+            }
+            if (id == R.id.search) {
+                Intent intent = new Intent(this, SearchAllData.class);
+                startActivity(intent);
             }
         }
-        if (id == R.id.search) {
-            Intent intent = new Intent(this, SearchAllData.class);
-            startActivity(intent);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -127,7 +141,7 @@ public class MainIbBuyer extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... args) {
-            Log.d("CHOICE CHOICE",""+ActivitySeller.choiseOfBoard);
+            Log.d("CHOICE CHOICE", "" + ActivitySeller.choiseOfBoard);
             try {
 
                 Log.d("Before Vie Orders", "");
@@ -158,7 +172,7 @@ public class MainIbBuyer extends AppCompatActivity {
                         userName.add(json.getString("a" + i));
                         firstName.add(json.getString("b" + i));
                         lastName.add(json.getString("c" + i));
-                        Log.d("thisone2",""+ json.getString("c" + i));
+                        Log.d("thisone2", "" + json.getString("c" + i));
                         nameofBook.add(json.getString("d" + i));
                         nameofAuthor.add(json.getString("e" + i));
 
@@ -195,7 +209,7 @@ public class MainIbBuyer extends AppCompatActivity {
                 FragmentIbBuy.arrayLastName = lastName.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayNameOfBook = nameofBook.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayNameOfAuthor = nameofAuthor.toArray(new String[firstName.size()]);
-                Log.d("auth",":"+FragmentIbBuy.arrayNameOfAuthor[1]);
+                Log.d("auth", ":" + FragmentIbBuy.arrayNameOfAuthor[1]);
                 FragmentIbBuy.arrayPriceOfBook = priceOfBook.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayHomeAddress = homeAddress.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arraySchool = school.toArray(new String[firstName.size()]);
@@ -224,6 +238,9 @@ public class MainIbBuyer extends AppCompatActivity {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.relativePaster, fragmentSellerClass, "asdf");
             transaction.commit();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            didEverythingLoad = 1;
         }
 
 

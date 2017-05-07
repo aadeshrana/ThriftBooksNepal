@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/adapterFirstPageCardViewMain"
+        android:id="@+id/adapterRequestCardViewMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -48,38 +48,15 @@
                         android:layout_height="match_parent" />
                 </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:id="@+id/usernameTvRequestLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toEndOf="@id/pixCV"
-                    android:layout_toRightOf="@id/pixCV"
-                    android:text="Username:"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/requestPageUsername"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@id/usernameTvRequestLayout"
-                    android:layout_toRightOf="@id/usernameTvRequestLayout"
-                    android:text="blank" />
 
                 <TextView
                     android:id="@+id/bookNameTvRequestLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/usernameTvRequestLayout"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toEndOf="@id/pixCV"
                     android:layout_toRightOf="@id/pixCV"
                     android:text="Book:"
@@ -89,10 +66,10 @@
                     android:id="@+id/requestPageBookName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/requestPageUsername"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/bookNameTvRequestLayout"
                     android:text="bool" />
 
@@ -120,6 +97,29 @@
                     android:layout_toRightOf="@id/authorNameTvRequestLayout"
                     android:text="example" />
 
+                <TextView
+                    android:id="@+id/usernameTvRequestLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/requestNameOfAuthor"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/pixCV"
+                    android:layout_toRightOf="@id/pixCV"
+                    android:text="Username:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/requestPageUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/requestNameOfAuthor"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/usernameTvRequestLayout"
+                    android:layout_toRightOf="@id/usernameTvRequestLayout"
+                    android:text="blank" />
             </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

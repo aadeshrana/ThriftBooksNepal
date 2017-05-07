@@ -48,6 +48,9 @@ public class FinalBuyersActivity extends AppCompatActivity {
     ArrayList<String> message = new ArrayList<>();
     ArrayList<String> username = new ArrayList<>();
     public static String newRoomName;
+    int hasEverythingLoaded = 0;
+    android.support.v7.app.ActionBar actionBar;
+    int timesBackPressed = 0;
 
     ArrayList<String> time = new ArrayList<>();
     public static String senderArray[], messageArray[], timeArray[], usernameArray[];
@@ -56,15 +59,18 @@ public class FinalBuyersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new LoadAllMessages().execute();
         setContentView(R.layout.message_activity_recycle_paster);
         Log.d("OH GOD", "");
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         Notifications.whereAreYou = 0;
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBar = getSupportActionBar();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        new LoadAllMessages().execute();
+
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
     }
@@ -155,6 +161,19 @@ public class FinalBuyersActivity extends AppCompatActivity {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.recyclerPasterId, fragmentMessager, "asdf");
             transaction.commit();
+
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+            hasEverythingLoaded = 1;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        timesBackPressed++;
+        if (timesBackPressed == 2) {
+            finish();
         }
     }
 
@@ -198,84 +217,86 @@ public class FinalBuyersActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                finish();
-                return true;
+        if (hasEverythingLoaded == 1) {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    onBackPressed();
+                    finish();
+                    return true;
 
-        }
-        if (id == R.id.leaveAMessage) {
+            }
+            if (id == R.id.leaveAMessage) {
 
-            // FIREBASE ROOM CREATION IS DONE HERE
-            // TABLE FOR ROOM IS ALSO CREATED IN THE DATABASE
-            SharedPreferences sharedpref;
-            sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
-            String loggedIn = sharedpref.getString("loggedIn", "noValue");
+                // FIREBASE ROOM CREATION IS DONE HERE
+                // TABLE FOR ROOM IS ALSO CREATED IN THE DATABASE
+                SharedPreferences sharedpref;
+                sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
+                String loggedIn = sharedpref.getString("loggedIn", "noValue");
 
-            if (loggedIn.equals("noValue")) {
-                Toast.makeText(this, "Please sign in to leave a message.", Toast.LENGTH_SHORT).show();
-            } else {
-                final Map<String, Object> map = new HashMap<>();
-                try {
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
-                    String userNameOfUser = preferences.getString("a", "");
-                    if (userNameOfUser.equals("")) {
-                        userNameOfUser = FragmentCustomDiagLogin.username;
+                if (loggedIn.equals("noValue")) {
+                    Toast.makeText(this, "Please sign in to leave a message.", Toast.LENGTH_SHORT).show();
+                } else {
+                    final Map<String, Object> map = new HashMap<>();
+                    try {
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
+                        String userNameOfUser = preferences.getString("a", "");
+                        if (userNameOfUser.equals("")) {
+                            userNameOfUser = FragmentCustomDiagLogin.username;
+                        }
+
+                        String nameOfUser = preferences.getString("firstNameSharePref1", "");
+                        if (nameOfUser.equals("")) {
+                            nameOfUser = FragmentCustomDiagLogin.firstName;
+                        }
+
+                        newRoomName = userNameOfUser + "***" + FragmentMessager.finalBuyersActivityUsernameOfSeller + "||" + FragmentMessager.finalBuyersActivityNameOfSeller + "---" + nameOfUser;
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
+                    map.put(newRoomName, "");
+
+                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                    rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.hasChild(newRoomName)) {
+                                Toast.makeText(FinalBuyersActivity.this, "Already there", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(FinalBuyersActivity.this, "Not present NEWW", Toast.LENGTH_SHORT).show();
+//                            new CreateRoom().execute();
+                                root.updateChildren(map);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    //THIS CREATES TABLE TO STORE IN OUR DATABASE
+                    Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
+                    String username = preferences.getString("a", "");
+                    if (username.equals("")) {
+                        username = FragmentCustomDiagLogin.username;
+                    }
                     String nameOfUser = preferences.getString("firstNameSharePref1", "");
                     if (nameOfUser.equals("")) {
                         nameOfUser = FragmentCustomDiagLogin.firstName;
                     }
+                    String stringToSendInIntent = username + "***" + FragmentMessager.finalBuyersActivityUsernameOfSeller + "||" + FragmentMessager.finalBuyersActivityNameOfSeller + "---" + nameOfUser;
+                    Log.d("room", "fromIntent " + stringToSendInIntent);
 
-                    newRoomName = userNameOfUser + "***" + FragmentMessager.finalBuyersActivityUsernameOfSeller + "||" + FragmentMessager.finalBuyersActivityNameOfSeller + "---" + nameOfUser;
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    intent.putExtra("room_name", stringToSendInIntent);
+                    intent.putExtra("user_name", FragmentMessager.finalBuyersActivityNameOfSeller);
+                    intent.putExtra("book_name", FragmentMessager.finalBuyersActivityNameOfBook);
+                    intent.putExtra("author_name", FragmentMessager.finalBuyersActivityNameOfAuthor);
+                    intent.putExtra("price_of_book", FragmentMessager.finalBuyersActivityPriceOfBook);
+
+                    startActivity(intent);
                 }
-
-                map.put(newRoomName, "");
-
-                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-                rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild(newRoomName)) {
-                            Toast.makeText(FinalBuyersActivity.this, "Already there", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(FinalBuyersActivity.this, "Not present NEWW", Toast.LENGTH_SHORT).show();
-//                            new CreateRoom().execute();
-                            root.updateChildren(map);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-                //THIS CREATES TABLE TO STORE IN OUR DATABASE
-                Intent intent = new Intent(getApplicationContext(), ChatMainActivity.class);
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
-                String username = preferences.getString("a", "");
-                if (username.equals("")) {
-                    username = FragmentCustomDiagLogin.username;
-                }
-                String nameOfUser = preferences.getString("firstNameSharePref1", "");
-                if (nameOfUser.equals("")) {
-                    nameOfUser = FragmentCustomDiagLogin.firstName;
-                }
-                String stringToSendInIntent = username + "***" + FragmentMessager.finalBuyersActivityUsernameOfSeller + "||" + FragmentMessager.finalBuyersActivityNameOfSeller + "---" + nameOfUser;
-                Log.d("room", "fromIntent " + stringToSendInIntent);
-
-                intent.putExtra("room_name", stringToSendInIntent);
-                intent.putExtra("user_name", FragmentMessager.finalBuyersActivityNameOfSeller);
-                intent.putExtra("book_name", FragmentMessager.finalBuyersActivityNameOfBook);
-                intent.putExtra("author_name", FragmentMessager.finalBuyersActivityNameOfAuthor);
-                intent.putExtra("price_of_book", FragmentMessager.finalBuyersActivityPriceOfBook);
-
-                startActivity(intent);
             }
         }
         return super.onOptionsItemSelected(item);

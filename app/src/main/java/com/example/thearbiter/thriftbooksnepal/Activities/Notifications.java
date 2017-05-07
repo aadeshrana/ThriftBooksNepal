@@ -1,6 +1,7 @@
 package com.example.thearbiter.thriftbooksnepal.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -11,19 +12,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyChats;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyOrder;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyRequests;
+import com.example.thearbiter.thriftbooksnepal.ExtraClasses.FcmMessagingService;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.SlidingTabLayout;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
@@ -56,10 +62,11 @@ public class Notifications extends AppCompatActivity {
     public static String[] requestUsername;
     public static String[] requestBookName;
     public static String[] requestAuthorName;
-    public static String[] requestImageName;
+    public static String[] requestName;
+    public static String[] chatUsersNeMessagesArray;
 
     ArrayList<String> requestUsernameAl = new ArrayList<>(), requestBooknameAl = new ArrayList<>(), requestAuthornameAl = new ArrayList<>(),
-            requestImageNameAl = new ArrayList<>();
+            requestNameAl = new ArrayList<>();
 
     DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     ViewPager viewPager;
@@ -67,7 +74,8 @@ public class Notifications extends AppCompatActivity {
     static String title[] = {"test", "test1", "ssss"};
     public static String[] allChats;
     public static String[] allRooms;
-
+    public static String[] messageFromPref;
+    public Set<String> set;
     ProgressDialog progressDialog;
     //Used to differentiate between different versions of onDataChange since it gets called everytime there is a change in Database.
     public static int whereAreYou = 0;
@@ -86,7 +94,32 @@ public class Notifications extends AppCompatActivity {
         allChats = new String[0];
         allRooms = new String[0];
         messageFunction();
+        for (int i = 1; i < allData.size(); i++) {
+            refinedRoomNames.add(allData.get(i));
+        }
 
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Notifications.this);
+        String from = preferences.getString("messageFrom", "");
+        Log.d("PREF1", preferences.getString("messageFrom", ""));
+        Log.d("PREF2", from);
+
+        if (from.length() > 0) {
+            String tryyy[] = from.split("[*]+");
+            messageFromPref = new String[tryyy.length];
+            for (int i = 0; i < tryyy.length; i++) {
+                Log.d("from", tryyy[i]);
+                messageFromPref[i] = tryyy[i];
+            }
+        }
+        FcmMessagingService.check = 0;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent setIntent = new Intent(Notifications.this, MainDrawerHome.class);
+        startActivity(setIntent);
     }
 
     public void pullRequestFunc() {
@@ -99,28 +132,20 @@ public class Notifications extends AppCompatActivity {
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Set<String> set = new HashSet<>();
+
+                set = new HashSet<>();
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()) {
                     set.add(((DataSnapshot) i.next()).getKey());
 
                 }
-                try {
-                    if (whereAreYou == 84) {
-                        viewPager = (ViewPager) findViewById(R.id.pager);
-                        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-                        viewPager.setCurrentItem(2);
-                        progressDialog.dismiss();
-                        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-                        tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
-
-                        tabs.setSmoothScrollingEnabled(true);
-                        tabs.setDistributeEvenly(true);
-                        tabs.setViewPager(viewPager);
-                    }
-                } catch (Exception e) {
-
-                }
+//                try {
+//                    if (whereAreYou == 84) {
+//
+//                    }
+//                } catch (Exception e) {
+//
+//                }
 
                 try {
                     allData.clear();
@@ -167,7 +192,9 @@ public class Notifications extends AppCompatActivity {
                     allChats = refinedData.toArray(new String[refinedData.size()]);
                     allRooms = new String[refinedRoomNames.size()];
                     allRooms = refinedRoomNames.toArray(new String[refinedRoomNames.size()]);
-                    pullRequestFunc();
+                    if (whereAreYou == 1) {
+                        pullRequestFunc();
+                    }
                 } catch (Exception e) {
 
                 }
@@ -189,7 +216,6 @@ public class Notifications extends AppCompatActivity {
         });
 
     }
-
 
     class MyPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -222,7 +248,20 @@ public class Notifications extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         whereAreYou = 0;
+        refinedRoomNames.clear();
         Log.d("on", "Destroy");
+        finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_notif, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -238,8 +277,10 @@ public class Notifications extends AppCompatActivity {
 
     }
 
+
     /////////FRAGMENT STARTS HERE
-    public static class MyFragment extends Fragment {
+    public static class MyFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+        public AdapterMyChats adapter2;
 
         public static MyFragment getInstance(int position) {
             MyFragment myFragment = new MyFragment();
@@ -279,17 +320,25 @@ public class Notifications extends AppCompatActivity {
                     recyclerView1.setAdapter(adapter1);
                     LinearLayoutManager lin1 = new LinearLayoutManager(getActivity());
                     recyclerView1.setLayoutManager(lin1);
-                    whereAreYou = 0;
+                    whereAreYou = 84;
                     break;
                 case 2:
                     Notifications.positionOfView = 2;
                     layout = inflater.inflate(R.layout.fragment_message, container, false);
                     RecyclerView recyclerView2 = (RecyclerView) layout.findViewById(R.id.recyclerviewMyMessage);
-                    final AdapterMyChats adapter2 = new AdapterMyChats(getActivity(), getdata2());
+                    adapter2 = new AdapterMyChats(getActivity(), getdata2());
                     recyclerView2.setAdapter(adapter2);
+                    SwipeRefreshLayout srl = (SwipeRefreshLayout) layout.findViewById(R.id.swiperefresh);
+                    srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            Intent in = new Intent(getActivity(), Notifications.class);
+                            startActivity(in);
+                        }
+                    });
                     LinearLayoutManager lin2 = new LinearLayoutManager(getActivity());
                     recyclerView2.setLayoutManager(lin2);
-//                    adapter2.notifyDataSetChanged();
+                    adapter2.notifyDataSetChanged();
                     break;
 
 
@@ -298,7 +347,6 @@ public class Notifications extends AppCompatActivity {
             }
             return layout;
         }
-
 
         public List<infotest> getdata() {
             List<infotest> data = new ArrayList<>();
@@ -320,14 +368,18 @@ public class Notifications extends AppCompatActivity {
             List<InformationCheckRequests> data = new ArrayList<>();
             Log.d("value", "bookname19");
 
-            for (int j = 0; j < requestUsername.length; j++) {
-                InformationCheckRequests current = new InformationCheckRequests();
-                current.infoUsername = requestUsername[j];
-                current.infoBookname = requestBookName[j];
-                current.infoAuthorname = requestAuthorName[j];
-//                    current.infoImageName = requestImageName[j];
+            try {
+                for (int j = 0; j < requestUsername.length; j++) {
+                    InformationCheckRequests current = new InformationCheckRequests();
+                    current.infoUsername = requestUsername[j];
+                    current.infoBookname = requestBookName[j];
+                    current.infoAuthorname = requestAuthorName[j];
+                    current.infoName = requestName[j];
 
-                data.add(current);
+                    data.add(current);
+
+                }
+            } catch (Exception e) {
 
             }
             return data;
@@ -340,7 +392,6 @@ public class Notifications extends AppCompatActivity {
                 for (int j = 0; j < allRooms.length; j++) {
                     InformationCheckChats current = new InformationCheckChats();
                     current.infoUsernameOfChatSender = allRooms[j];
-
                     data.add(current);
                 }
             } catch (Exception e) {
@@ -351,6 +402,12 @@ public class Notifications extends AppCompatActivity {
         }
 
 
+        @Override
+        public void onRefresh() {
+            if (getId() == R.id.swiperefresh) {
+                Toast.makeText(getActivity(), "refresh", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
@@ -363,8 +420,14 @@ public class Notifications extends AppCompatActivity {
 
             try {
 
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(Notifications.this);
+                String tempName = pref.getString("a", "");
+                if (tempName.equals("")) {
+                    tempName = FragmentCustomDiagLogin.username;
+                }
+
                 List<NameValuePair> params4 = new ArrayList<>();
-                params4.add(new BasicNameValuePair("anything", "anything"));
+                params4.add(new BasicNameValuePair("anything", tempName));
 
                 json1 = jsonParser1.makeHttpRequest(PULL_ALL_REQUESTED_BOOKS, "POST", params4);
             } catch (Exception e) {
@@ -374,50 +437,47 @@ public class Notifications extends AppCompatActivity {
             requestUsernameAl.clear();
             requestBooknameAl.clear();
             requestAuthornameAl.clear();
-            requestImageNameAl.clear();
+            requestNameAl.clear();
 
-            try{
+            try {
                 for (int i = 0; i < json1.length(); i++) {
                     requestUsernameAl.add(json1.getString("a" + i));
                     requestBooknameAl.add(json1.getString("b" + i));
                     requestAuthornameAl.add(json1.getString("c" + i));
-//                    requestImageNameAl.add(json1.getString("a" + i));
+                    requestNameAl.add(json1.getString("d" + i));
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            Log.d("json1",":"+requestUsernameAl.get(3));
-
-
-
             Notifications.requestUsername = new String[requestUsernameAl.size()];
             Notifications.requestBookName = new String[requestBooknameAl.size()];
             Notifications.requestAuthorName = new String[requestAuthornameAl.size()];
-            Notifications.requestImageName = new String[requestUsernameAl.size()];
+            Notifications.requestName = new String[requestUsernameAl.size()];
 
             Notifications.requestUsername = requestUsernameAl.toArray(new String[requestUsernameAl.size()]);
             Notifications.requestBookName = requestBooknameAl.toArray(new String[requestBooknameAl.size()]);
             Notifications.requestAuthorName = requestAuthornameAl.toArray(new String[requestAuthornameAl.size()]);
-            Notifications.requestImageName = requestImageNameAl.toArray(new String[requestImageNameAl.size()]);
-
+            Notifications.requestName = requestNameAl.toArray(new String[requestNameAl.size()]);
             return null;
         }
+
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            progressDialog.dismiss();
+            viewPager = (ViewPager) findViewById(R.id.pager);
             viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+            viewPager.setCurrentItem(2);
             tabs = (SlidingTabLayout) findViewById(R.id.tabs);
             tabs.setBackgroundColor(Color.parseColor("#FF232B2F"));
-            viewPager.setCurrentItem(2);
             tabs.setSmoothScrollingEnabled(true);
             tabs.setDistributeEvenly(true);
             tabs.setViewPager(viewPager);
-            progressDialog.dismiss();
-
         }
     }
+
 
 }

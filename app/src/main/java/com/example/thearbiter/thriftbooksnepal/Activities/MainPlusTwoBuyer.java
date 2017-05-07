@@ -35,6 +35,8 @@ import java.util.List;
 public class MainPlusTwoBuyer extends AppCompatActivity {
     Toolbar toolbar;
     String loggedIn;
+    public static int didEverythingLoad = 0;
+    int timesBackPressed = 0;
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
     ArrayList<String> lastName = new ArrayList<>();
@@ -50,23 +52,26 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
     ArrayList<String> emailAddress = new ArrayList<>();
     ProgressBar progressBar;
     private static final String PULL_ITEMS_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
+    android.support.v7.app.ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paster_layout_recycle);
-        progressBar = (ProgressBar)findViewById(R.id.alevelBuyProgress);
+        progressBar = (ProgressBar) findViewById(R.id.alevelBuyProgress);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        new PullAllAlevelItems().execute();
+        actionBar = getSupportActionBar();
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        new PullAllAlevelItems().execute();
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         loggedIn = sharedpref.getString("loggedIn", "noValue");
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -87,44 +92,57 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.messager) {
+        if (didEverythingLoad == 1) {
+            if (id == R.id.messager) {
 
-            if (loggedIn.equals("noValue")) {
-                Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
-            } else {
-                Notifications not = new Notifications();
-                Log.d("value","bookname1");
-                Intent in = new Intent(getBaseContext(), Notifications.class);
-                startActivity(in);
+                if (loggedIn.equals("noValue")) {
+                    Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Notifications not = new Notifications();
+                    Log.d("value", "bookname1");
+                    Intent in = new Intent(getBaseContext(), Notifications.class);
+                    startActivity(in);
+                }
+            }
+            if (id == R.id.search) {
+                Intent intent = new Intent(this, SearchAllData.class);
+                startActivity(intent);
+            }
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_settings) {
+                return true;
+            }
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    onBackPressed();
+                    return true;
+
             }
         }
-        if (id == R.id.search) {
-            Intent intent = new Intent(this, SearchAllData.class);
-            startActivity(intent);
-        }
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        timesBackPressed++;
+        if (didEverythingLoad == 1) {
+            if (timesBackPressed == 2) {
+                finish();
+            }
+        }
+    }
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {
         private JSONParser jsonParser1 = new JSONParser();
+
         @Override
         protected String doInBackground(String... args) {
 
@@ -136,8 +154,8 @@ public class MainPlusTwoBuyer extends AppCompatActivity {
                 params4.add(new BasicNameValuePair("course", "plustwo"));
 
                 Log.d("CHOICE CHOICE", "" + ActivitySeller.choiseOfBoard);
-JSONObject json1 = null;
-                 json1 = jsonParser1.makeHttpRequest(PULL_ITEMS_URL, "POST", params4);
+                JSONObject json1 = null;
+                json1 = jsonParser1.makeHttpRequest(PULL_ITEMS_URL, "POST", params4);
 
                 userName.clear();
                 firstName.clear();
@@ -152,13 +170,13 @@ JSONObject json1 = null;
                 image3name.clear();
                 phoneNumber.clear();
                 emailAddress.clear();
-                Log.d("thisone",""+json1.length());
+                Log.d("thisone", "" + json1.length());
                 try {
                     for (int i = 0; i < json1.length(); i++) {
                         userName.add(json1.getString("a" + i));
                         firstName.add(json1.getString("b" + i));
                         lastName.add(json1.getString("c" + i));
-                        Log.d("thisone2",""+ json1.getString("c" + i));
+                        Log.d("thisone2", "" + json1.getString("c" + i));
                         nameofBook.add(json1.getString("d" + i));
                         nameofAuthor.add(json1.getString("e" + i));
                         priceOfBook.add(json1.getString("f" + i));
@@ -171,7 +189,7 @@ JSONObject json1 = null;
                         emailAddress.add(json1.getString("m" + i));
                     }
                 } catch (Exception e) {
-                   Log.d("error11",":"+e);
+                    Log.d("error11", ":" + e);
                 }
 
 
@@ -223,6 +241,10 @@ JSONObject json1 = null;
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.relativePaster, fragmentSellerClass, "asdf");
             transaction.commit();
+            didEverythingLoad = 1;
+
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
         }
     }
 }

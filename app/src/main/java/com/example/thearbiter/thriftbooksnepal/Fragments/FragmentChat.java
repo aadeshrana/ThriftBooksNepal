@@ -264,6 +264,7 @@ public class FragmentChat extends Fragment {
             params2.add(new BasicNameValuePair("usernameFrom", selfUsername));
             params2.add(new BasicNameValuePair("to", usernameTo));
             params2.add(new BasicNameValuePair("message", messageForNotif));
+            params2.add(new BasicNameValuePair("seen", "no"));
 
             jsonParser.makeHttpRequest(SEND_CHAT_TO_SERVER, "POST", params2);
             return null;

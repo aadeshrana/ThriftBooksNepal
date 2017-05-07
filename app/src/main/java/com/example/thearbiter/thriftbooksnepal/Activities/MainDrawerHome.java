@@ -82,6 +82,9 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     ArrayList<String> authorName = new ArrayList<>();
     ArrayList<String> price = new ArrayList<>();
 
+    public int didEverythingLoad = 0;
+
+
     private TextView allFieldsRequired, bookNameRequired, checkOutNameRequired, checkOutPhoneRequired,
             bookAuthorRequired, bookFinalPriceRequired, streetAddressRequired,
             otherDetailsRequired, specialLandmarksRequired;
@@ -107,6 +110,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     public static final String PENDING_OFFERS = "http://frame.ueuo.com/thriftbooks/pullPendingOffers.php";
     public static final String DISMISS_REJECTED_OFFER = "http://frame.ueuo.com/thriftbooks/dismissRejectDialog.php";
     public static final String REJECT_OFFER = "http://frame.ueuo.com/thriftbooks/rejectOffer.php";
+    public static final String SEND_NOTIFICATION_OF_REJECTION = "http://frame.ueuo.com/images/send_notification_alerts.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +187,15 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             new PullAllAlevelItems().execute();
             Notifications.whereAreYou = 0;
 
+            if (getIntent().getExtras() != null) {
+                for (String key : getIntent().getExtras().keySet()) {
+                    if (key.equals("title")) {
+                        Log.d("title", getIntent().getExtras().getString(key));
+                    } else if (key.equals("message")) {
+                        Log.d("title", getIntent().getExtras().getString(key));
+                    }
+                }
+            }
         }
     }
 
@@ -215,6 +228,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
                 }
             }
 
+            jsonParser = new JSONParser();
             List<NameValuePair> param = new ArrayList<>();
             param.add(new BasicNameValuePair("username", tempUsername));
             offeredBy.clear();
@@ -314,6 +328,8 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
                         declineDialog.dismiss();
                         new RejectOffer().execute();
                         Toast.makeText(MainDrawerHome.this, "Successfully rejected offer.", Toast.LENGTH_SHORT).show();
+                        Intent in = new Intent(MainDrawerHome.this,MainDrawerHome.class);
+                        startActivity(in);
                     }
                 });
             }
@@ -446,6 +462,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     class RejectOffer extends AsyncTask<String, String, String> {
 
         List<NameValuePair> params2 = new ArrayList<>();
+        List<NameValuePair> params3 = new ArrayList<>();
 
         @Override
         protected String doInBackground(String... params) {
@@ -463,6 +480,23 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
 
             try {
                 jsonParser.makeHttpRequest(REJECT_OFFER, "POST", params2);
+            } catch (Exception e) {
+
+            }
+
+            jsonParser = new JSONParser();
+
+            String notifTitle = "Book Sansar";
+            String notifMessage = "Your offer of book " + bookName.get(0) + " to " + tempSelfName + " has been rejected." +
+                    " Please renegotiate and place offer again.";
+            String user = offeredBy.get(0);
+
+            params3.add(new BasicNameValuePair("title", notifTitle));
+            params3.add(new BasicNameValuePair("message", notifMessage));
+            params3.add(new BasicNameValuePair("user", user));
+
+            try {
+                jsonParser.makeHttpRequest(SEND_NOTIFICATION_OF_REJECTION, "POST", params3);
             } catch (Exception e) {
 
             }
@@ -530,6 +564,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     class ConfirmFinalFinalOrder extends AsyncTask<String, String, String> {
 
         List<NameValuePair> params2 = new ArrayList<>();
+        List<NameValuePair> params3 = new ArrayList<>();
 
         @Override
         protected String doInBackground(String... params) {
@@ -560,6 +595,23 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             try {
                 jsonParser.makeHttpRequest(SEND_DELIVERY_REQUEST, "POST", params2);
             } catch (Exception e) {
+
+            }
+
+            String notifTitle = "Book Sansar";
+            String notifMessage = "Your offer of book " + bookName.get(0) + " to " + tempSelfName + " has been Accepted!!" +
+                    "We shall pickup/deliver your book withing 5 business days.";
+            String user = offeredBy.get(0);
+
+            params3.add(new BasicNameValuePair("title", notifTitle));
+            params3.add(new BasicNameValuePair("message", notifMessage));
+            params3.add(new BasicNameValuePair("user", user));
+
+            jsonParser = new JSONParser();
+
+            try {
+                jsonParser.makeHttpRequest(SEND_NOTIFICATION_OF_REJECTION, "POST", params3);
+            } catch (Exception ignored) {
 
             }
 
@@ -760,50 +812,55 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
-            fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
+        if (didEverythingLoad == 1) {
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_settings) {
+                FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+                fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
 
             /*Intent intent = new Intent(MainDrawerHome.this,Login.class);
             startActivity(intent);*/
 
 
-        }
-        if (id == R.id.messager) {
-            if (loggedIn.equals("noValue")) {
-                Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
-            } else {
-                Notifications not = new Notifications();
-                Log.d("value","bookname1");
-                Intent in = new Intent(getBaseContext(), Notifications.class);
+            }
+            if (id == R.id.messager) {
+                if (loggedIn.equals("noValue")) {
+                    Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Notifications not = new Notifications();
+                    Log.d("value", "bookname1");
+                    Intent in = new Intent(getBaseContext(), Notifications.class);
+                    startActivity(in);
+                }
+            }
+
+            if (id == R.id.log_out) {
+                Intent in = new Intent(MainDrawerHome.this, MainDrawerHome.class);
                 startActivity(in);
+                tokenClear();
+                SharedPreferences sharedpref;
+                sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor edit = sharedpref.edit();
+                FragmentCustomDiagLogin.firstName = "";
+                FragmentCustomDiagLogin.emailAddress = "";
+                FragmentCustomDiagLogin.username = "";
+                edit.clear();
+                edit.putString("checkbox", "notchecked");
+                edit.apply();
+                finish();
+            }
+            if (id == R.id.search) {
+                Intent intent = new Intent(this, SearchAllData.class);
+                startActivity(intent);
             }
         }
-
-        if (id == R.id.log_out) {
-            Intent in = new Intent(MainDrawerHome.this, MainDrawerHome.class);
-            startActivity(in);
-            tokenClear();
-            SharedPreferences sharedpref;
-            sharedpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            SharedPreferences.Editor edit = sharedpref.edit();
-            FragmentCustomDiagLogin.firstName = "";
-            FragmentCustomDiagLogin.emailAddress = "";
-            FragmentCustomDiagLogin.username = "";
-            edit.clear();
-            edit.putString("checkbox", "notchecked");
-            edit.apply();
-            finish();
-        }
-        if (id == R.id.search) {
-            Intent intent = new Intent(this, SearchAllData.class);
-            startActivity(intent);
-        }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        didEverythingLoad = 0;
     }
 
     private void tokenClear() {
@@ -952,7 +1009,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             FragmentTransaction transaction1 = manager3.beginTransaction();
             transaction1.add(R.id.mainFragmentNavHome, fragmentNavDraerMain, "asdf");
             transaction1.commit();
-
+            didEverythingLoad = 1;
         }
     }
 

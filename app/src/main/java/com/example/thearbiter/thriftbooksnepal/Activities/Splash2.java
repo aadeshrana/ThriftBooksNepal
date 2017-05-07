@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Gaurav Jayasawal on 1/15/2017.
  */
 
-public class Splash extends AppCompatActivity {
+public class Splash2 extends AppCompatActivity {
     Context context;
     ArrayList<String> chatUsersNeMessages = new ArrayList<>();
     String passValue = "Guest";
@@ -71,7 +71,7 @@ public class Splash extends AppCompatActivity {
 
             try {
 
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(Splash.this);
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(Splash2.this);
                 String tempName = pref.getString("a", "");
                 List<NameValuePair> params4 = new ArrayList<>();
                 params4.add(new BasicNameValuePair("anything", tempName));
@@ -101,7 +101,7 @@ public class Splash extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent intent = new Intent(getApplication(), MainDrawerHome.class);
+            Intent intent = new Intent(getApplication(), Notifications.class);
             startActivity(intent);
             finish();
         }

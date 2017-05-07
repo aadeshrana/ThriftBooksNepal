@@ -5,16 +5,24 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="Click to chat with users if you have these books to sell."
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleviewRequest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:id="@+id/topTextFragmentRequests"
+                android:text="Click to chat with users if you have these books to sell."
+                android:textColor="@android:color/black" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleviewRequest"
+                android:layout_below="@id/topTextFragmentRequests"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
 </LinearLayout>

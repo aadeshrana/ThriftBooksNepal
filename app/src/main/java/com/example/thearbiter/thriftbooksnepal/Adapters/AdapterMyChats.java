@@ -32,6 +32,7 @@ public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHo
     Context context;
     LayoutInflater layoutInflater;
     List<InformationCheckChats> data = Collections.emptyList();
+    String user;
 
     public AdapterMyChats(Context context, List<InformationCheckChats> data) {
         Log.d("LOG", "" + context);
@@ -43,7 +44,6 @@ public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.check_my_chat_messages_layout, parent, false);
-        Log.d("hellooo", "s" + Notifications.positionOfView);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
@@ -63,13 +63,13 @@ public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHo
         }
 
         String[] firstRoundSplitter = current.infoUsernameOfChatSender.split("\\|\\|");
-        String[] splitter = firstRoundSplitter[0].split("[*]+");
+        final String[] splitter = firstRoundSplitter[0].split("[*]+");
         if (splitter[0].equals(nameSelf) || splitter[1].equals(nameSelf)) {
 
             String[] finalNameSplit = firstRoundSplitter[1].split("---");
             String firstNameFromSharedPref = sharedPreferences.getString("firstNameSharePref1", "");
-            if(firstNameFromSharedPref.equals("")){
-                firstNameFromSharedPref=FragmentCustomDiagLogin.firstName;
+            if (firstNameFromSharedPref.equals("")) {
+                firstNameFromSharedPref = FragmentCustomDiagLogin.firstName;
             }
 
 
@@ -81,12 +81,44 @@ public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHo
 
             if (splitter[0].equals(nameSelf)) {
                 Picasso.with(context).load("http://aadeshrana.esy.es/" + splitter[1] + "ProfilePic.jpg").fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imageProfile);
+                user = splitter[1];
             } else {
                 Picasso.with(context).load("http://aadeshrana.esy.es/" + splitter[0] + "ProfilePic.jpg").fit().centerCrop().placeholder(R.drawable.noimageplaceholder).into(holder.imageProfile);
+                user = splitter[0];
             }
         }
+        String user;
+        if (splitter[0].equals(nameSelf)) {
+            user = splitter[1];
+        } else {
+            user = splitter[0];
+        }
 
-        holder.content.setText("");
+        try {
+            for (int i = 0; i < Notifications.messageFromPref.length; i++) {
+                Log.d("user:", user);
+                if (Notifications.messageFromPref[i].equals(user)) {
+                    holder.content.setText("new");
+                    holder.content.setVisibility(View.VISIBLE);
+                }
+            }
+        } catch (Exception e) {
+
+        }
+
+
+        try {
+            for (int q = 0; q < Notifications.chatUsersNeMessagesArray.length; q++) {
+                if (Notifications.chatUsersNeMessagesArray[q].equals(user)) {
+                    holder.content.setText("new");
+                    holder.content.setVisibility(View.VISIBLE);
+                } else {
+                }
+            }
+        } catch (Exception e) {
+
+        }
+
         holder.checkChatMessagesCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,13 +126,21 @@ public class AdapterMyChats extends RecyclerView.Adapter<AdapterMyChats.MyViewHo
                 Toast.makeText(context, "what is life", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ChatMainActivity.class);
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
                 String username = preferences.getString("a", "");
                 if (username.equals("")) {
                     username = FragmentCustomDiagLogin.username;
                 }
+                String temp = "";
+                if (username.equals(splitter[0])) {
+                    temp = splitter[1];
+                } else {
+                    temp = splitter[0];
+                }
 //                String stringToSendInIntent = username+"***"+ FragmentMessager.finalBuyersActivityUsernameOfSeller+"||"+FragmentMessager.finalBuyersActivityNameOfSeller+"---"+nameOfUser;
                 intent.putExtra("room_name", current.infoUsernameOfChatSender);
-                intent.putExtra("user_name", username);
+                intent.putExtra("user_name", temp);
+
                 context.startActivity(intent);
             }
         });

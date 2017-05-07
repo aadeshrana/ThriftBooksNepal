@@ -35,6 +35,8 @@ public class MainALevelBuyer extends AppCompatActivity {
     private static final String PULL_ITEMS_URL = "http://frame.ueuo.com/thriftbooks/pullallitems.php";
     Toolbar toolbar;
     String loggedIn;
+    int timesBackPressed = 0;
+    public static int didEverythingLoad = 1;
     ArrayList<String> userName = new ArrayList<>();
     ArrayList<String> firstName = new ArrayList<>();
     ArrayList<String> lastName = new ArrayList<>();
@@ -50,23 +52,26 @@ public class MainALevelBuyer extends AppCompatActivity {
     ArrayList<String> emailAddress = new ArrayList<>();
     JSONParser jsonParser = new JSONParser();
     ProgressBar progressBarAlevel;
+    android.support.v7.app.ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paster_layout_recycle);
         new PullAllAlevelItems().execute();
-        toolbar = (Toolbar)findViewById(R.id.app_bar);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        actionBar = getSupportActionBar();
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        progressBarAlevel = (ProgressBar)findViewById(R.id.alevelBuyProgress);
+        progressBarAlevel = (ProgressBar) findViewById(R.id.alevelBuyProgress);
         progressBarAlevel.setVisibility(View.VISIBLE);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         loggedIn = sharedpref.getString("loggedIn", "noValue");
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -87,43 +92,58 @@ public class MainALevelBuyer extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.messager) {
+        if (didEverythingLoad == 1) {
+            if (id == R.id.messager) {
 
-            if (loggedIn.equals("noValue")) {
-                Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
-            } else {
-                Notifications not = new Notifications();
-                Log.d("value","bookname1");
-                Intent in = new Intent(getBaseContext(), Notifications.class);
-                startActivity(in);
+                if (loggedIn.equals("noValue")) {
+                    Toast.makeText(this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Notifications not = new Notifications();
+                    Log.d("value", "bookname1");
+                    Intent in = new Intent(getBaseContext(), Notifications.class);
+                    startActivity(in);
+                }
+            }
+            if (id == R.id.search) {
+                Intent intent = new Intent(this, SearchAllData.class);
+                startActivity(intent);
+            }
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_settings) {
+                return true;
+            }
+            switch (item.getItemId()) {
+
+                case android.R.id.home:
+                    Log.d("pugyo", "eta9");
+                    onBackPressed();
+                    return true;
+
             }
         }
-        if (id == R.id.search) {
-            Intent intent = new Intent(this, SearchAllData.class);
-            startActivity(intent);
-        }
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
-    public void pullAllitems(){
+    public void pullAllitems() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        timesBackPressed++;
+        if (didEverythingLoad == 1) {
+            if (timesBackPressed == 2) {
+                finish();
+            }
+        }
     }
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {
@@ -229,6 +249,10 @@ public class MainALevelBuyer extends AppCompatActivity {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.relativePaster, fragmentSellerClass, "asdf");
             transaction.commit();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+
+            MainALevelBuyer.didEverythingLoad = 1;
         }
     }
 }

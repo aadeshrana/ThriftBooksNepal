@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,12 +51,14 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
 
     String sendfullname, sendsoldTo, sendphoneNumber, sendbookName, sendauthorOfBook,
             sendmarkedPrice, sendfinalPrice, sendhouseNumber, sendstreetAddress, sendotherDetails, sendspecialLandmarks;
-
+    ArrayList<String> removeElement = new ArrayList<>();
     String finalfinalName;
-
+    String newString = "";
     ProgressDialog pb;
     JSONParser jsonParser = new JSONParser();
     public static final String SEND_DELIVERY_REQUEST = "http://frame.ueuo.com/thriftbooks/sendDeliveryRequest.php";
+    public static final String MESSAGE_SEEN = "http://frame.ueuo.com/thriftbooks/messageSeen.php";
+    public static final String SEND_NOTIFICATION_OF_REJECTION = "http://frame.ueuo.com/images/send_notification_alerts.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +68,56 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
 
         intentName = getIntent().getExtras().get("user_name").toString();
         intentRoomName = getIntent().getExtras().get("room_name").toString();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ChatMainActivity.this);
+        String sharedMessage = sharedPreferences.getString("messageFrom", "");
+        ArrayList<String> neArList = new ArrayList<>();
+        for (int i = 0; i < Notifications.chatUsersNeMessagesArray.length; i++) {
+            if (Notifications.chatUsersNeMessagesArray[i].equals(intentName)) {
+            } else {
+                neArList.add(Notifications.chatUsersNeMessagesArray[i]);
+            }
+        }
+
+
+        Notifications.chatUsersNeMessagesArray = new String[neArList.size()];
+        Notifications.chatUsersNeMessagesArray = neArList.toArray(new String[neArList.size()]);
+
+        Log.d("sharedMessage", sharedMessage);
+
+        if (sharedMessage.length() > 0) {
+
+            String arra[] = sharedMessage.split("[*]+");
+            Log.d("sharedMessage", "1");
+
+            for (int i = 0; i < arra.length; i++) {
+                Log.d("sharedMessage", "1" + intentName);
+                if (arra[i].equals(intentName)) {
+                    Log.d("which", "uName" + intentName);
+                } else {
+                    removeElement.add(arra[i]);
+                }
+            }
+            arra = new String[0];
+
+
+            for (int k = 0; k < removeElement.size(); k++) {
+
+                if (k == 0) {
+                    newString = removeElement.get(0);
+                } else {
+                    newString = newString + "***" + removeElement.get(k);
+                }
+            }
+
+        }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("messageFrom", newString);
+        editor.apply();
+        Notifications.messageFromPref = new String[0];
+
+        Log.d("sharedMessage", sharedPreferences.getString("messageFrom", ""));
 
         String[] a = intentRoomName.split("\\|\\|");
         String[] b = a[1].split("---");
@@ -93,6 +146,39 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
 
     }
 
+    class Seen extends AsyncTask<String, String, String> {
+
+        List<NameValuePair> params2 = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ChatMainActivity.this);
+            String tempSelfName = sharedPref.getString("a", "");
+
+            if (tempSelfName.equals("")) {
+                tempSelfName = FragmentCustomDiagLogin.username;
+            }
+
+
+            params2.add(new BasicNameValuePair("sentBy", intentName));
+            params2.add(new BasicNameValuePair("selfName", tempSelfName));
+
+            try {
+                jsonParser.makeHttpRequest(MESSAGE_SEEN, "POST", params2);
+            } catch (Exception e) {
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -102,6 +188,7 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        new Seen().execute();
         finish();
     }
 
@@ -267,6 +354,7 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
     class RequestDelivery extends AsyncTask<String, String, String> {
 
         List<NameValuePair> params2 = new ArrayList<>();
+        List<NameValuePair> params3 = new ArrayList<>();
 
         @Override
         protected String doInBackground(String... params) {
@@ -303,7 +391,24 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
 
 
             jsonParser.makeHttpRequest(SEND_DELIVERY_REQUEST, "POST", params2);
+
+            String notifTitle = "Book Sansar";
+            String notifMessage = "You have a new offer by " + tempSelfName + " (" + sendfullname + ")" + " for the book " + sendbookName + " " + " at the price of " + sendfinalPrice + ". Please open the Book Sansar application to accept/decline this offer.";
+            String user = soldToAsyn;
+
+            params3.add(new BasicNameValuePair("title", notifTitle));
+            params3.add(new BasicNameValuePair("message", notifMessage));
+            params3.add(new BasicNameValuePair("user", user));
+
+            jsonParser = new JSONParser();
+
+            try {
+                jsonParser.makeHttpRequest(SEND_NOTIFICATION_OF_REJECTION, "POST", params3);
+            } catch (Exception ignored) {
+
+            }
             return null;
+
         }
 
         @Override
@@ -314,8 +419,17 @@ public class ChatMainActivity extends AppCompatActivity implements TextWatcher {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent in = new Intent(ChatMainActivity.this, Notifications.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(in);
+    }
+
     private void thanksDialog() {
         pb.dismiss();
+
         final Dialog gotYourDeliveryRequest = new Dialog(ChatMainActivity.this);
         gotYourDeliveryRequest.setContentView(R.layout.successfully_recieved_delivery_request_layout);
         gotYourDeliveryRequest.setCancelable(false);

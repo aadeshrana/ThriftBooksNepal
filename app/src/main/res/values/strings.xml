@@ -26,5 +26,6 @@
         <item>Others</item>
     </string-array>
     <string name="title_activity_search_all_data">searchAllData</string>
+    <string name="title_activity_splash2">Splash2</string>
 
 </resources>

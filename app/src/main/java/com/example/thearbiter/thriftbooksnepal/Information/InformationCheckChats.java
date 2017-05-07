@@ -6,4 +6,5 @@ package com.example.thearbiter.thriftbooksnepal.Information;
 
 public class InformationCheckChats {
     public String infoUsernameOfChatSender;
+    public String tryOut;
 }

@@ -8,5 +8,5 @@ public class InformationCheckRequests {
     public String infoUsername;
     public String infoBookname;
     public String infoAuthorname;
-    public String infoImageName;
+    public String infoName;
 }
