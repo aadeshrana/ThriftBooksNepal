@@ -52,7 +52,7 @@ public class AdapterFirstPage extends RecyclerView.Adapter<AdapterFirstPage.MyVi
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final InformationBuyerRecycler current = data.get(position);
        holder.title.setText(current.title);
-        holder.priceOfBook.setText("$ "+current.priceOfBook);
+        holder.priceOfBook.setText(current.priceOfBook);
        holder.sellerName.setText("by: "+current.sellerName);
         holder.authName.setText(current.authName);
         Picasso.with(context).load("http://aadeshrana.esy.es/" + current.firstBookList).fit().placeholder(R.drawable.noimageplaceholder).into(holder.imgOfBook);

@@ -98,7 +98,7 @@ EditText name,emailaddress,mobilenumber,query;
 
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
-                    Log.d("User created!", json.toString());
+
 
                 }
             } catch (JSONException e) {

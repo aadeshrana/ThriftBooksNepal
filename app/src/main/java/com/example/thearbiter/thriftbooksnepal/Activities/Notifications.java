@@ -90,6 +90,7 @@ public class Notifications extends AppCompatActivity {
         progressDialog = new ProgressDialog(Notifications.this);
         progressDialog.setMessage("Loading messages..");
         progressDialog.show();
+        progressDialog.setCancelable(false);
         whereAreYou = 1;
         allChats = new String[0];
         allRooms = new String[0];
@@ -101,14 +102,12 @@ public class Notifications extends AppCompatActivity {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Notifications.this);
         String from = preferences.getString("messageFrom", "");
-        Log.d("PREF1", preferences.getString("messageFrom", ""));
-        Log.d("PREF2", from);
 
         if (from.length() > 0) {
             String tryyy[] = from.split("[*]+");
             messageFromPref = new String[tryyy.length];
             for (int i = 0; i < tryyy.length; i++) {
-                Log.d("from", tryyy[i]);
+
                 messageFromPref[i] = tryyy[i];
             }
         }
@@ -180,7 +179,7 @@ public class Notifications extends AppCompatActivity {
                                 refinedData.add(finalNameSplit[0]);
                             }
                         } else {
-                            Log.d("not", "compatible" + allData.get(j));
+
                         }
                     }
                 } catch (Exception e) {
@@ -219,7 +218,7 @@ public class Notifications extends AppCompatActivity {
 
     class MyPagerAdapter extends FragmentStatePagerAdapter {
 
-        String[] tabs = {"My Orders", "Requests", "Messages"};
+        String[] tabs = {"Requests", "Messages"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -229,13 +228,13 @@ public class Notifications extends AppCompatActivity {
         public Fragment getItem(int position) {
 
             MyFragment myFragment = MyFragment.getInstance(position);
-            Log.d("ss", "" + position);
+
             return myFragment;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return tabs.length;
         }
 
         @Override
@@ -267,13 +266,13 @@ public class Notifications extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("on", "Pause");
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("on", "Stop");
+
 
     }
 
@@ -299,22 +298,12 @@ public class Notifications extends AppCompatActivity {
             ViewPager viewPagerSlideShowCommon;
 
             switch (bundle.getInt("position")) {
-                case 0:
-                    Notifications.positionOfView = 0;
-                    layout = inflater.inflate(R.layout.fragment_myorders, container, false);
-                    RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.recycleviewMyOrder);
-                    AdapterMyOrder adapter = new AdapterMyOrder(getActivity(), getdata());
-                    recyclerView.setAdapter(adapter);
-                    LinearLayoutManager lin = new LinearLayoutManager(getActivity());
-                    recyclerView.setLayoutManager(lin);
-                    whereAreYou = 0;
 
-                    break;
-                case 1:
+                case 0:
                     Notifications.positionOfView = 1;
                     layout = inflater.inflate(R.layout.fragment_requests, container, false);
                     RecyclerView recyclerView1 = (RecyclerView) layout.findViewById(R.id.recycleviewRequest);
-                    Log.d("value", "bookname18");
+
 
                     AdapterMyRequests adapter1 = new AdapterMyRequests(getActivity(), getdata1());
                     recyclerView1.setAdapter(adapter1);
@@ -322,7 +311,7 @@ public class Notifications extends AppCompatActivity {
                     recyclerView1.setLayoutManager(lin1);
                     whereAreYou = 84;
                     break;
-                case 2:
+                case 1:
                     Notifications.positionOfView = 2;
                     layout = inflater.inflate(R.layout.fragment_message, container, false);
                     RecyclerView recyclerView2 = (RecyclerView) layout.findViewById(R.id.recyclerviewMyMessage);
@@ -366,7 +355,7 @@ public class Notifications extends AppCompatActivity {
 
         public List<InformationCheckRequests> getdata1() {
             List<InformationCheckRequests> data = new ArrayList<>();
-            Log.d("value", "bookname19");
+
 
             try {
                 for (int j = 0; j < requestUsername.length; j++) {

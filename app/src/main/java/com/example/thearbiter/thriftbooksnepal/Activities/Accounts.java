@@ -227,7 +227,7 @@ try {
     }
 
     public void updateaccount(View view) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        Log.d("pressed","pressed");
+
         checkPassword();
         if(passwordChecked){
             if(realPath !=null){
@@ -344,7 +344,7 @@ try {
     }
 
     public void getSchool(String schoolName) {
-        Log.d("value of school", "" + schoolName);
+
         Accounts.newschoolname.setText(schoolName);
     }
 
@@ -369,7 +369,7 @@ try {
                 int finalElement = namegetter.length - 1;
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 profilePic.setImageBitmap(bitmap);
-                Log.d("k ho ta path", "" + namegetter[finalElement]);
+
 
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
@@ -403,10 +403,10 @@ try {
 
                 client.upload(f);
 
-                Log.d("send bho", "" + f);
+
                 client.disconnect(true);
             } catch (Exception e) {
-                Log.d("any error?", "" + e);
+
             }
             try {
                 String namegetter[] = realPath.split("/");

@@ -105,6 +105,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     JSONParser jsonParser = new JSONParser();
     ProgressBar progressBar;
     String loggedIn;
+    int resumeOrNot=0;
     TextView requestBooks;
     public static final String PENDING_OFFERS = "http://frame.ueuo.com/thriftbooks/pullPendingOffers.php";
     public static final String DISMISS_REJECTED_OFFER = "http://frame.ueuo.com/thriftbooks/dismissRejectDialog.php";
@@ -119,7 +120,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         SharedPreferences sharedpref;
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         loggedIn = sharedpref.getString("loggedIn", "noValue");
-
+        resumeOrNot =0;
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         refresh = (TextView) findViewById(R.id.refreshAfterInternetConnectivity);
         refreshMessage = (TextView) findViewById(R.id.noInternetTextview);
@@ -158,10 +159,18 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
 
             getToken();
             requestBooks.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
-                    FragmentCustomReqBooks fragmentCustomReqBooks = new FragmentCustomReqBooks();
-                    fragmentCustomReqBooks.show(getFragmentManager(), "cde");
+                    if (loggedIn.equals("noValue")) {
+                        FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+                        fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
+                    }
+                    else{
+                        FragmentCustomReqBooks fragmentCustomReqBooks = new FragmentCustomReqBooks();
+                        fragmentCustomReqBooks.show(getFragmentManager(), "cde");
+
+                    }
 
                 }
             });
@@ -210,6 +219,16 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
             edit.putString("loggedIn", "noValue");
             edit.apply();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onPostResume();
+        if(resumeOrNot==1) {
+            obj1.execute();
+        }
+
+
     }
 
     public class CheckPendingOffers extends AsyncTask<String, String, String> {
@@ -866,6 +885,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     protected void onPause() {
         Log.d("this", "ran");
         obj1.cancel(true);
+        resumeOrNot=1;
         super.onPause();
     }
 
