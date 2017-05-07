@@ -24,23 +24,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-
+        card_view:contentPadding="7dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         app:cardUseCompatPadding="true"
         card_view:cardBackgroundColor="#37474F"
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="2dp"
-
         card_view:cardUseCompatPadding="true"
-        android:alpha="0.8"
+
         >
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <Button
+        <TextView
             android:layout_centerHorizontal="true"
             android:text="Make an Offer"
+            android:textSize="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"

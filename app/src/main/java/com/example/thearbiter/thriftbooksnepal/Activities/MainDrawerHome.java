@@ -692,7 +692,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         seeRejected.setContentView(R.layout.view_declined_offer_dialog);
         seeRejected.show();
         TextView declinedMessage = (TextView) seeRejected.findViewById(R.id.declinedOffersMessageText);
-        declinedMessage.setText("Your offer to " + rejectedBy + " (" + rejectedByName + ") for the book '" + rejectedByBookName + "' at the price of " + rejectedByPrice + " has been rejected.\nYou may renegotiate through the chat and place a new offer.");
+        declinedMessage.setText("Your offer to " + rejectedBy + " for the book '" + rejectedByBookName + "' at the price of " + rejectedByPrice + " has been rejected.\nYou may renegotiate through the chat and place a new offer.");
         CardView dismiss = (CardView) seeRejected.findViewById(R.id.declinedOffersExit);
         dismiss.setOnClickListener(new View.OnClickListener() {
             @Override

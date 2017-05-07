@@ -220,6 +220,8 @@ public class FinalBuyersActivity extends AppCompatActivity implements TextWatche
 
         final Dialog gotYourDeliveryRequest = new Dialog(FinalBuyersActivity.this);
         gotYourDeliveryRequest.setContentView(R.layout.successfully_recieved_delivery_request_layout);
+        TextView returnToChat = (TextView)findViewById(R.id.returnToChatText);
+        returnToChat.setText("RETURN TO BOOK");
         gotYourDeliveryRequest.setCancelable(false);
         gotYourDeliveryRequest.show();
 
@@ -227,6 +229,7 @@ public class FinalBuyersActivity extends AppCompatActivity implements TextWatche
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 gotYourDeliveryRequest.dismiss();
             }
         });
@@ -290,6 +293,11 @@ public class FinalBuyersActivity extends AppCompatActivity implements TextWatche
         fullName = firstName + " " + lastName;
         checkOutName.setText(fullName);
         checkOutPhoneNumber.setText(phone);
+        bookName.setText(FragmentMessager.finalBuyersActivityNameOfBook);
+        bookAuthor.setText(FragmentMessager.finalBuyersActivityNameOfAuthor);
+        bookMarkedPrice.setText(FragmentMessager.finalBuyersActivityPriceOfBook);
+        bookFinalPrice.setText(FragmentMessager.finalBuyersActivityPriceOfBook);
+
 
         placeOffer.setOnClickListener(new View.OnClickListener() {
             @Override
