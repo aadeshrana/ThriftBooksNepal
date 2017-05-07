@@ -275,7 +275,6 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         strConfirmPass = confirmPass.getText().toString();
 
         if (strPassword.equals(strConfirmPass) && requestToSend ==1) {
-            new CreateUser().execute();
             new uploadImage().execute();
         } else {
             createDiag("Please fill all details");
@@ -480,21 +479,19 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdialog = new ProgressDialog(SignUp.this);
-            pdialog.setMessage("Registering User....");
-            pdialog.setIndeterminate(false);
-            pdialog.setCancelable(true);
-            pdialog.show();
+
         }
 
         protected String doInBackground(String... args) {
 
-
+            String tempUser;
             try {
+                tempUser = strUserName.toLowerCase();
+                Log.d("lower","case"+tempUser);
                 List<NameValuePair> params = new ArrayList<>();
                 params.add(new BasicNameValuePair("firstname", strFirstName));
                 params.add(new BasicNameValuePair("lastname", strLastName));
-                params.add(new BasicNameValuePair("username", strUserName));
+                params.add(new BasicNameValuePair("username", tempUser));
                 params.add(new BasicNameValuePair("password", Login.SHA1(strPassword)));
                 params.add(new BasicNameValuePair("emailaddress", strEmail));
                 params.add(new BasicNameValuePair("schoolname", strSchool));
@@ -566,8 +563,6 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-//
-        Toast.makeText(SignUp.this, "done", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -605,6 +600,15 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
 
 
     public class uploadImage extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog = new ProgressDialog(SignUp.this);
+            pdialog.setMessage("Registering User....");
+            pdialog.setIndeterminate(false);
+            pdialog.setCancelable(true);
+            pdialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -635,6 +639,12 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
             return null;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            new CreateUser().execute();
+
+        }
     }
 
     public void createDiag(String okay){

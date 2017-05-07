@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Fragments.FragmentCustomDiagLogin;
@@ -97,8 +96,19 @@ public class FinalBuyersActivity extends AppCompatActivity implements TextWatche
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogCreate();
+                SharedPreferences sharedpref;
+                sharedpref = PreferenceManager.getDefaultSharedPreferences(FinalBuyersActivity.this);
+                String loggedIn = sharedpref.getString("loggedIn", "noValue");
 
+                if (loggedIn.equals("noValue")) {
+
+                    FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+                    fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
+
+                }
+                else {
+                    dialogCreate();
+                }
             }
         });
 
@@ -435,14 +445,6 @@ public class FinalBuyersActivity extends AppCompatActivity implements TextWatche
             FinalBuyersActivity.timeArray = time.toArray(new String[time.size()]);
             FinalBuyersActivity.usernameArray = username.toArray(new String[username.size()]);
 
-            try {
-                Log.d("REACH HERE", "" + sender.get(0));
-
-                Toast.makeText(FinalBuyersActivity.this, "NULL BABYY", Toast.LENGTH_SHORT).show();
-
-            } catch (Exception e) {
-
-            }
             FragmentMessager.title = message.toArray(new String[message.size()]);
             FragmentMessager.nameOfSender = sender.toArray(new String[sender.size()]);
             FragmentMessager.usernameOfSender = username.toArray(new String[username.size()]);
@@ -521,7 +523,10 @@ public class FinalBuyersActivity extends AppCompatActivity implements TextWatche
             String loggedIn = sharedpref.getString("loggedIn", "noValue");
 
             if (loggedIn.equals("noValue")) {
-                Toast.makeText(this, "Please sign in to leave a message.", Toast.LENGTH_SHORT).show();
+
+                FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+                fragmentCustomDiagLogin.show(getFragmentManager(), "cde");
+
             } else {
                 final Map<String, Object> map = new HashMap<>();
                 try {
@@ -548,10 +553,7 @@ public class FinalBuyersActivity extends AppCompatActivity implements TextWatche
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(newRoomName)) {
-                            Toast.makeText(FinalBuyersActivity.this, "Already there", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(FinalBuyersActivity.this, "Not present NEWW", Toast.LENGTH_SHORT).show();
-//                            new CreateRoom().execute();
                             root.updateChildren(map);
                         }
                     }

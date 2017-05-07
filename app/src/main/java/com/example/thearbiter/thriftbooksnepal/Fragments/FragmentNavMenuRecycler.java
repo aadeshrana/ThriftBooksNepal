@@ -69,6 +69,7 @@ public class FragmentNavMenuRecycler extends android.app.Fragment {
         CircleImageView circleImageView = (CircleImageView) layout.findViewById(R.id.profile_image);
         String kk = "http://aadeshrana.esy.es/" + FragmentCustomDiagLogin.username + "ProfilePic";
 
+        Log.d("profilePic","1"+"http://aadeshrana.esy.es/" + userProfilePic + "ProfilePic.jpg");
         Picasso.with(getActivity()).load("http://aadeshrana.esy.es/" + userProfilePic + "ProfilePic.jpg").placeholder(R.drawable.default_user).into(circleImageView);
         navMenuUsername = (TextView) layout.findViewById(R.id.navDrawerUserName);
         navMenuEmailAddress = (TextView) layout.findViewById(R.id.navDrawerEmailAddress);

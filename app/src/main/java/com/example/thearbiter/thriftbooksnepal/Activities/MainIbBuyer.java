@@ -140,37 +140,41 @@ public class MainIbBuyer extends AppCompatActivity {
         @Override
         protected String doInBackground(String... args) {
             Log.d("CHOICE CHOICE", "" + ActivitySeller.choiseOfBoard);
-            try {
+
 
                 Log.d("Before Vie Orders", "");
                 List<NameValuePair> params1 = new ArrayList<>();
 
                 params1.add(new BasicNameValuePair("course", "ib"));
+            JSONParser jsonParser = new JSONParser();
+            JSONObject json = new JSONObject();
+            userName.clear();
+            firstName.clear();
+            lastName.clear();
+            nameofBook.clear();
+            nameofAuthor.clear();
+            priceOfBook.clear();
+            homeAddress.clear();
+            school.clear();
+            image1name.clear();
+            image2name.clear();
+            image3name.clear();
+            phoneNumber.clear();
+            emailAddress.clear();
 
+try {
 
-                JSONParser jsonParser = new JSONParser();
-                JSONObject json = jsonParser.makeHttpRequest(PULL_ITEMS_URL, "POST", params1);
+    json = jsonParser.makeHttpRequest(PULL_ITEMS_URL, "POST", params1);
+}catch (Exception e) {
+}
 
-                userName.clear();
-                firstName.clear();
-                lastName.clear();
-                nameofBook.clear();
-                nameofAuthor.clear();
-                priceOfBook.clear();
-                homeAddress.clear();
-                school.clear();
-                image1name.clear();
-                image2name.clear();
-                image3name.clear();
-                phoneNumber.clear();
-                emailAddress.clear();
+try{
 
-                try {
                     for (int i = 0; i < json.length(); i++) {
                         userName.add(json.getString("a" + i));
                         firstName.add(json.getString("b" + i));
                         lastName.add(json.getString("c" + i));
-                        Log.d("thisone2", "" + json.getString("c" + i));
+                        Log.d("thisone2", "" + json.getString("a" + i));
                         nameofBook.add(json.getString("d" + i));
                         nameofAuthor.add(json.getString("e" + i));
 
@@ -207,7 +211,7 @@ public class MainIbBuyer extends AppCompatActivity {
                 FragmentIbBuy.arrayLastName = lastName.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayNameOfBook = nameofBook.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayNameOfAuthor = nameofAuthor.toArray(new String[firstName.size()]);
-                Log.d("auth", ":" + FragmentIbBuy.arrayNameOfAuthor[1]);
+
                 FragmentIbBuy.arrayPriceOfBook = priceOfBook.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arrayHomeAddress = homeAddress.toArray(new String[firstName.size()]);
                 FragmentIbBuy.arraySchool = school.toArray(new String[firstName.size()]);
@@ -221,9 +225,7 @@ public class MainIbBuyer extends AppCompatActivity {
                 FragmentIbBuy.price = FragmentIbBuy.arrayPriceOfBook;
                 FragmentIbBuy.sellerName = FragmentIbBuy.arrayFirstName;
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
             return null;
         }
 
@@ -236,6 +238,7 @@ public class MainIbBuyer extends AppCompatActivity {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.relativePaster, fragmentSellerClass, "asdf");
             transaction.commit();
+            Log.d("thisone2", ":" );
 
         }
 

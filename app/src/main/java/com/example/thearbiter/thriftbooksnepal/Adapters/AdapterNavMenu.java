@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.Activities.AboutUs;
 import com.example.thearbiter.thriftbooksnepal.Activities.Accounts;
@@ -28,7 +27,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Aadesh Rana on 11-01-17.
@@ -38,7 +36,8 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
     Context context;
     LayoutInflater inflater;
     List<InformationNavMenu> data = Collections.emptyList();
- String checklog;
+    String checklog;
+
     public AdapterNavMenu(Context context, List<InformationNavMenu> data) {
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -88,39 +87,59 @@ public class AdapterNavMenu extends RecyclerView.Adapter<AdapterNavMenu.MyViewHo
 
                         SharedPreferences sharedpref;
                         sharedpref = PreferenceManager.getDefaultSharedPreferences(context);
-                        checklog =sharedpref.getString("username", "");
+                        checklog = sharedpref.getString("username", "");
 
-                        if(checklog.equals("")){
-                           try                               {
-                                   checklog = FragmentCustomDiagLogin.username;
+                        if (checklog.equals("")) {
+                            try {
+                                checklog = FragmentCustomDiagLogin.username;
 
-                           }catch (Exception e){
+                            } catch (Exception e) {
 
-                           }
-                            if(checklog==null){
-                                checklog ="";
+                            }
+                            if (checklog == null) {
+                                checklog = "";
                             }
                         }
-                        Log.d("valueof2",":"+checklog);
-                        if(checklog.equals("")){
+                        Log.d("valueof2", ":" + checklog);
+                        if (checklog.equals("")) {
                             FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
                             fragmentCustomDiagLogin.show(((Activity) context).getFragmentManager(), "cde");
-                        }
-                        else {
+                        } else {
                             intent = new Intent(context, ActivitySeller.class);
                             intent.putExtra("chosenValueBoard", "ib");
                             context.startActivity(intent);
                         }
                         break;
                     case 4:
-                        intent = new Intent(context, Accounts.class);
-                        context.startActivity(intent);
+                        sharedpref = PreferenceManager.getDefaultSharedPreferences(context);
+                        checklog = sharedpref.getString("username", "");
+
+                        if (checklog.equals("")) {
+                            try {
+                                checklog = FragmentCustomDiagLogin.username;
+
+                            } catch (Exception e) {
+
+                            }
+                            if (checklog == null) {
+                                checklog = "";
+                            }
+                        }
+                        Log.d("valueof2", ":" + checklog);
+                        if (checklog.equals("")) {
+                            FragmentCustomDiagLogin fragmentCustomDiagLogin = new FragmentCustomDiagLogin();
+                            fragmentCustomDiagLogin.show(((Activity) context).getFragmentManager(), "cde");
+                        } else {
+                            intent = new Intent(context, Accounts.class);
+                            intent.putExtra("chosenValueBoard", "ib");
+                            context.startActivity(intent);
+                        }
                         break;
 
                     case 5:
                         intent = new Intent(context, AboutUs.class);
                         context.startActivity(intent);
-                    break;
+                        break;
 
 
                 }

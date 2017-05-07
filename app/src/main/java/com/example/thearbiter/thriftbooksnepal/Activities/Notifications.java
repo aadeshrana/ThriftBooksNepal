@@ -24,10 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyChats;
-import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyOrder;
 import com.example.thearbiter.thriftbooksnepal.Adapters.AdapterMyRequests;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.FcmMessagingService;
 import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
@@ -394,7 +392,6 @@ public class Notifications extends AppCompatActivity {
         @Override
         public void onRefresh() {
             if (getId() == R.id.swiperefresh) {
-                Toast.makeText(getActivity(), "refresh", Toast.LENGTH_SHORT).show();
             }
         }
     }
