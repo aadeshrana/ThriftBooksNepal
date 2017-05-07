@@ -108,7 +108,7 @@ public class CustomDiagFindSchoolAcc extends DialogFragment implements SearchVie
                         CustomDiagFindSchool.collegesName = new String[tempCollegeName.size()];
                         CustomDiagFindSchool.collegesViewed = new String[tempCollegesViewed.size()];
 
-                        CustomDiagFindSchool.collegesName = tempCollegeName.toArray(new String[tempCollegeName.size()]);
+                 CustomDiagFindSchool.collegesName = tempCollegeName.toArray(new String[tempCollegeName.size()]);
                         CustomDiagFindSchool.collegesViewed = tempCollegesViewed.toArray(new String[tempCollegeName.size()]);
 
 

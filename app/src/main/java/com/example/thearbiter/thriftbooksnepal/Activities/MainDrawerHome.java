@@ -167,7 +167,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
                 }
             });
             CustomDiagFindSchool obj = new CustomDiagFindSchool();
-            obj.findAllSchool();
+           obj.findAllSchool();
             FragmentNavMenu fragmentNavMenu = (FragmentNavMenu) getSupportFragmentManager().findFragmentById(R.id.mainfragmentDrawer);
             fragmentNavMenu.setUp(R.id.mainfragmentDrawer, (DrawerLayout) findViewById(R.id.mainDrawerLayout), toolbar);
 
@@ -812,6 +812,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
         if (didEverythingLoad == 1) {
             //noinspection SimplifiableIfStatement
             if (id == R.id.action_settings) {
@@ -847,6 +848,9 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
                 edit.clear();
                 edit.putString("checkbox", "notchecked");
                 edit.apply();
+
+
+
                 finish();
             }
             if (id == R.id.search) {
@@ -860,7 +864,8 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
     @Override
     protected void onPause() {
         super.onPause();
-//        didEverythingLoad = 0;
+        PullAllAlevelItems obj1 = new PullAllAlevelItems();
+        obj1.cancel(true);
     }
 
     private void tokenClear() {
@@ -896,6 +901,7 @@ public class MainDrawerHome extends AppCompatActivity implements TextWatcher {
         };
         MySingleton.getmInstance(MainDrawerHome.this).addToRequestque(stringRequest);
     }
+
 
     public class PullAllAlevelItems extends AsyncTask<String, String, String> {
         //

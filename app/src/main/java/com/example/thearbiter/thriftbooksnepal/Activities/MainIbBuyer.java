@@ -3,10 +3,8 @@ package com.example.thearbiter.thriftbooksnepal.Activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -65,9 +63,7 @@ public class MainIbBuyer extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.alevelBuyProgress);
         new PullAllIBItems().execute();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        SharedPreferences sharedpref;
-        sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
-        loggedIn = sharedpref.getString("loggedIn", "noValue");
+
 
     }
 

@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 /**
  * Created by Gaurav Jayasawal on 1/15/2017.
@@ -46,7 +47,7 @@ public class Splash extends AppCompatActivity {
         edit.putString("firstNameSharePref", passValue);
         edit.apply();
         ImageView imageView = (ImageView) findViewById(R.id.splashScreenImageVie);
-        imageView.setImageResource(R.drawable.splash);
+
         try {
 
             Login.strLoginUsername = sharedpref.getString("a", "Guest");
@@ -101,9 +102,20 @@ public class Splash extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent intent = new Intent(getApplication(), MainDrawerHome.class);
-            startActivity(intent);
-            finish();
+            Thread closeActivity = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1500);
+                        Intent intent = new Intent(getApplication(), MainDrawerHome.class);
+                        startActivity(intent);
+                        finish();
+                    } catch (Exception e) {
+                        e.getLocalizedMessage();
+                    }
+                }
+            });
+closeActivity.start();
         }
     }
 

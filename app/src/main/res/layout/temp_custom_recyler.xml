@@ -69,8 +69,8 @@
                 android:layout_toRightOf="@id/pixCV"
                 android:layout_toEndOf="@id/pixCV"
                 android:text="Seller:"
-                android:layout_below="@+id/title4"
-                android:layout_marginTop="3dp"
+                android:layout_below="@+id/nameOfAuthor"
+                android:layout_marginTop="4dp"
                 android:layout_marginLeft="10dp"
                 android:textAppearance="?android:textAppearanceSmall"
                 />
@@ -82,23 +82,11 @@
                 android:layout_toRightOf="@id/pixCV"
                 android:layout_toEndOf="@id/pixCV"
                 android:text="Author:"
-                android:layout_below="@+id/title1"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/titleOfBookForALevelBuyer"
                 android:layout_marginLeft="10dp"
                 android:textAppearance="?android:textAppearanceSmall"
                 />
-            <TextView
-                android:id="@+id/nameOfAuthor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Authors Name"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="#757575"
-                android:layout_alignBaseline="@+id/title4"
-                android:layout_alignBottom="@+id/title4"
-                android:layout_alignLeft="@+id/titleOfBookForALevelBuyer"
-                android:layout_alignStart="@+id/titleOfBookForALevelBuyer" />
-
             <TextView
                 android:id="@+id/titleOfBookForALevelBuyer"
                 android:layout_width="fill_parent"
@@ -107,12 +95,13 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
 
                 android:textColor="#757575"
-                android:layout_marginLeft="9dp"
-                android:layout_marginStart="9dp"
-                android:layout_below="@+id/title1"
-                android:layout_alignBaseline="@+id/title1"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="16dp"
+
+              android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/title2"
                 android:layout_toEndOf="@+id/title2" />
+
 
             <TextView
                 android:id="@+id/nameOfSellerForBuyerCustomALevel"
@@ -121,8 +110,8 @@
                 android:text="Sellers name:"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="#757575"
-                android:layout_alignBaseline="@+id/title2"
-                android:layout_alignBottom="@+id/title2"
+                android:layout_below="@id/nameOfAuthor"
+                android:layout_marginTop="4dp"
                 android:layout_alignLeft="@+id/titleOfBookForALevelBuyer"
                 android:layout_alignStart="@+id/titleOfBookForALevelBuyer" />
 
@@ -162,6 +151,18 @@
                 android:layout_below="@+id/title2"
                 android:layout_alignLeft="@+id/title2"
                 android:layout_alignStart="@+id/title2" />
+
+            <TextView
+                android:id="@+id/nameOfAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Authors Name"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="#757575"
+                android:layout_marginTop="6dp"
+               android:layout_below="@id/titleOfBookForALevelBuyer"
+                android:layout_alignLeft="@+id/nameOfSellerForBuyerCustomALevel"
+                android:layout_alignStart="@+id/nameOfSellerForBuyerCustomALevel" />
 
 
         </RelativeLayout>

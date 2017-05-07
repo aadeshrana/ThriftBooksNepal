@@ -109,8 +109,8 @@ public class SignUp extends AppCompatActivity implements TextWatcher {
         school = (EditText) findViewById(R.id.signUpSchool);
         filePath = (TextView) findViewById(R.id.imagePathProfile);
         profileImg = (ImageView) findViewById(R.id.profileImage);
-        CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
-        customDiagFindSchool.findAllSchool();
+       /* CustomDiagFindSchool customDiagFindSchool = new CustomDiagFindSchool();
+        customDiagFindSchool.findAllSchool();*/
         school.setEnabled(false);
 
         requireFirst =(TextView)findViewById(R.id.firstnameRequre);

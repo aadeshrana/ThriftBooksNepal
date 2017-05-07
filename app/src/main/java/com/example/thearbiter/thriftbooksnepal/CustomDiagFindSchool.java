@@ -105,13 +105,13 @@ public class    CustomDiagFindSchool extends DialogFragment implements SearchVie
 
                 JSONObject json3 = jsonParser.makeHttpRequest(PULLALLORDERS, "POST", params1);
                 AdapterFindSchool.count = json3.length();
-                for (int i = 0; i < json3.length()/2; i++) {
+                for (int i = 0; i < json3.length(); i++) {
                     try {
                         tempCollegeName.add(json3.getString("a" + i));
                         tempCollegesViewed.add(json3.getString("b" + i));
                         CustomDiagFindSchool.collegesName = new String[tempCollegeName.size()];
                         CustomDiagFindSchool.collegesViewed = new String[tempCollegesViewed.size()];
-
+                        Log.d("hm",":"+tempCollegeName.size());
                         CustomDiagFindSchool.collegesName = tempCollegeName.toArray(new String[tempCollegeName.size()]);
                         CustomDiagFindSchool.collegesViewed = tempCollegesViewed.toArray(new String[tempCollegeName.size()]);
 

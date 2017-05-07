@@ -46,7 +46,7 @@ public class Splash2 extends AppCompatActivity {
         edit.putString("firstNameSharePref", passValue);
         edit.apply();
         ImageView imageView = (ImageView) findViewById(R.id.splashScreenImageVie);
-        imageView.setImageResource(R.drawable.splash);
+
         try {
 
             Login.strLoginUsername = sharedpref.getString("a", "Guest");
@@ -85,8 +85,8 @@ public class Splash2 extends AppCompatActivity {
 
             try {
                 for (int i = 0; i < json1.length(); i++) {
-                    chatUsersNeMessages.add(json1.getString("a" + i));
 
+                    chatUsersNeMessages.add(json1.getString("a" + i));
                 }
 
             } catch (Exception e) {
