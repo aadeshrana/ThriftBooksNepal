@@ -5,26 +5,18 @@ package com.example.thearbiter.thriftbooksnepal.Fragments;
  */
 
 import android.app.Fragment;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.thearbiter.thriftbooksnepal.Activities.ActivitySeller;
 import com.example.thearbiter.thriftbooksnepal.Adapters.ALevelAdapterBuy;
-import com.example.thearbiter.thriftbooksnepal.ExtraClasses.JSONParser;
 import com.example.thearbiter.thriftbooksnepal.Information.InformationBuyerRecycler;
 import com.example.thearbiter.thriftbooksnepal.R;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +58,9 @@ public class FragmentALevelBuy extends Fragment {
         recyclerView.setAdapter(adapter);
         GridLayoutManager man1 = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         GridLayoutManager glm = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(glm);
+        StaggeredGridLayoutManager sGLM = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(sGLM);
+//        recyclerView.setLayoutManager(glm);
         return view;
     }
 
